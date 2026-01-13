@@ -12,45 +12,45 @@ export type Post = {
 const posts: Post[] = [
   {
     slug: "manifesto",
-    title: "Un blog tecnico, senza rumore",
+    title: "A technical blog, without noise",
     summary:
-      "Per chi scrivo, cosa pubblico e come tengo traccia delle scelte tecniche che contano davvero.",
+      "Who I write for, what I publish, and how I keep track of the technical decisions that really matter.",
     date: "2025-02-10",
     readTime: "3 min",
-    tags: ["editoriale", "workflow"],
+    tags: ["editorial", "workflow"],
     featured: true,
     body: [
-      "Questo spazio nasce per fissare decisioni, trade-off e dettagli operativi che spesso restano in testa o in note private. Voglio un posto dove i contesti tecnici non si perdano dopo una call o una demo.",
-      "Scrivero' soprattutto di frontend, design engineering e strumenti che migliorano la qualita' del lavoro quotidiano. Pochi post, densi, con esempi reali e motivazioni chiare.",
-      "Se stai costruendo prodotti digitali e ti interessa la parte artigianale del software, qui troverai appunti replicabili e un punto di vista pragmatico.",
+      "This space exists to capture decisions, trade-offs, and operational details that often stay in my head or in private notes. I wanted a place where technical context does not disappear after a call or a demo.",
+      "I will write mostly about frontend, design engineering, and tools that improve the quality of everyday work. Few posts, dense, with real examples and clear reasons.",
+      "If you are building digital products and care about the craft side of software, you will find replicable notes and a pragmatic point of view here.",
     ],
   },
   {
     slug: "nextjs-github-pages",
-    title: "Next.js su GitHub Pages: cosa funziona davvero",
+    title: "Next.js on GitHub Pages: what really works",
     summary:
-      "Static export, limiti reali e come evitare sorprese quando il deploy passa da Vercel a GitHub Pages.",
+      "Static export, real limits, and how to avoid surprises when deployment moves from Vercel to GitHub Pages.",
     date: "2025-02-12",
     readTime: "5 min",
     tags: ["next.js", "deploy", "github-pages"],
     body: [
-      "GitHub Pages e' ottimo per un sito statico: affidabile, gratuito e con una pipeline semplice. Il punto chiave e' accettare che tutto deve essere pre-renderizzato.",
-      "Con Next.js bisogna usare l'export statico. Niente API routes, niente server actions e immagini non ottimizzate. In cambio hai pagine veloci e facili da versionare.",
-      "La buona notizia e' che per un blog tecnico questa scelta e' perfetta. Basta organizzare bene i contenuti e definire generateStaticParams per ogni pagina dinamica.",
+      "GitHub Pages is great for a static site: reliable, free, and with a simple pipeline. The key is accepting that everything must be pre-rendered.",
+      "With Next.js you need to use static export. No API routes, no server actions, and unoptimized images. In return you get fast pages that are easy to version.",
+      "The good news is that for a technical blog this choice is perfect. Just organize content well and define generateStaticParams for every dynamic page.",
     ],
   },
   {
     slug: "shadcn-tailwind-v4",
-    title: "Shadcn + Tailwind v4: prime note operative",
+    title: "Shadcn + Tailwind v4: first field notes",
     summary:
-      "Cosa cambia con i nuovi temi, le variabili CSS e come impostare un design system leggero.",
+      "What changes with the new themes, CSS variables, and how to set up a lightweight design system.",
     date: "2025-02-14",
     readTime: "4 min",
     tags: ["ui", "tailwind", "design-system"],
     body: [
-      "Il setup iniziale di shadcn con Tailwind v4 porta subito in dote variabili CSS, token coerenti e un set di componenti puliti. E' una buona base per un sistema snello.",
-      "Mi interessa soprattutto la parte di theming: colori in oklch, radius modulare e uno scale tipografica facile da controllare. Perfetto per un blog tecnico che non deve diventare un mega framework.",
-      "La mia regola: meno componenti, piu' consistenza. Meglio tre card fatte bene che dieci varianti incoerenti.",
+      "The initial shadcn setup with Tailwind v4 brings CSS variables, coherent tokens, and a clean set of components right away. It is a solid base for a lean system.",
+      "I am most interested in theming: oklch colors, modular radius, and a type scale that is easy to control. Perfect for a technical blog that should not turn into a mega framework.",
+      "My rule: fewer components, more consistency. Better three cards done well than ten inconsistent variants.",
     ],
   },
 ];

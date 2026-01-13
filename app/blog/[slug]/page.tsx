@@ -21,7 +21,7 @@ export const generateMetadata = ({
   const post = getPostBySlug(params.slug);
   if (!post) {
     return {
-      title: "Post non trovato",
+      title: "Post not found",
     };
   }
 
@@ -53,7 +53,7 @@ export default function BlogPostPage({
         <Button variant="ghost" className="w-fit px-0" asChild>
           <Link href="/blog">
             <ArrowLeft className="size-4" />
-            Torna al blog
+            Back to blog
           </Link>
         </Button>
 

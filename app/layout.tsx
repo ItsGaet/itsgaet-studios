@@ -17,7 +17,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "itsgaet - tech notes",
   description:
-    "Appunti tecnici su frontend, tooling e architetture leggere. Note di campo, esperimenti e dettagli che fanno la differenza.",
+    "Technical notes on frontend, tooling, and lightweight architectures. Field notes, experiments, and details that make the difference.",
 };
 
 export default function RootLayout({
@@ -27,8 +27,8 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="it"
-      className={`${inter.variable} ${jetbrainsMono.variable}`}
+      lang="en"
+      className={`dark ${inter.variable} ${jetbrainsMono.variable}`}
     >
       <body className="antialiased">{children}</body>
     </html>

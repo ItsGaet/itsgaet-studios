@@ -26,16 +26,16 @@ export default function BlogPage() {
       <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-10 px-6 pb-24 pt-10">
         <header className="flex flex-wrap items-center justify-between gap-4">
           <div className="space-y-2">
-            <p className="text-sm font-medium text-muted-foreground">Archivio</p>
+            <p className="text-sm font-medium text-muted-foreground">Archive</p>
             <h1 className="text-4xl font-semibold tracking-tight">Blog</h1>
             <p className="max-w-xl text-base text-muted-foreground">
-              Post tecnici, note di campo e check-list operative. Tutto quello
-              che mi serve ricordare, condiviso in chiaro.
+              Technical posts, field notes, and operating checklists. Everything
+              I need to remember, shared out loud.
             </p>
           </div>
           <Button variant="outline" asChild>
             <Link href="/">
-              Torna alla home <ArrowUpRight className="size-4" />
+              Back to home <ArrowUpRight className="size-4" />
             </Link>
           </Button>
         </header>
@@ -43,7 +43,7 @@ export default function BlogPage() {
         <Separator />
 
         <section className="flex flex-wrap gap-2">
-          <Badge variant="secondary">Tutti</Badge>
+          <Badge variant="secondary">All</Badge>
           {tags.map((tag) => (
             <Badge key={tag} variant="outline">
               {tag}
@@ -77,7 +77,7 @@ export default function BlogPage() {
                 ))}
                 <Button variant="link" className="ml-auto px-0" asChild>
                   <Link href={`/blog/${post.slug}`}>
-                    Leggi <ArrowUpRight className="size-4" />
+                    Read <ArrowUpRight className="size-4" />
                   </Link>
                 </Button>
               </CardContent>
