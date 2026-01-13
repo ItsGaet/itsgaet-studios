@@ -66,11 +66,11 @@ export default function SocialFooter() {
             Stay connected
           </div>
           <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-            Choose a channel. I share the work in progress.
+            A community blog, open across channels.
           </h2>
           <p className="max-w-xl text-base text-muted-foreground">
-            Short updates, deeper breakdowns, and product notes. Pick the feed
-            that fits your rhythm.
+            Short updates, deeper breakdowns, and open work in progress. Pick
+            the feed that fits your rhythm.
           </p>
           <div className="flex flex-wrap items-center gap-3">
             <a

@@ -18,11 +18,11 @@ export default function BlogCTA() {
             CTA
           </Badge>
           <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-            Explore the blog and build with me.
+            Explore the community blog and build in the open.
           </h2>
           <p className="max-w-xl text-base text-muted-foreground">
             Deep technical dives, modular layouts, and operating notes. Every
-            article comes from a real project and aims for reuse.
+            article, template, and the site itself is open source on GitHub.
           </p>
         </div>
 
@@ -33,7 +33,13 @@ export default function BlogCTA() {
             </Link>
           </Button>
           <Button size="lg" variant="outline" asChild>
-            <Link href="/blog">View the archive</Link>
+            <a
+              href="https://github.com/ItsGaet/itsgaet.github.io"
+              target="_blank"
+              rel="noreferrer"
+            >
+              View the repo
+            </a>
           </Button>
         </div>
       </div>

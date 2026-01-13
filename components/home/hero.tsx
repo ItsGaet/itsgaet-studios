@@ -30,7 +30,7 @@ export default function HomeHero() {
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
               <span className="flex items-center gap-2 rounded-full border border-border/60 bg-background/70 px-3 py-1">
                 <span className="size-2 rounded-full bg-emerald-500" />
-                open for collabs
+                community open
               </span>
             </div>
           </div>
@@ -40,19 +40,19 @@ export default function HomeHero() {
             className="w-fit border-fuchsia-500/50 text-foreground hero-fade-up hero-delay-1"
           >
             <Sparkles className="size-3" />
-            digital lab
+            open community blog
           </Badge>
 
           <div className="space-y-4 hero-fade-up hero-delay-2">
             <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
               I build digital products
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-500 via-rose-500 to-orange-400">
-                with method and character.
+                and publish the work in the open.
               </span>
             </h1>
             <p className="max-w-xl text-lg text-muted-foreground">
-              Notes, prototypes, and operating patterns for teams that build,
-              measure, and iterate with pace.
+              A community blog where notes, templates, and the site itself are
+              open source. Fork it, improve it, and ship faster together.
             </p>
           </div>
 
@@ -63,8 +63,24 @@ export default function HomeHero() {
               </Link>
             </Button>
             <Button size="lg" variant="outline" asChild>
-              <a href="mailto:gaetanoabbaticchio8@gmail.com">Email me</a>
+              <a
+                href="https://github.com/ItsGaet/itsgaet.github.io"
+                target="_blank"
+                rel="noreferrer"
+              >
+                View the repo
+              </a>
             </Button>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground hero-fade-up hero-delay-4">
+            <span>Open content. Open workflows. Open repo.</span>
+            <a
+              className="inline-flex items-center gap-2 text-foreground transition hover:text-fuchsia-300"
+              href="mailto:gaetanoabbaticchio8@gmail.com"
+            >
+              Email me <ArrowUpRight className="size-4" />
+            </a>
           </div>
 
           <div className="grid gap-3 text-sm text-muted-foreground sm:grid-cols-3 hero-fade-up hero-delay-4">
