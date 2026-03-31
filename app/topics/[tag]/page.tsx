@@ -147,7 +147,7 @@ export default async function TopicPage({
         </section>
 
         {/* Main Feed: 2 Column Grid */}
-        <section className="grid gap-8 md:grid-cols-2">
+        <section className="grid gap-8 md:grid-cols-2 [content-visibility:auto] [contain-intrinsic-size:1px_1600px]">
           {posts.map((post, index) => (
             <BlogCard key={post.slug} post={post} animationDelay={index * 50} />
           ))}
@@ -156,7 +156,7 @@ export default async function TopicPage({
         <Separator variant="thick" />
 
         {/* Footer Insights: Related Topics & Notes */}
-        <section className="grid gap-12 lg:grid-cols-2">
+        <section className="grid gap-12 lg:grid-cols-2 [content-visibility:auto] [contain-intrinsic-size:1px_820px]">
           <div className="border-2 border-[#1A1A1A] p-8 space-y-6 bg-white">
             <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#1A1A1A]">Topic_Context //</h2>
             <div className="space-y-4">
@@ -198,7 +198,7 @@ export default async function TopicPage({
           </div>
         </section>
 
-        <footer>
+        <footer className="[content-visibility:auto] [contain-intrinsic-size:1px_720px]">
           <SocialFooter />
         </footer>
       </main>

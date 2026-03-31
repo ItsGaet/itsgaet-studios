@@ -1,10 +1,5 @@
-"use client";
-
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { BookOpen, Home, Mail, UserRound } from "lucide-react";
-
-import { cn } from "@/lib/utils";
 import { siteConfig } from "@/lib/site";
 
 type NavItem = {
@@ -21,8 +16,6 @@ const primaryNavItems: NavItem[] = [
 ];
 
 export default function FloatingSidebar() {
-  const pathname = usePathname();
-
   return (
     <>
       {/* Desktop Navigation: Sharp Top Bar */}
@@ -37,18 +30,11 @@ export default function FloatingSidebar() {
 
           <nav className="flex items-center gap-8">
             {primaryNavItems.map((item) => {
-              const isActive = pathname === item.href;
-
               return (
                 <Link
                   key={item.label}
                   href={item.href}
-                  className={cn(
-                    "relative text-[10px] font-black uppercase tracking-[0.3em] transition-colors",
-                    isActive
-                      ? "text-[#D2042D] after:absolute after:-bottom-2 after:left-0 after:h-0.5 after:w-full after:bg-[#D2042D]"
-                      : "text-[#1A1A1A] hover:text-[#D2042D]"
-                  )}
+                  className="relative text-[10px] font-black uppercase tracking-[0.3em] text-[#1A1A1A] transition-colors hover:text-[#D2042D]"
                 >
                   {item.label}
                 </Link>
@@ -79,18 +65,12 @@ export default function FloatingSidebar() {
       <nav className="fixed bottom-0 left-0 z-[100] flex w-full border-t-2 border-[#1A1A1A] bg-[#FBF7F2] md:hidden">
         {primaryNavItems.map((item) => {
           const Icon = item.icon;
-          const isActive = pathname === item.href;
 
           return (
             <Link
               key={item.label}
               href={item.href}
-              className={cn(
-                "flex flex-1 flex-col items-center justify-center gap-1 py-4 transition-colors",
-                isActive 
-                  ? "bg-[#1A1A1A] text-[#FBF7F2]" 
-                  : "text-[#1A1A1A] active:bg-[#D8C6BB]/20"
-              )}
+              className="flex flex-1 flex-col items-center justify-center gap-1 py-4 text-[#1A1A1A] transition-colors active:bg-[#D8C6BB]/20"
             >
               <Icon className="size-5" />
               <span className="text-[8px] font-black uppercase tracking-widest">

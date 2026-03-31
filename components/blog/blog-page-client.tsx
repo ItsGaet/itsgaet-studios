@@ -1,16 +1,25 @@
 "use client";
 
-import { useDeferredValue, useMemo, useState } from "react";
+import dynamic from "next/dynamic";
+import { startTransition, useDeferredValue, useMemo, useState } from "react";
 import { Search, X, Command } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import BlogCard from "@/components/blog/blog-card";
 import BlogEmptyState from "@/components/blog/blog-empty-state";
-import BlogFilter from "@/components/blog/blog-filter";
 import BlogHeader from "@/components/blog/blog-header";
 import SocialFooter from "@/components/home/social-footer";
 import type { Post } from "@/lib/posts";
 import { cn } from "@/lib/utils";
+
+const BlogFilter = dynamic(() => import("@/components/blog/blog-filter"), {
+  ssr: false,
+  loading: () => (
+    <div className="border-2 border-[#D8C6BB] px-6 py-3 text-xs font-black uppercase tracking-[0.2em] text-[#D8C6BB]">
+      Filter Topics
+    </div>
+  ),
+});
 
 type BlogPageClientProps = {
   posts: Post[];
@@ -31,20 +40,31 @@ export default function BlogPageClient({ posts }: BlogPageClientProps) {
     }, {});
   }, [posts]);
 
+  const indexedPosts = useMemo(
+    () => posts.map((post) => ({ post, searchableText: getSearchableText(post) })),
+    [posts]
+  );
+
   const activeTags = useMemo(() => {
     const raw = searchParams.get("tags") ?? searchParams.get("tag");
     if (!raw) return [];
     return raw.split(",").map(t => t.trim()).filter(t => tags.includes(t));
   }, [searchParams, tags]);
 
+  const activeTagSet = useMemo(() => new Set(activeTags), [activeTags]);
+
   const normalizedQuery = deferredQuery.trim().toLowerCase();
   const filteredPosts = useMemo(() => {
-    return posts.filter((post) => {
-      if (activeTags.length > 0 && !post.tags.some((tag) => activeTags.includes(tag))) return false;
-      if (!normalizedQuery) return true;
-      return getSearchableText(post).includes(normalizedQuery);
+    return indexedPosts.flatMap(({ post, searchableText }) => {
+      if (activeTagSet.size > 0 && !post.tags.some((tag) => activeTagSet.has(tag))) {
+        return [];
+      }
+      if (!normalizedQuery) {
+        return [post];
+      }
+      return searchableText.includes(normalizedQuery) ? [post] : [];
     });
-  }, [activeTags, normalizedQuery, posts]);
+  }, [activeTagSet, indexedPosts, normalizedQuery]);
 
   const updateUrl = (nextTags: string[]) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -54,7 +74,11 @@ export default function BlogPageClient({ posts }: BlogPageClientProps) {
       params.set("tags", nextTags.join(","));
     }
     params.delete("tag");
-    router.replace(params.toString() ? `${pathname}?${params.toString()}` : pathname, { scroll: false });
+    startTransition(() => {
+      router.replace(params.toString() ? `${pathname}?${params.toString()}` : pathname, {
+        scroll: false,
+      });
+    });
   };
 
   const handleTagClick = (tag: string) => {
@@ -133,10 +157,16 @@ export default function BlogPageClient({ posts }: BlogPageClientProps) {
         </div>
 
         {/* Grid: Bordi condivisi per un look "Swiss Design" */}
-        <section id="posts" className="grid border-2 border-t-0 border-[#1A1A1A] md:grid-cols-2">
+        <section
+          id="posts"
+          className="grid border-2 border-t-0 border-[#1A1A1A] md:grid-cols-2 [content-visibility:auto] [contain-intrinsic-size:1px_1600px]"
+        >
           {filteredPosts.length > 0 ? (
             filteredPosts.map((post) => (
-              <div key={post.slug} className="border-[#1A1A1A] [&:nth-child(odd)]:border-r-2 [&:not(:last-child)]:border-b-2">
+              <div
+                key={post.slug}
+                className="border-[#1A1A1A] [content-visibility:auto] [contain-intrinsic-size:1px_420px] [&:nth-child(odd)]:border-r-2 [&:not(:last-child)]:border-b-2"
+              >
                 <BlogCard post={post} />
               </div>
             ))
@@ -147,7 +177,7 @@ export default function BlogPageClient({ posts }: BlogPageClientProps) {
           )}
         </section>
 
-        <footer className="mt-20 border-t-2 border-[#1A1A1A] pt-12">
+        <footer className="mt-20 border-t-2 border-[#1A1A1A] pt-12 [content-visibility:auto] [contain-intrinsic-size:1px_720px]">
           <SocialFooter />
         </footer>
       </main>

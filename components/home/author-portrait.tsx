@@ -26,7 +26,7 @@ export default function AuthorPortrait({
             alt="Gaetano Abbaticchio"
             fill
             priority={priority}
-            sizes="(max-width: 1024px) 100vw, 34vw"
+            sizes="(max-width: 768px) 92vw, (max-width: 1280px) 42vw, 32vw"
             className="object-cover object-[58%_22%] scale-105 transition-transform duration-700 group-hover:scale-100"
           />
         </div>

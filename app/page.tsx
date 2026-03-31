@@ -70,7 +70,7 @@ export default function Home() {
         </section>
 
         {/* Archive Section: Separata da una linea netta */}
-        <section className="reveal hero-delay-1 w-full px-4 md:px-8">
+        <section className="reveal hero-delay-1 w-full px-4 md:px-8 [content-visibility:auto] [contain-intrinsic-size:1px_900px]">
           <div className="mb-16 flex items-center justify-between border-b-2 border-[#1A1A1A] pb-6">
             <h3 className="font-serif text-3xl font-medium tracking-tighter text-[#1A1A1A]">
               The Archive<span className="text-[#D2042D]">.</span>
@@ -83,7 +83,7 @@ export default function Home() {
         </section>
 
         {/* Footer Section: Chiusura del frame */}
-        <section className="reveal hero-delay-2 w-full px-4 md:px-8 pb-12">
+        <section className="reveal hero-delay-2 w-full px-4 pb-12 md:px-8 [content-visibility:auto] [contain-intrinsic-size:1px_720px]">
           <div className="mb-16">
              <Separator variant="thick" />
           </div>

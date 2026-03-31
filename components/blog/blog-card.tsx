@@ -14,7 +14,7 @@ export default function BlogCard({ post, animationDelay }: BlogCardProps) {
     <Link href={`/blog/${post.slug}`} className="group block h-full">
       <article
         className={cn(
-          "relative flex h-full flex-col border-b border-r border-[#D8C6BB] bg-[#FBF7F2] p-6 transition-all duration-300 ease-in-out",
+          "relative flex h-full flex-col border-b border-r border-[#D8C6BB] bg-[#FBF7F2] p-6 transition-all duration-300 ease-in-out [content-visibility:auto] [contain-intrinsic-size:1px_420px]",
           "hover:bg-[#D2042D] group-hover:border-[#D2042D]"
         )}
         style={animationDelay ? { animationDelay: `${animationDelay}ms` } : undefined}

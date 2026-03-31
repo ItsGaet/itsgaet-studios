@@ -149,7 +149,7 @@ export default async function BlogPostPage({
 
             {/* Related Entries Section */}
             {relatedPosts.length > 0 && (
-              <section className="space-y-10 border-t-2 border-[#1A1A1A] pt-16">
+              <section className="space-y-10 border-t-2 border-[#1A1A1A] pt-16 [content-visibility:auto] [contain-intrinsic-size:1px_620px]">
                 <div className="space-y-4">
                   <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#D8C6BB]">
                     Related Logs
@@ -193,7 +193,7 @@ export default async function BlogPostPage({
         </div>
 
         {/* Global Footer Divider */}
-        <section className="mt-20">
+        <section className="mt-20 [content-visibility:auto] [contain-intrinsic-size:1px_720px]">
           <Separator variant="thick" className="mb-12" />
           <SocialFooter />
         </section>
