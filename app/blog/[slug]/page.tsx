@@ -9,7 +9,7 @@ import BlogPostSidebar from "@/components/blog/blog-post-sidebar";
 import SocialFooter from "@/components/home/social-footer";
 import { Button } from "@/components/ui/button";
 import { getAllPosts, getPostBySlug } from "@/lib/posts";
-import { absoluteUrl, siteConfig } from "@/lib/site";
+import { absoluteUrl, getPostOgImagePath, siteConfig } from "@/lib/site";
 
 export const dynamicParams = false;
 
@@ -42,13 +42,13 @@ export const generateMetadata = async ({
       description: post.summary,
       publishedTime: `${post.date}T00:00:00.000Z`,
       tags: post.tags,
-      images: [absoluteUrl(siteConfig.ogImage)],
+      images: [absoluteUrl(getPostOgImagePath(post.slug))],
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
       description: post.summary,
-      images: [absoluteUrl(siteConfig.ogImage)],
+      images: [absoluteUrl(getPostOgImagePath(post.slug))],
     },
   };
 };

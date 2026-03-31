@@ -2,6 +2,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { cache } from "react";
 
+import { normalizeTag } from "@/lib/topics";
+
 export type PostBlock =
   | {
       type: "paragraph";
@@ -43,8 +45,21 @@ type PostFrontmatter = Omit<Post, "slug" | "body" | "featured"> & {
 };
 
 const POSTS_DIRECTORY = path.join(process.cwd(), "content/posts");
+const ALLOWED_FRONTMATTER_KEYS = new Set([
+  "title",
+  "summary",
+  "date",
+  "readTime",
+  "tags",
+  "featured",
+]);
+const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 const readPosts = cache((): Post[] => {
+  if (!fs.existsSync(POSTS_DIRECTORY)) {
+    throw new Error(`Posts directory not found: ${POSTS_DIRECTORY}`);
+  }
+
   const filenames = fs
     .readdirSync(POSTS_DIRECTORY)
     .filter((filename) => filename.endsWith(".md"))
@@ -56,7 +71,9 @@ const readPosts = cache((): Post[] => {
       const fileContents = fs.readFileSync(fullPath, "utf8");
       const slug = path.basename(filename, ".md");
 
-      return parsePostFile(fileContents, slug);
+      validateSlug(slug, fullPath);
+
+      return parsePostFile(fileContents, slug, fullPath);
     })
     .sort((a, b) => b.date.localeCompare(a.date));
 });
@@ -69,31 +86,40 @@ export const getPostBySlug = (slug: string) =>
 export const getAllTags = () =>
   Array.from(new Set(readPosts().flatMap((post) => post.tags))).sort();
 
-export const getPostsByTag = (tag: string) =>
-  readPosts().filter((post) => post.tags.includes(tag));
+export const getPostsByTag = (tag: string) => {
+  const normalizedTag = normalizeTag(tag);
 
-function parsePostFile(fileContents: string, slug: string): Post {
+  return readPosts().filter((post) => post.tags.includes(normalizedTag));
+};
+
+function parsePostFile(fileContents: string, slug: string, filePath: string): Post {
   const match = fileContents.match(/^---\s*\n([\s\S]*?)\n---\s*\n?([\s\S]*)$/);
 
   if (!match) {
-    throw new Error(`Post "${slug}" is missing valid frontmatter.`);
+    throw new Error(`Post "${slug}" is missing valid frontmatter in ${filePath}.`);
   }
 
   const [, frontmatterSource, bodySource] = match;
-  const frontmatter = parseFrontmatter(frontmatterSource, bodySource, slug);
+  const frontmatter = parseFrontmatter(frontmatterSource, bodySource, slug, filePath);
+  const body = parseBody(bodySource, slug, filePath);
+
+  if (body.length === 0) {
+    throw new Error(`Post "${slug}" has no readable body blocks in ${filePath}.`);
+  }
 
   return {
     slug,
     ...frontmatter,
     featured: frontmatter.featured || undefined,
-    body: parseBody(bodySource),
+    body,
   };
 }
 
 function parseFrontmatter(
   source: string,
   bodySource: string,
-  slug: string
+  slug: string,
+  filePath: string
 ): PostFrontmatter {
   const data = source
     .split(/\r?\n/)
@@ -103,22 +129,43 @@ function parseFrontmatter(
       const separatorIndex = line.indexOf(":");
 
       if (separatorIndex === -1) {
-        throw new Error(`Invalid frontmatter line in "${slug}": ${line}`);
+        throw new Error(`Invalid frontmatter line in "${slug}" (${filePath}): ${line}`);
       }
 
       const key = line.slice(0, separatorIndex).trim();
       const value = normalizeScalar(line.slice(separatorIndex + 1).trim());
+
+      if (!ALLOWED_FRONTMATTER_KEYS.has(key)) {
+        throw new Error(
+          `Unsupported frontmatter key "${key}" in "${slug}" (${filePath}).`
+        );
+      }
+
+      if (key in acc) {
+        throw new Error(
+          `Duplicate frontmatter key "${key}" in "${slug}" (${filePath}).`
+        );
+      }
+
       acc[key] = value;
 
       return acc;
     }, {});
 
   return {
-    title: getRequiredField(data, "title", slug),
-    summary: getRequiredField(data, "summary", slug),
-    date: getRequiredField(data, "date", slug),
-    readTime: data.readTime || estimateReadTime(bodySource),
-    tags: parseTags(data.tags),
+    title: validateTitle(getRequiredField(data, "title", slug, filePath), slug, filePath),
+    summary: validateSummary(
+      getRequiredField(data, "summary", slug, filePath),
+      slug,
+      filePath
+    ),
+    date: validateDate(getRequiredField(data, "date", slug, filePath), slug, filePath),
+    readTime: validateReadTime(
+      data.readTime || estimateReadTime(bodySource),
+      slug,
+      filePath
+    ),
+    tags: parseTags(data.tags, slug, filePath),
     featured: parseBoolean(data.featured),
   };
 }
@@ -126,30 +173,35 @@ function parseFrontmatter(
 function getRequiredField(
   data: Record<string, string>,
   key: string,
-  slug: string
+  slug: string,
+  filePath: string
 ) {
   const value = data[key];
 
   if (!value) {
-    throw new Error(`Post "${slug}" is missing required field "${key}".`);
+    throw new Error(
+      `Post "${slug}" is missing required field "${key}" in ${filePath}.`
+    );
   }
 
   return value;
 }
 
-function parseTags(source?: string) {
-  if (!source) {
-    return [];
-  }
-
-  const normalized = source
+function parseTags(source: string | undefined, slug: string, filePath: string) {
+  const normalized = (source ?? "")
     .replace(/^\[/, "")
     .replace(/\]$/, "")
     .split(",")
-    .map((tag) => normalizeScalar(tag.trim()))
+    .map((tag) => normalizeTag(normalizeScalar(tag.trim())))
     .filter(Boolean);
 
-  return Array.from(new Set(normalized));
+  const uniqueTags = Array.from(new Set(normalized));
+
+  if (uniqueTags.length === 0) {
+    throw new Error(`Post "${slug}" must define at least one tag in ${filePath}.`);
+  }
+
+  return uniqueTags;
 }
 
 function parseBoolean(source?: string) {
@@ -177,7 +229,7 @@ function estimateReadTime(source: string) {
   return `${minutes} min`;
 }
 
-function parseBody(source: string): PostBlock[] {
+function parseBody(source: string, slug: string, filePath: string): PostBlock[] {
   const lines = source.trim().split(/\r?\n/);
   const blocks: PostBlock[] = [];
 
@@ -202,9 +254,13 @@ function parseBody(source: string): PostBlock[] {
         index += 1;
       }
 
-      if (index < lines.length) {
-        index += 1;
+      if (index >= lines.length) {
+        throw new Error(
+          `Post "${slug}" has an unclosed code fence in ${filePath}.`
+        );
       }
+
+      index += 1;
 
       blocks.push({
         type: "code",
@@ -313,4 +369,56 @@ function parseListItem(line: string) {
   }
 
   return null;
+}
+
+function validateSlug(slug: string, filePath: string) {
+  if (!SLUG_PATTERN.test(slug)) {
+    throw new Error(
+      `Invalid post slug "${slug}" from filename ${filePath}. Use lowercase kebab-case.`
+    );
+  }
+}
+
+function validateTitle(value: string, slug: string, filePath: string) {
+  if (value.length < 8) {
+    throw new Error(`Post "${slug}" has a title that is too short in ${filePath}.`);
+  }
+
+  return value;
+}
+
+function validateSummary(value: string, slug: string, filePath: string) {
+  if (value.length < 20) {
+    throw new Error(
+      `Post "${slug}" has a summary that is too short in ${filePath}.`
+    );
+  }
+
+  return value;
+}
+
+function validateDate(value: string, slug: string, filePath: string) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    throw new Error(
+      `Post "${slug}" has an invalid date "${value}" in ${filePath}. Use YYYY-MM-DD.`
+    );
+  }
+
+  const date = new Date(`${value}T00:00:00.000Z`);
+
+  if (Number.isNaN(date.getTime()) || date.toISOString().slice(0, 10) !== value) {
+    throw new Error(`Post "${slug}" has a non-existent date "${value}" in ${filePath}.`);
+  }
+
+  return value;
+}
+
+function validateReadTime(value: string, slug: string, filePath: string) {
+  if (!/^\d+\s+min$/.test(value)) {
+    throw new Error(
+      `Post "${slug}" has an invalid readTime "${value}" in ${filePath}. Use formats like "6 min".`
+    );
+  }
+
+  return value;
 }

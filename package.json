@@ -3,11 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predev": "node scripts/generate-og-assets.mjs",
     "dev": "next dev",
+    "prebuild": "node scripts/generate-og-assets.mjs",
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint",
-    "new:post": "node scripts/new-post.mjs"
+    "new:post": "node scripts/new-post.mjs",
+    "generate:og": "node scripts/generate-og-assets.mjs"
   },
   "dependencies": {
     "@radix-ui/react-separator": "^1.1.8",

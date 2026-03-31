@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#050816"/>
+  <circle cx="1038" cy="126" r="214" fill="#D946EF" fill-opacity="0.16"/>
+  <circle cx="178" cy="560" r="230" fill="#22D3EE" fill-opacity="0.14"/>
+  <rect x="54" y="54" width="1092" height="522" rx="36" fill="url(#panel)" stroke="#FFFFFF" stroke-opacity="0.12"/>
+  <text x="106" y="146" fill="#22D3EE" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="5">#postgres</text>
+  <text x="106" y="230" fill="#FFFFFF" font-family="Inter, Arial, sans-serif" font-size="74" font-weight="800">PostgreSQL logical</text>
+  <text x="106" y="318" fill="#FFFFFF" font-family="Inter, Arial, sans-serif" font-size="74" font-weight="800">replication for</text>
+  <text x="106" y="412" fill="#A6B0C0" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="500">How to move a hot table to a new schema without</text>
+  <text x="106" y="450" fill="#A6B0C0" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="500">blocking writes, using backfill, change capture,</text>
+  <text x="106" y="530" fill="#F5F7FB" font-family="JetBrains Mono, monospace" font-size="22" font-weight="700">2025-03-01</text>
+  <text x="954" y="530" fill="#D946EF" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="800">itsgaet</text>
+  <defs>
+    <linearGradient id="panel" x1="87" y1="77" x2="1134" y2="559" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0E1428" stop-opacity="0.94"/>
+      <stop offset="1" stop-color="#0B1020" stop-opacity="0.88"/>
+    </linearGradient>
+  </defs>
+</svg>

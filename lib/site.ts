@@ -39,6 +39,14 @@ export function absoluteUrl(pathname = "/") {
   return new URL(pathname, `${siteConfig.url}/`).toString();
 }
 
+export function getPostOgImagePath(slug: string) {
+  return `/og/posts/${slug}.svg`;
+}
+
+export function getTopicOgImagePath(slug: string) {
+  return `/og/topics/${slug}.svg`;
+}
+
 export function formatDisplayDate(date: string) {
   return new Intl.DateTimeFormat("en", {
     year: "numeric",
