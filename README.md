@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# itsgaet.studios
 
-## Getting Started
+Personal site built with Next.js App Router and exported as a static site.
 
-First, run the development server:
+## Stack
+
+- Next.js 16
+- React 19
+- Tailwind CSS 4
+- Static export via `output: "export"`
+
+## Development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Blog workflow
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Blog posts now live in `content/posts` as Markdown files with simple frontmatter.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Create a new post
 
-## Learn More
+```bash
+npm run new:post -- "Your post title"
+```
 
-To learn more about Next.js, take a look at the following resources:
+This creates a new file in `content/posts/<slug>.md`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Frontmatter fields
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `title`: required
+- `summary`: required
+- `date`: required, use `YYYY-MM-DD`
+- `tags`: comma-separated list
+- `featured`: optional, `true` or `false`
+- `readTime`: optional, auto-calculated if omitted
 
-## Deploy on Vercel
+### Supported content blocks
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Paragraphs
+- `##` and `###` headings
+- Ordered and unordered lists
+- Blockquotes with `>`
+- Fenced code blocks with triple backticks
+- Inline code with backticks
+- Markdown links like `[label](https://example.com)`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Build checks
+
+```bash
+npm run lint
+npm run build
+```
+
+## Current improvement direction
+
+- Content is now separated from presentation, so adding articles does not require editing TypeScript.
+- The next sensible step is tightening SEO and social metadata per post, then replacing remaining boilerplate/home copy with production content.

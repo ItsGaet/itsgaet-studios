@@ -1,60 +1,92 @@
-import Link from "next/link"
-import { ArrowUpRight, Sparkles } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import { getAllPosts } from "@/lib/posts";
+import { formatDisplayDate, siteConfig } from "@/lib/site";
 
 export default function BlogCTA() {
+  const [latestPost] = getAllPosts();
+
   return (
-    <section className="group relative overflow-hidden rounded-[3rem] border border-border/40 bg-card/40 backdrop-blur-md px-8 py-16 sm:px-14">
-      {/* Background Decorativo - Atmosfera Neon */}
-      <div className="pointer-events-none absolute inset-0 -z-10">
+    <section className="relative overflow-hidden rounded-[2.5rem] border border-border/40 bg-card/25 px-5 py-8 backdrop-blur-md sm:px-8 sm:py-10">
+      <div className="pointer-events-none absolute inset-0">
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-fuchsia-500/30 to-transparent" />
-        <div className="absolute -right-20 -top-20 size-80 rounded-full bg-fuchsia-500/10 blur-[120px] transition-all group-hover:bg-fuchsia-500/20" />
-        <div className="absolute -left-20 -bottom-20 size-80 rounded-full bg-cyan-500/5 blur-[120px]" />
+        <div className="absolute -left-16 top-10 size-72 rounded-full bg-cyan-500/6 blur-[110px]" />
+        <div className="absolute right-0 top-0 h-full w-1/2 bg-[linear-gradient(135deg,rgba(255,255,255,0.02),transparent)]" />
       </div>
 
-      <div className="relative flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between">
+      <div className="relative grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(320px,420px)] lg:items-end">
         <div className="space-y-6">
-          <div className="inline-flex items-center gap-2 rounded-full border border-fuchsia-500/20 bg-fuchsia-500/5 px-4 py-1.5 text-[10px] font-black uppercase tracking-[0.2em] text-fuchsia-500">
-            <Sparkles className="size-3" />
-            Knowledge Base
+          <div className="space-y-3">
+            <p className="text-[10px] font-black uppercase tracking-[0.34em] text-fuchsia-500">
+              Resource archive
+            </p>
+            <h2 className="max-w-3xl text-3xl font-black leading-[0.95] tracking-[-0.04em] sm:text-5xl">
+              Writing that stays close to production reality.
+            </h2>
+            <p className="max-w-2xl text-base leading-relaxed text-muted-foreground/75 sm:text-lg">
+              Practical notes on delivery systems, technical decisions, and the
+              boring details that keep products reliable.
+            </p>
           </div>
-          
-          <h2 className="max-w-2xl text-4xl font-black leading-[0.9] tracking-tighter sm:text-6xl">
-            EXPLORE THE <br />
-            <span className="bg-gradient-to-r from-fuchsia-500 to-fuchsia-300 bg-clip-text text-transparent">
-              COMMUNITY
-            </span> BLOG.
-          </h2>
-          
-          <p className="max-w-xl text-lg leading-relaxed text-muted-foreground/80">
-            Deep technical dives, modular layouts, and operating notes shaped by 
-            real-world projects and peer feedback.
-          </p>
+
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <Button
+              size="lg"
+              asChild
+              className="h-14 rounded-full bg-fuchsia-500 px-7 text-xs font-black uppercase tracking-[0.22em] text-white hover:bg-fuchsia-400"
+            >
+              <Link href="/blog">
+                Browse all posts <ArrowUpRight className="ml-2 size-4" />
+              </Link>
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              asChild
+              className="h-14 rounded-full border-border/40 bg-background/35 px-7 text-xs font-black uppercase tracking-[0.22em] hover:border-cyan-300/30 hover:bg-background/60"
+            >
+              <a href={`mailto:${siteConfig.email}?subject=Topic%20idea`}>
+                Suggest a topic
+              </a>
+            </Button>
+          </div>
         </div>
 
-        <div className="flex flex-col gap-4 sm:flex-row lg:flex-col xl:flex-row">
-          <Button 
-            size="lg" 
-            asChild 
-            className="h-14 rounded-2xl bg-fuchsia-500 px-8 text-xs font-black uppercase tracking-widest text-white transition-all hover:bg-fuchsia-600 hover:scale-105 shadow-[0_0_20px_rgba(217,70,239,0.3)]"
-          >
-            <Link href="/blog">
-              READ ARTICLES <ArrowUpRight className="ml-2 size-4" />
-            </Link>
-          </Button>
-          
-          <Button 
-            size="lg" 
-            variant="outline" 
-            asChild 
-            className="h-14 rounded-2xl border-border/40 bg-background/40 px-8 text-xs font-black uppercase tracking-widest backdrop-blur-sm hover:bg-white/5 hover:border-white/20"
-          >
-            <a href="mailto:gaetanoabbaticchio8@gmail.com?subject=Community%20topic">
-              SUGGEST TOPIC
-            </a>
-          </Button>
+        <div className="rounded-[2rem] border border-border/40 bg-background/45 p-5 sm:p-6">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground/45">
+                Latest note
+              </p>
+              <p className="mt-2 text-xs font-semibold uppercase tracking-[0.22em] text-cyan-400/80">
+                {latestPost ? formatDisplayDate(latestPost.date) : "No posts yet"}
+              </p>
+            </div>
+            <div className="rounded-full border border-fuchsia-500/20 bg-fuchsia-500/8 px-3 py-1 text-[10px] font-black uppercase tracking-[0.24em] text-fuchsia-500">
+              {latestPost?.tags[0] ?? "general"}
+            </div>
+          </div>
+
+          {latestPost && (
+            <div className="mt-6 space-y-4">
+              <h3 className="text-2xl font-black leading-tight tracking-tight">
+                {latestPost.title}
+              </h3>
+              <p className="text-sm leading-relaxed text-muted-foreground/75">
+                {latestPost.summary}
+              </p>
+              <Link
+                href={`/blog/${latestPost.slug}`}
+                className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.22em] text-foreground transition-colors hover:text-fuchsia-500"
+              >
+                Open latest post <ArrowUpRight className="size-4" />
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </section>
-  )
+  );
 }

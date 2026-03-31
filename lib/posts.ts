@@ -1,3 +1,32 @@
+import fs from "node:fs";
+import path from "node:path";
+import { cache } from "react";
+
+export type PostBlock =
+  | {
+      type: "paragraph";
+      content: string;
+    }
+  | {
+      type: "heading";
+      content: string;
+      level: 2 | 3;
+    }
+  | {
+      type: "list";
+      items: string[];
+      ordered: boolean;
+    }
+  | {
+      type: "quote";
+      content: string;
+    }
+  | {
+      type: "code";
+      content: string;
+      language?: string;
+    };
+
 export type Post = {
   slug: string;
   title: string;
@@ -6,131 +35,276 @@ export type Post = {
   readTime: string;
   tags: string[];
   featured?: boolean;
-  body: string[];
+  body: PostBlock[];
 };
 
-const posts: Post[] = [
-  {
-    slug: "kafka-outbox-idempotency",
-    title: "Kafka outbox pattern and idempotent consumers in production",
-    summary:
-      "A practical guide to moving from best effort events to reliable pipelines with outbox tables, CDC, and idempotent consumption.",
-    date: "2025-03-10",
-    readTime: "6 min",
-    tags: ["kafka"],
-    featured: true,
-    body: [
-      "Event driven systems fail in boring, predictable ways: duplicates, gaps, and out of order messages. The root cause is almost always the same, you write to the database and publish to Kafka in two separate steps. If either side fails, you lose consistency. The outbox pattern fixes this by persisting events in the same transaction as the state change, then shipping them asynchronously. Pair it with idempotent consumers and you get at least once delivery with deterministic outcomes.",
-      "Start with the outbox table. A minimal schema includes `id` (UUID), `aggregate_id`, `event_type`, `payload`, `created_at`, and a `published_at` or `status` column. Insert into the outbox inside the same transaction as the business write. This guarantees that if the row exists, the event exists. If you poll, select rows with `FOR UPDATE SKIP LOCKED` in small batches so multiple workers can advance without blocking each other.",
-      "The transport from outbox to Kafka can be CDC or polling. CDC with Debezium is the most robust for Postgres and MySQL because it streams WAL or binlog changes and preserves ordering by primary key. If you poll, keep it lightweight and frequent. Always choose a stable message key, typically `aggregate_id`, so events for the same entity stay ordered in a partition. Ordering is not global, so design your workflows accordingly.",
-      "Producer settings matter. Enable idempotence with `enable.idempotence=true`, require `acks=all`, and set `min.insync.replicas` to avoid data loss. Tune `linger.ms` and `batch.size` for throughput, but keep latency within SLOs. For topics representing state, consider log compaction with a stable key so consumers can rebuild materialized views. For event streams, use retention and do not compact unless you are sure the semantics are correct.",
-      "Consumers must be idempotent by default. The simplest approach is a dedupe table keyed by `event_id` or by `topic`, `partition`, `offset`. Wrap your side effects and the dedupe insert in the same transaction, or use an upsert with a unique constraint to make duplicates no ops. If you update a record, use `INSERT ... ON CONFLICT DO UPDATE` to keep the operation safe under retries. This is where exactly once behavior is achieved in practice.",
-      "Plan for retries and poison messages. Use exponential backoff and a retry topic with a dead letter queue for payloads that fail validation. Keep retries bounded and record failure reasons for debugging. A poison pill should not block a partition forever. If you need strict ordering, send failures to a separate topic and continue with later events, but document the trade off clearly.",
-      "Schema evolution is part of reliability. Use a schema registry or version your payloads explicitly with `schema_version`. Favor additive changes and treat field removal as a breaking change. Consumers should ignore unknown fields and provide defaults for missing ones. For multi team systems, publish a contract per topic and treat it like an API, with review and deprecation windows.",
-      "Operationally, measure what matters: outbox backlog size, CDC lag, consumer lag, and the rate of failed processing. Alert on growth rather than absolute values. Run periodic reconciliation jobs that compare aggregates and derived projections, and be ready to replay from Kafka using offsets. With outbox plus idempotent consumers, replay is a feature, not a nightmare.",
-    ],
-  },
-  {
-    slug: "rust-tokio-backpressure",
-    title: "Tokio backpressure patterns for high throughput Rust services",
-    summary:
-      "How to keep async Rust fast and stable with bounded concurrency, timeouts, and memory discipline.",
-    date: "2025-03-12",
-    readTime: "6 min",
-    tags: ["rust"],
-    body: [
-      "Async does not mean infinite concurrency. The default pattern of spawning a task per request works until it does not, and then latency and memory explode together. In Tokio, backpressure is a design choice, not a magic feature. The goal is to keep the executor busy while bounding the number of in flight operations. This post focuses on practical patterns that stabilize throughput under load.",
-      "Use semaphores to cap concurrency at the service boundary. A `tokio::sync::Semaphore` gives you a fixed number of permits. Acquire a permit at the start of a request and release it when the work is done. If you want fast failure under overload, use `try_acquire` and return `429` or a custom error before you allocate more work. This keeps queues short and protects tail latency.",
-      "Bounded channels provide pressure between stages. If you have a pipeline that reads, transforms, and writes, connect stages with `mpsc::channel` and a small capacity. Producers will await when the buffer is full, which prevents unbounded memory usage. Combine this with `tokio::select!` and timeouts so you can drop work when upstream clients disconnect. For HTTP servers, prefer a short internal queue over large buffers.",
-      "Timeouts are mandatory. Wrap external calls in `tokio::time::timeout` and fail fast when downstreams are slow. Pair this with a connection pool that matches database capacity. A pool of 20 connections feeding a database that can only handle 10 will amplify contention. For `sqlx` or `deadpool`, set `max_connections` conservatively, monitor wait times, and reject when the pool is saturated.",
-      "Separate CPU bound work from async IO. If a task performs heavy computation or blocking syscalls, move it to `spawn_blocking` or a dedicated thread pool. A few CPU bound tasks can starve the executor and cause unrelated requests to time out. If you must loop over large collections, insert `tokio::task::yield_now` in long loops to give the scheduler a chance to run other tasks.",
-      "Memory pressure often hides in buffers. Use `bytes::Bytes` or `Arc<[u8]>` to avoid copies, and enforce explicit limits on payload size. In Axum or Hyper, check `Content-Length` and cap streaming bodies. Avoid unbounded caches in the hot path. If you need a cache, use a size based eviction policy and track hit rate versus memory impact.",
-      "Instrumentation is the fastest way to find bottlenecks. Add `tracing` spans for each request and attach fields like queue depth and semaphore permits. The `tokio-metrics` crate can report scheduler delay and task count. For service level tuning, add `tower` layers for rate limiting, concurrency limits, and retries. Each layer should be explicit so you can see where latency is introduced.",
-      "Finally, load test and iterate. Run a constant load to find steady state, then step up concurrency and observe where latency and error rate spike. Use that point to choose semaphore limits and channel capacities. Implement graceful shutdown with `tokio::signal` and drain in flight tasks before exiting. Backpressure is not a one time config, it is an operational dial you adjust as traffic changes.",
-    ],
-  },
-  {
-    slug: "aria-automation-8-18-upgrade-runbook",
-    title: "VMware Aria Automation 8.18: a technical upgrade and hardening runbook",
-    summary:
-      "A pragmatic checklist for upgrading Aria Automation 8.18 with predictable outcomes, from topology review to post upgrade validation.",
-    date: "2025-03-14",
-    readTime: "7 min",
-    tags: ["aria-automation"],
-    body: [
-      "Aria Automation upgrades are rarely about the version number alone. The risk is in the dependencies: identity, vCenter, vRO, cloud accounts, and the content your teams rely on. Treat 8.18 like a change to a platform, not a patch. The goal is to keep provisioning reliable and avoid silent regressions in cloud templates, policies, or extensibility actions. This post is a runbook that favors validation and repeatability over heroics.",
-      "Start with topology. Single node deployments are fine for labs, but production usually needs a multi node cluster behind a load balancer. Confirm the virtual appliance sizing, disk headroom, and vSphere storage policies. If you run vRO embedded, validate the vRO version compatibility and content source sync. Externalize what you can, such as syslog and monitoring, so you can compare pre and post upgrade behavior.",
-      "Inventory your integrations. Cloud accounts, projects, subscriptions, and content sources are the brittle edges. Export cloud templates and catalog items, then snapshot your content repositories in Git. Verify endpoints and credentials for vCenter, NSX, and public clouds, and make sure certificate chains are still valid. If you use custom properties or custom naming policies, list them explicitly and test them in a staging environment.",
-      "Extensibility is the most common upgrade failure mode. If you use event broker subscriptions, ABX actions, or vRO workflows, validate the inputs and outputs against the current payload schema. Short circuit actions on unknown fields and keep a safe default path to avoid failing provisioning. Test action timeouts and retry policies, and confirm that any external systems still accept the same auth token format.",
-      "Plan for data consistency. Aria Automation stores state in internal services, but you can validate outcomes through the API. Build a small validation script that provisions a known blueprint, waits for completion, and checks resource tags, naming conventions, and network placement. Run it before the upgrade, then after, and diff the results. This turns subjective smoke tests into real evidence.",
-      "Security and identity deserve a dedicated pass. Confirm the IdP configuration, OAuth client settings, and group mappings for Service Broker and Cloud Assembly. Rotate certificates if they are near expiry, and ensure the load balancer health checks still hit the correct endpoints. If you are enforcing strict TLS versions, re validate after the upgrade because appliance defaults can change.",
-      "Upgrade execution should be boring. Put the platform in a maintenance window, pause provisioning if possible, and capture a clean backup or snapshot. Follow the vendor upgrade path and do not skip intermediate versions. Track upgrade progress through the appliance console and verify that all services are healthy before bringing traffic back. If you can, keep a rollback plan that is tested in staging.",
-      "Post upgrade, validate the critical flows: catalog requests, cloud template deployments, day 2 actions, and policy enforcement. Review audit logs for unexpected errors and check that autoscaling or leasing policies still fire. Finally, document any config deltas discovered during the upgrade so the next cycle is predictable. A reliable runbook is the real product of a platform upgrade.",
-    ],
-  },
-  {
-    slug: "n8n-production-architecture",
-    title: "n8n in production: architecture, scaling, and operational discipline",
-    summary:
-      "How to run n8n reliably with queue mode, PostgreSQL, and a deployment model that survives traffic spikes.",
-    date: "2025-03-16",
-    readTime: "7 min",
-    tags: ["n8n"],
-    body: [
-      "n8n is deceptively simple when you start, but production usage exposes real system design questions: where executions run, how state is stored, and how to keep webhooks responsive under load. The core runtime is a Node.js process that reads workflows from a database and orchestrates node executions in memory. That is fine for small teams, but once you have many triggers and large payloads you need to design for throughput, failure, and cost.",
-      "Choose the right execution mode early. Single process mode is easy but ties webhooks and executions to the same worker. Queue mode separates ingestion from execution using Redis and multiple workers, so you can scale compute without breaking webhooks. This also allows you to prioritize real time triggers while long running jobs execute in the background. Treat queue mode as the baseline for production, not an optimization.",
-      "Use PostgreSQL for persistence. SQLite is fine for experiments but it becomes a bottleneck for concurrent executions and large execution histories. Size the database for write heavy workloads, add connection pooling, and monitor slow queries. Configure execution data retention and binary data handling so the database does not grow without bounds. Backups must be tested, not just scheduled, because workflows are state.",
-      "Webhooks require careful routing. If you terminate TLS at a reverse proxy, set the public webhook URL so n8n generates correct callback links. For high traffic, run a dedicated webhook process and keep it thin, then route actual work to queue workers. This avoids timeouts on slow workflows and ensures external systems get fast responses even when the queue is busy.",
-      "Operational safety is about idempotency and retries. Many nodes have retry options, but the system cannot guess which operations are safe to repeat. Add explicit dedupe keys for external writes, and store a minimal execution trace that lets you replay safely. Use the error workflow to route failures to Slack or a ticketing system, and keep a dead letter pattern for payloads that need manual inspection.",
-      "Control concurrency intentionally. Set worker concurrency based on CPU and IO characteristics, not on the number of workflows. Some workflows are CPU heavy because of data transforms, others are IO heavy because of API calls. Split these into different queues or instances if needed. Rate limit outgoing requests to avoid API bans, and introduce backoff with the Wait node to smooth bursts.",
-      "Security and isolation are mandatory. Set a stable encryption key for credentials and store it outside the container image. Rotate secrets with the same discipline you use for databases. Run n8n in a private network and expose only the webhook endpoint. If multiple teams share the instance, limit credential access and use separate projects or separate instances to reduce blast radius.",
-      "Treat workflows as code. Export JSON definitions to Git, review changes, and deploy through a controlled pipeline. Use tags and naming conventions so you can trace ownership. For larger installs, maintain a staging instance and promote workflows after validation. n8n can be a platform, but only if you apply the same engineering discipline you would for any other critical service.",
-    ],
-  },
-  {
-    slug: "postgres-logical-replication-zero-downtime",
-    title: "PostgreSQL logical replication for zero downtime table rewrites",
-    summary:
-      "How to move a hot table to a new schema without blocking writes, using backfill, change capture, validation, and a clean cutover.",
-    date: "2025-03-01",
-    readTime: "9 min",
-    tags: ["postgres"],
-    body: [
-      "Zero downtime table rewrites in PostgreSQL are not about a single magic command, they are about keeping writes flowing while you move data to a new shape. The typical triggers are changing a column type, partitioning a hot table, moving to a new collation, or consolidating bloat. The challenge is that `ALTER TABLE` often takes an ACCESS EXCLUSIVE lock. The safer approach is to build a new table, backfill, mirror changes, validate, and cut over with a short write pause. This post outlines a production ready sequence.",
-      "Start by checking the replication features you will rely on. If you are moving across clusters, set `wal_level = logical`, ensure `max_replication_slots` and `max_wal_senders` are large enough, and use the `pgoutput` plugin. For logical replication on a single cluster, the same settings apply but you can publish from the source database and subscribe from a loopback connection. Set a stable primary key, or configure `REPLICA IDENTITY FULL` on the source table so updates can be identified. Increase `wal_keep_size` to avoid slot lag discarding WAL during long backfills.",
-      "Design the new table with the final schema, not a temporary compromise. Use `CREATE TABLE new (LIKE old INCLUDING DEFAULTS INCLUDING CONSTRAINTS)` to copy structure, then adjust columns, indexes, and partitioning. Create heavy indexes concurrently to avoid write locks, and defer expensive foreign keys until after backfill. If you are changing data types, add new columns instead of rewriting in place, and plan a later `ALTER TABLE ... DROP COLUMN` once cutover is complete. This keeps the original table stable.",
-      "Backfill in controlled batches to keep autovacuum and WAL growth under control. A common pattern is keyset pagination: `INSERT INTO new SELECT ... FROM old WHERE id > $last ORDER BY id LIMIT 5000`. Commit often to reduce long running transactions and free snapshots. For large tables, consider `synchronous_commit = off` and a higher `maintenance_work_mem` during the backfill session. Run `ANALYZE` on the new table early so the planner produces efficient index builds and validation queries.",
-      "Once the new table is mostly populated, set up change capture. With logical replication across clusters, create a publication: `CREATE PUBLICATION pub FOR TABLE old`, then a subscription on the target: `CREATE SUBSCRIPTION sub CONNECTION ... PUBLICATION pub`. For same cluster moves, logical replication can still work via a loopback connection, but many teams choose triggers or application level dual writes for simplicity. The goal is the same: every insert, update, and delete must reach the new table.",
-      "If you go with triggers, keep them narrow and deterministic. Use `AFTER INSERT OR UPDATE OR DELETE` on the source and apply changes to the new table with `INSERT ... ON CONFLICT` to avoid duplicates. On updates, avoid full row rewrites if only a subset of columns is changing. Track failures with a dead letter table or a retry queue so the migration does not silently diverge. For logical replication, watch `pg_stat_subscription` and `pg_stat_replication` to ensure lag stays near zero.",
-      "Validation is not a single count check. Compare row counts per partition or key range, then validate critical columns with checksums such as `sum(hashtext(col1 || col2))` grouped by ranges. For wide tables, sample with `TABLESAMPLE SYSTEM` and run targeted `EXCEPT` queries on known edge cases. Verify constraints by running `ALTER TABLE new VALIDATE CONSTRAINT` and confirm indexes with `REINDEX CONCURRENTLY` if you built them early. Only proceed when differences are explainable.",
-      "Cutover is a short, explicit maintenance window. Stop writers or put the application in read only mode, wait for replication lag to reach zero, then swap names in a single transaction: `ALTER TABLE old RENAME TO old_backup; ALTER TABLE new RENAME TO old;`. Update sequences with `SELECT setval(...)` and reattach foreign keys, views, and grants. Keep the old table for rollback, but revoke writes so it stays as a safety snapshot.",
-      "After traffic is back, clean up the migration machinery. Drop triggers, subscriptions, and replication slots to release WAL retention. Run `VACUUM ANALYZE` on the new table and monitor bloat, especially if you used high frequency updates during backfill. Remove temporary columns and unused indexes, and update documentation to reflect the new schema. The real win is that the procedure becomes repeatable, turning risky table rewrites into a controlled, observable workflow.",
-    ],
-  },
-  {
-    slug: "kubernetes-requests-limits-qos",
-    title: "Kubernetes requests and limits: performance tuning without guesswork",
-    summary:
-      "A technical deep dive into CPU throttling, memory OOM, QoS classes, and the metrics that make resource sizing predictable.",
-    date: "2025-03-05",
-    readTime: "9 min",
-    tags: ["kubernetes"],
-    body: [
-      "Kubernetes resource tuning is often treated as a guess, but the scheduler and the kernel follow precise rules. Requests decide placement, limits decide cgroup enforcement, and both feed into autoscaling and eviction. If you do not understand those rules, you will chase OOMKills, CPU throttling, or random pod evictions. This post focuses on CPU and memory behavior under cgroups, how QoS classes are derived, and a practical strategy to pick values that keep latency stable without wasting nodes.",
-      "CPU is compressible. A CPU request sets the relative share for scheduling, while the CPU limit enables CFS quota in cgroup v1 (`cpu.cfs_quota_us` and `cpu.cfs_period_us`) or `cpu.max` in cgroup v2. When a container hits its limit, it is throttled, not killed, which can stretch response times and increase tail latency. If your service is latency sensitive, consider omitting CPU limits and rely on requests plus HPA to control scale. Use `kubectl describe pod` to verify effective requests.",
-      "Memory is not compressible. A memory request influences scheduling and eviction priority, but the limit is a hard cap enforced by the kernel (`memory.max` in cgroup v2). When the process exceeds that cap, the kernel kills it, and Kubernetes reports `OOMKilled`. For JVM, Go, and Node, ensure the runtime is container aware. Use `-XX:MaxRAMPercentage` for Java, `GOMEMLIMIT` for Go, and `--max-old-space-size` for Node to align heap ceilings with the container limit.",
-      "QoS classes are derived from the ratio of requests to limits. Guaranteed requires CPU and memory requests equal to limits for every container. Burstable is the default when at least one request is set but it does not match the limit. BestEffort has no requests at all. Under pressure, kubelet evicts BestEffort first, then Burstable, then Guaranteed. The OOM killer also uses `oom_score_adj` based on QoS, so misclassified pods can die before the ones you care about.",
-      "Autoscaling depends on the same numbers. HPA with CPU utilization targets uses `current_usage / request`, so an inflated request hides real load and delays scaling. VPA can adjust requests based on history, but it restarts pods to apply changes, which can conflict with HPA. A common pattern is to use HPA for scale out and VPA in recommendation mode for periodic request tuning. For batch jobs, VPA in auto mode can work because restarts are less disruptive.",
-      "Observability is the guardrail. Track `container_cpu_cfs_throttled_seconds_total` and `container_cpu_usage_seconds_total` to spot throttling. For memory, `container_memory_working_set_bytes` shows resident usage, while `container_memory_rss` and `container_memory_cache` separate hot and reclaimable pages. Use p95 and p99, not averages. Also watch node level metrics like `node_memory_MemAvailable_bytes` and `kube_pod_container_resource_requests` to understand cluster headroom.",
-      "A practical sizing strategy starts with measurement, not intuition. For CPU, set requests near p95 usage during peak hours and keep limits at 2x or remove them entirely if you can absorb bursts with scaling. For memory, set the limit close to p99 usage plus a safety margin for allocations and fragmentation, and set the request to a realistic baseline to avoid over packing. For critical services, aim for Guaranteed QoS and reserve node capacity to avoid eviction.",
-      "Node level configuration matters. Ensure `kube-reserved` and `system-reserved` are set so system daemons do not steal pod resources. Tune eviction thresholds such as `evictionHard` to avoid sudden pressure. With cgroup v2, consider enabling swap with a small `memory.swap.max` if your workloads tolerate it, otherwise keep swap disabled to avoid latency spikes. Finally, align the container runtime and the kernel version so cgroup metrics are accurate.",
-      "Close the loop with load tests and repeatable playbooks. Run a steady load until memory and CPU plateau, then increase concurrency and watch throttling and GC behavior. Tune runtimes for container limits, for example by setting Go `GODEBUG=madvdontneed=1` in older versions or using `GOMEMLIMIT` in newer releases. Document your targets and re-evaluate after each release. Resource tuning is not a one time task, it is operational hygiene.",
-    ],
-  },
-];
+type PostFrontmatter = Omit<Post, "slug" | "body" | "featured"> & {
+  featured: boolean;
+};
 
-export const getAllPosts = () =>
-  [...posts].sort((a, b) => b.date.localeCompare(a.date));
+const POSTS_DIRECTORY = path.join(process.cwd(), "content/posts");
+
+const readPosts = cache((): Post[] => {
+  const filenames = fs
+    .readdirSync(POSTS_DIRECTORY)
+    .filter((filename) => filename.endsWith(".md"))
+    .filter((filename) => !path.basename(filename).startsWith("_"));
+
+  return filenames
+    .map((filename) => {
+      const fullPath = path.join(POSTS_DIRECTORY, filename);
+      const fileContents = fs.readFileSync(fullPath, "utf8");
+      const slug = path.basename(filename, ".md");
+
+      return parsePostFile(fileContents, slug);
+    })
+    .sort((a, b) => b.date.localeCompare(a.date));
+});
+
+export const getAllPosts = () => readPosts();
 
 export const getPostBySlug = (slug: string) =>
-  posts.find((post) => post.slug === slug);
+  readPosts().find((post) => post.slug === slug);
+
+function parsePostFile(fileContents: string, slug: string): Post {
+  const match = fileContents.match(/^---\s*\n([\s\S]*?)\n---\s*\n?([\s\S]*)$/);
+
+  if (!match) {
+    throw new Error(`Post "${slug}" is missing valid frontmatter.`);
+  }
+
+  const [, frontmatterSource, bodySource] = match;
+  const frontmatter = parseFrontmatter(frontmatterSource, bodySource, slug);
+
+  return {
+    slug,
+    ...frontmatter,
+    featured: frontmatter.featured || undefined,
+    body: parseBody(bodySource),
+  };
+}
+
+function parseFrontmatter(
+  source: string,
+  bodySource: string,
+  slug: string
+): PostFrontmatter {
+  const data = source
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .reduce<Record<string, string>>((acc, line) => {
+      const separatorIndex = line.indexOf(":");
+
+      if (separatorIndex === -1) {
+        throw new Error(`Invalid frontmatter line in "${slug}": ${line}`);
+      }
+
+      const key = line.slice(0, separatorIndex).trim();
+      const value = normalizeScalar(line.slice(separatorIndex + 1).trim());
+      acc[key] = value;
+
+      return acc;
+    }, {});
+
+  return {
+    title: getRequiredField(data, "title", slug),
+    summary: getRequiredField(data, "summary", slug),
+    date: getRequiredField(data, "date", slug),
+    readTime: data.readTime || estimateReadTime(bodySource),
+    tags: parseTags(data.tags),
+    featured: parseBoolean(data.featured),
+  };
+}
+
+function getRequiredField(
+  data: Record<string, string>,
+  key: string,
+  slug: string
+) {
+  const value = data[key];
+
+  if (!value) {
+    throw new Error(`Post "${slug}" is missing required field "${key}".`);
+  }
+
+  return value;
+}
+
+function parseTags(source?: string) {
+  if (!source) {
+    return [];
+  }
+
+  const normalized = source
+    .replace(/^\[/, "")
+    .replace(/\]$/, "")
+    .split(",")
+    .map((tag) => normalizeScalar(tag.trim()))
+    .filter(Boolean);
+
+  return Array.from(new Set(normalized));
+}
+
+function parseBoolean(source?: string) {
+  return /^(true|1|yes)$/i.test(source ?? "");
+}
+
+function normalizeScalar(value: string) {
+  if (
+    (value.startsWith('"') && value.endsWith('"')) ||
+    (value.startsWith("'") && value.endsWith("'"))
+  ) {
+    return value.slice(1, -1);
+  }
+
+  return value;
+}
+
+function estimateReadTime(source: string) {
+  const wordCount = source
+    .replace(/```[\s\S]*?```/g, " ")
+    .split(/\s+/)
+    .filter(Boolean).length;
+  const minutes = Math.max(1, Math.ceil(wordCount / 200));
+
+  return `${minutes} min`;
+}
+
+function parseBody(source: string): PostBlock[] {
+  const lines = source.trim().split(/\r?\n/);
+  const blocks: PostBlock[] = [];
+
+  let index = 0;
+
+  while (index < lines.length) {
+    const line = lines[index]?.trimEnd() ?? "";
+    const trimmed = line.trim();
+
+    if (!trimmed) {
+      index += 1;
+      continue;
+    }
+
+    if (trimmed.startsWith("```")) {
+      const language = trimmed.slice(3).trim() || undefined;
+      const codeLines: string[] = [];
+      index += 1;
+
+      while (index < lines.length && !lines[index].trim().startsWith("```")) {
+        codeLines.push(lines[index]);
+        index += 1;
+      }
+
+      if (index < lines.length) {
+        index += 1;
+      }
+
+      blocks.push({
+        type: "code",
+        language,
+        content: codeLines.join("\n"),
+      });
+      continue;
+    }
+
+    if (trimmed.startsWith("## ")) {
+      blocks.push({
+        type: "heading",
+        level: 2,
+        content: trimmed.slice(3).trim(),
+      });
+      index += 1;
+      continue;
+    }
+
+    if (trimmed.startsWith("### ")) {
+      blocks.push({
+        type: "heading",
+        level: 3,
+        content: trimmed.slice(4).trim(),
+      });
+      index += 1;
+      continue;
+    }
+
+    if (trimmed.startsWith("> ")) {
+      const quoteLines: string[] = [];
+
+      while (index < lines.length && lines[index].trim().startsWith("> ")) {
+        quoteLines.push(lines[index].trim().replace(/^>\s?/, ""));
+        index += 1;
+      }
+
+      blocks.push({
+        type: "quote",
+        content: quoteLines.join(" "),
+      });
+      continue;
+    }
+
+    const listItem = parseListItem(trimmed);
+    if (listItem) {
+      const items: string[] = [];
+      const ordered = listItem.ordered;
+
+      while (index < lines.length) {
+        const current = parseListItem(lines[index].trim());
+        if (!current || current.ordered !== ordered) {
+          break;
+        }
+
+        items.push(current.content);
+        index += 1;
+      }
+
+      blocks.push({
+        type: "list",
+        items,
+        ordered,
+      });
+      continue;
+    }
+
+    const paragraphLines: string[] = [];
+
+    while (index < lines.length && !isBlockBoundary(lines[index])) {
+      paragraphLines.push(lines[index].trim());
+      index += 1;
+    }
+
+    blocks.push({
+      type: "paragraph",
+      content: paragraphLines.join(" "),
+    });
+  }
+
+  return blocks;
+}
+
+function isBlockBoundary(line: string) {
+  const trimmed = line.trim();
+
+  return (
+    trimmed === "" ||
+    trimmed.startsWith("```") ||
+    trimmed.startsWith("## ") ||
+    trimmed.startsWith("### ") ||
+    trimmed.startsWith("> ") ||
+    parseListItem(trimmed) !== null
+  );
+}
+
+function parseListItem(line: string) {
+  const unorderedMatch = line.match(/^[-*]\s+(.+)$/);
+  if (unorderedMatch) {
+    return { ordered: false, content: unorderedMatch[1].trim() };
+  }
+
+  const orderedMatch = line.match(/^\d+\.\s+(.+)$/);
+  if (orderedMatch) {
+    return { ordered: true, content: orderedMatch[1].trim() };
+  }
+
+  return null;
+}

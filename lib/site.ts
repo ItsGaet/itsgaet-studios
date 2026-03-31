@@ -1,0 +1,44 @@
+export const siteConfig = {
+  name: "itsgaet",
+  title: "itsgaet | Systems, notes, and product engineering",
+  description:
+    "Technical notes, system design patterns, and practical runbooks for shipping modern digital products.",
+  shortDescription:
+    "Technical notes, field-tested patterns, and calm product engineering.",
+  url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://itsgaet.github.io").replace(
+    /\/$/,
+    ""
+  ),
+  locale: "en_US",
+  email: "gaetanoabbaticchio8@gmail.com",
+  location: "Bisceglie, Italy",
+  keywords: [
+    "software engineering",
+    "system design",
+    "technical blog",
+    "frontend architecture",
+    "kafka",
+    "postgres",
+    "kubernetes",
+    "n8n",
+    "rust",
+  ],
+  links: {
+    github: "https://github.com/itsgaet",
+    linkedin: "https://linkedin.com/in/itsgaet",
+    twitter: "https://x.com/itsgaet",
+    instagram: "https://instagram.com/itsgaet",
+  },
+};
+
+export function absoluteUrl(pathname = "/") {
+  return new URL(pathname, `${siteConfig.url}/`).toString();
+}
+
+export function formatDisplayDate(date: string) {
+  return new Intl.DateTimeFormat("en", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  }).format(new Date(`${date}T00:00:00`));
+}

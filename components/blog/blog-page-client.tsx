@@ -48,7 +48,11 @@ export default function BlogPageClient({ posts }: BlogPageClientProps) {
   const updateUrl = (nextTags: string[]) => {
     const params = new URLSearchParams(searchParams.toString());
     params.delete("tag");
-    nextTags.length === 0 ? params.delete("tags") : params.set("tags", nextTags.join(","));
+    if (nextTags.length === 0) {
+      params.delete("tags");
+    } else {
+      params.set("tags", nextTags.join(","));
+    }
     const query = params.toString();
     router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
   };
@@ -80,7 +84,7 @@ export default function BlogPageClient({ posts }: BlogPageClientProps) {
         />
 
         {/* Toolbar dei Filtri */}
-        <section className="relative z-20 flex flex-wrap items-center justify-between gap-6 border-y border-border/10 py-8">
+        <section className="relative z-20 flex flex-col gap-6 border-y border-border/10 py-8 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-3">
               <span className="text-[10px] font-black uppercase tracking-[0.3em] text-fuchsia-500">
@@ -98,13 +102,15 @@ export default function BlogPageClient({ posts }: BlogPageClientProps) {
             )}
           </div>
 
-          <BlogFilter
-            tags={tags}
-            tagCounts={tagCounts}
-            activeTags={activeTags}
-            onToggleTag={handleTagClick}
-            onClear={clearFilters}
-          />
+          <div className="w-full sm:w-auto">
+            <BlogFilter
+              tags={tags}
+              tagCounts={tagCounts}
+              activeTags={activeTags}
+              onToggleTag={handleTagClick}
+              onClear={clearFilters}
+            />
+          </div>
         </section>
 
         {/* Griglia Post Evoluta */}

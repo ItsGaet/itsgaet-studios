@@ -1,12 +1,14 @@
-import Link from "next/link"
-import { ArrowUpRight, LayoutGrid, FileText, Zap } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import Link from "next/link";
+import { ArrowUpRight, FileText, LayoutGrid, Zap } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import { formatDisplayDate } from "@/lib/site";
 
 type BlogHeaderProps = {
-  postCount: number
-  topicCount: number
-  latestPostDate?: string
-}
+  postCount: number;
+  topicCount: number;
+  latestPostDate?: string;
+};
 
 export default function BlogHeader({
   postCount,
@@ -15,7 +17,6 @@ export default function BlogHeader({
 }: BlogHeaderProps) {
   return (
     <header className="relative overflow-hidden rounded-[2.5rem] border border-border/40 bg-card/30 backdrop-blur-md px-8 py-12 sm:px-14">
-      {/* Background Decorativo - Gradient Mesh */}
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-fuchsia-500/30 to-transparent" />
         <div className="absolute right-[-10%] top-[-20%] size-96 rounded-full bg-fuchsia-500/10 blur-[120px]" />
@@ -39,7 +40,6 @@ export default function BlogHeader({
             runbooks for modern products.
           </p>
 
-          {/* Stats Grid - Stilizzata come mini-dashboard */}
           <div className="flex flex-wrap gap-4">
             <div className="flex items-center gap-3 rounded-2xl border border-border/40 bg-background/40 px-5 py-3 transition-colors hover:border-fuchsia-500/30">
               <div className="flex size-10 items-center justify-center rounded-xl bg-fuchsia-500/10 text-fuchsia-500">
@@ -67,17 +67,18 @@ export default function BlogHeader({
               </div>
               <div>
                 <p className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground/50">Last Update</p>
-                <p className="text-sm font-black leading-none">{latestPostDate ?? "—"}</p>
+                <p className="text-sm font-black leading-none">
+                  {latestPostDate ? formatDisplayDate(latestPostDate) : "—"}
+                </p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Action Button */}
         <div className="shrink-0">
-          <Button 
-            variant="outline" 
-            asChild 
+          <Button
+            variant="outline"
+            asChild
             className="group h-14 rounded-full border-border/40 bg-background/40 px-8 text-xs font-bold uppercase tracking-widest backdrop-blur-sm transition-all hover:border-fuchsia-500/50 hover:bg-fuchsia-500/5"
           >
             <Link href="/">
@@ -88,5 +89,5 @@ export default function BlogHeader({
         </div>
       </div>
     </header>
-  )
+  );
 }
