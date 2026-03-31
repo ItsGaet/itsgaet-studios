@@ -60,9 +60,9 @@ export default function Home() {
       />
 
       <div className="pointer-events-none absolute inset-0 select-none">
-        <div className="absolute -top-32 right-[-5%] h-[600px] w-[600px] rounded-full bg-amber-300/10 blur-[180px]" />
-        <div className="absolute bottom-[-20%] left-1/2 h-[600px] w-[800px] -translate-x-1/2 rounded-full bg-white/4 blur-[200px]" />
-        <div className="absolute inset-0 opacity-[0.02] [background-image:linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] [background-size:100px_100px]" />
+        <div className="absolute -top-32 right-[-5%] h-[600px] w-[600px] rounded-full bg-[#b62d34]/12 blur-[180px]" />
+        <div className="absolute bottom-[-20%] left-1/2 h-[600px] w-[800px] -translate-x-1/2 rounded-full bg-white/30 blur-[200px]" />
+        <div className="absolute inset-0 opacity-[0.03] [background-image:linear-gradient(rgba(63,45,40,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(63,45,40,0.08)_1px,transparent_1px)] [background-size:100px_100px]" />
       </div>
 
       <main className="relative mx-auto flex w-full max-w-[1600px] flex-col gap-20 px-5 py-6 sm:px-8 md:gap-28 md:py-12 lg:px-16 lg:py-16">
@@ -71,12 +71,12 @@ export default function Home() {
         </section>
 
         <section className="relative w-full">
-          <div className="mb-10 flex items-center gap-4 opacity-20 sm:mb-12">
-            <div className="h-px flex-1 bg-gradient-to-r from-transparent to-foreground" />
-            <span className="text-[10px] font-black uppercase tracking-[0.4em]">
-              Archive and current signal
+          <div className="mb-10 flex items-center gap-4 opacity-60 sm:mb-12">
+            <div className="h-px flex-1 bg-gradient-to-r from-transparent to-[#cdbbb1]" />
+            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[#8f5552]">
+              Archive
             </span>
-            <div className="h-px flex-1 bg-gradient-to-l from-transparent to-foreground" />
+            <div className="h-px flex-1 bg-gradient-to-l from-transparent to-[#cdbbb1]" />
           </div>
           <BlogCTA />
         </section>
@@ -86,12 +86,6 @@ export default function Home() {
         </section>
       </main>
 
-      <div className="fixed right-6 top-1/2 hidden -translate-y-1/2 rotate-90 flex-col items-center gap-4 md:flex">
-        <span className="h-12 w-px bg-border/40" />
-        <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-muted-foreground/30">
-          Scroll to explore
-        </span>
-      </div>
     </div>
   );
 }

@@ -58,25 +58,25 @@ export default function BlogFilter({
         className={cn(
           "flex w-full items-center justify-center gap-3 rounded-full border px-5 py-3 text-xs font-bold uppercase tracking-widest transition-all duration-300 sm:w-auto",
           menuOpen || hasActiveTags
-            ? "border-amber-200/40 bg-amber-300/10 text-amber-200 shadow-[0_0_20px_rgba(251,191,36,0.12)]"
-            : "border-white/10 bg-white/[0.03] text-white/58 hover:border-white/20 hover:bg-white/[0.06]"
+            ? "border-[#b62d34]/30 bg-[#b62d34]/8 text-[#9f2028] shadow-[0_0_20px_rgba(182,45,52,0.12)]"
+            : "border-[#d8c6bb] bg-[#fffaf6]/80 text-[#6c5954] hover:border-[#cdbbb1] hover:bg-[#fff5ef]"
         )}
         aria-expanded={menuOpen}
         aria-haspopup="dialog"
       >
-        <Filter className={cn("size-3.5", hasActiveTags && "fill-amber-200")} />
+        <Filter className={cn("size-3.5", hasActiveTags && "fill-[#9f2028]")} />
         Filter topics
         {hasActiveTags && (
-          <span className="ml-1 rounded-full bg-amber-300 px-2 py-0.5 text-[10px] text-slate-950">
+          <span className="ml-1 rounded-full bg-[#b62d34] px-2 py-0.5 text-[10px] text-[#fff9f4]">
             {activeTags.length}
           </span>
         )}
       </button>
 
       {menuOpen && (
-        <div className="absolute left-0 right-0 z-50 mt-4 origin-top rounded-[2rem] border border-white/10 bg-[#0d1424]/96 p-4 shadow-2xl backdrop-blur-2xl animate-in fade-in zoom-in-95 duration-200 sm:left-auto sm:right-0 sm:w-80">
+        <div className="absolute left-0 right-0 z-50 mt-4 origin-top rounded-[2rem] border border-[#d8c6bb] bg-[#fffaf6]/96 p-4 shadow-2xl backdrop-blur-2xl animate-in fade-in zoom-in-95 duration-200 sm:left-auto sm:right-0 sm:w-80">
           <div className="mb-4 flex items-center justify-between px-1">
-            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white/42">
+            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#8f5552]">
               Select topics
             </span>
             <div className="flex items-center gap-2">
@@ -84,7 +84,7 @@ export default function BlogFilter({
                 <button
                   type="button"
                   onClick={onClear}
-                  className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-tighter text-amber-200 hover:text-amber-100"
+                  className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-tighter text-[#9f2028] hover:text-[#b62d34]"
                 >
                   <X className="size-3" /> Reset
                 </button>
@@ -92,7 +92,7 @@ export default function BlogFilter({
               <button
                 type="button"
                 onClick={() => setMenuOpen(false)}
-                className="flex size-7 items-center justify-center rounded-full border border-white/10 text-white/55 transition-colors hover:text-white"
+                className="flex size-7 items-center justify-center rounded-full border border-[#d8c6bb] text-[#6c5954] transition-colors hover:bg-[#f4e7de] hover:text-[#1f1715]"
                 aria-label="Close filter menu"
               >
                 <X className="size-3.5" />
@@ -112,8 +112,8 @@ export default function BlogFilter({
                   className={cn(
                     "group flex items-center justify-between rounded-2xl px-4 py-3 text-sm transition-all duration-200",
                     isActive
-                      ? "bg-amber-300/10 text-amber-200 ring-1 ring-inset ring-amber-300/30"
-                      : "text-white/62 hover:bg-white/5 hover:text-white"
+                      ? "bg-[#b62d34]/8 text-[#9f2028] ring-1 ring-inset ring-[#b62d34]/20"
+                      : "text-[#5f4c47] hover:bg-[#f4e7de] hover:text-[#1f1715]"
                   )}
                 >
                   <div className="flex items-center gap-3">
@@ -121,12 +121,12 @@ export default function BlogFilter({
                       className={cn(
                         "flex size-5 items-center justify-center rounded-lg border transition-all",
                         isActive
-                          ? "border-amber-300 bg-amber-300"
-                          : "border-white/14 group-hover:border-white/24"
+                          ? "border-[#b62d34] bg-[#b62d34]"
+                          : "border-[#d8c6bb] group-hover:border-[#cdbbb1]"
                       )}
                     >
                       {isActive && (
-                        <Check className="size-3 stroke-[4px] text-slate-950" />
+                        <Check className="size-3 stroke-[4px] text-[#fff9f4]" />
                       )}
                     </div>
                     <span className={cn("font-medium", isActive && "font-bold")}>

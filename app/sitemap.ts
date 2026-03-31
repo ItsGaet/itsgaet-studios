@@ -1,6 +1,5 @@
 import type { MetadataRoute } from "next";
 
-import { nowSnapshot } from "@/lib/now";
 import { getAllPosts, getAllTags } from "@/lib/posts";
 import { absoluteUrl } from "@/lib/site";
 
@@ -28,12 +27,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.7,
-    },
-    {
-      url: absoluteUrl("/now"),
-      lastModified: new Date(nowSnapshot.updatedAt),
-      changeFrequency: "monthly",
-      priority: 0.68,
     },
     ...tags.map((tag) => ({
       url: absoluteUrl(`/topics/${tag}`),

@@ -45,11 +45,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark scroll-smooth">
+    <html lang="en" className="scroll-smooth">
       <body className="min-h-screen bg-background font-sans antialiased">
         <a
           href="#content"
-          className="sr-only fixed left-4 top-4 z-[10000] rounded-full bg-amber-300 px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-slate-950 shadow-lg focus:not-sr-only"
+          className="sr-only fixed left-4 top-4 z-[10000] rounded-full bg-[#b62d34] px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-[#fff9f4] shadow-lg focus:not-sr-only"
         >
           Skip to content
         </a>
@@ -59,7 +59,7 @@ export default function RootLayout({
 
         <div
           id="content"
-          className="relative pb-24 pt-20 transition-all duration-500 md:pb-0 md:pt-24"
+          className="relative pb-24 pt-18 transition-all duration-500 md:pb-0 md:pt-24"
         >
           {children}
         </div>

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Activity, BookOpen, Github, Home, Mail, UserRound } from "lucide-react";
+import { BookOpen, Github, Home, Mail, UserRound } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { siteConfig } from "@/lib/site";
@@ -17,7 +17,6 @@ type NavItem = {
 const primaryNavItems: NavItem[] = [
   { label: "Home", href: "/", icon: Home },
   { label: "Blog", href: "/blog", icon: BookOpen },
-  { label: "Now", href: "/now", icon: Activity },
   { label: "Chi sono", href: "/chi-sono", icon: UserRound },
 ];
 
@@ -36,10 +35,10 @@ export default function FloatingSidebar() {
   return (
     <>
       <header className="fixed inset-x-0 top-4 z-[100] hidden px-5 md:block">
-        <div className="mx-auto flex max-w-[1180px] items-center justify-between rounded-full border border-white/10 bg-[#0b1220]/82 px-4 py-3 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-[1180px] items-center justify-between rounded-full border border-[#d8c6bb]/90 bg-[#fffaf6]/92 px-4 py-3 shadow-[0_18px_45px_-36px_rgba(31,23,21,0.35)] backdrop-blur-xl">
           <Link
             href="/"
-            className="font-display text-xl tracking-[-0.04em] text-white"
+            className="font-display text-xl tracking-[-0.04em] text-[#1f1715]"
           >
             itsgaet
           </Link>
@@ -55,8 +54,8 @@ export default function FloatingSidebar() {
                   className={cn(
                     "rounded-full px-4 py-2 text-[11px] font-black uppercase tracking-[0.18em] transition-colors",
                     isActive
-                      ? "bg-white text-slate-950"
-                      : "text-white/56 hover:text-white"
+                      ? "bg-[#b62d34] text-[#fff9f4]"
+                      : "text-[#7a6660] hover:text-[#1f1715]"
                   )}
                 >
                   {item.label}
@@ -72,14 +71,14 @@ export default function FloatingSidebar() {
                 href={item.href}
                 target="_blank"
                 rel="noreferrer"
-                className="rounded-full px-4 py-2 text-[11px] font-black uppercase tracking-[0.18em] text-white/56 transition-colors hover:text-white"
+                className="rounded-full px-4 py-2 text-[11px] font-black uppercase tracking-[0.18em] text-[#7a6660] transition-colors hover:text-[#1f1715]"
               >
                 {item.label}
               </Link>
             ))}
             <a
               href={`mailto:${siteConfig.email}`}
-              className="rounded-full border border-white/10 px-4 py-2 text-[11px] font-black uppercase tracking-[0.18em] text-white transition-colors hover:border-amber-200/20 hover:text-amber-100"
+              className="rounded-full border border-[#d8c6bb] px-4 py-2 text-[11px] font-black uppercase tracking-[0.18em] text-[#1f1715] transition-colors hover:border-[#b62d34]/30 hover:bg-[#fff2eb] hover:text-[#b62d34]"
             >
               Email
             </a>
@@ -87,7 +86,7 @@ export default function FloatingSidebar() {
         </div>
       </header>
 
-      <nav className="fixed bottom-4 left-1/2 z-[100] flex w-[calc(100%-1rem)] max-w-md -translate-x-1/2 items-center justify-between gap-1 rounded-[1.75rem] border border-white/10 bg-black/55 p-2 shadow-2xl backdrop-blur-3xl md:hidden">
+      <nav className="fixed bottom-4 left-1/2 z-[100] flex w-[calc(100%-1rem)] max-w-md -translate-x-1/2 items-center justify-between gap-1 rounded-[1.75rem] border border-[#d8c6bb] bg-[#fffaf6]/94 p-2 shadow-[0_20px_45px_-32px_rgba(31,23,21,0.34)] backdrop-blur-3xl md:hidden">
         {primaryNavItems.map((item) => {
           const Icon = item.icon;
           const isActive = !item.external && pathname === item.href;
@@ -101,8 +100,8 @@ export default function FloatingSidebar() {
               className={cn(
                 "flex min-w-0 flex-1 items-center justify-center gap-2 rounded-[1.15rem] px-3 py-3 text-xs font-black uppercase tracking-[0.18em] transition-all duration-300",
                 isActive
-                  ? "bg-amber-300 text-slate-950 shadow-lg"
-                  : "text-white/54 hover:bg-white/5"
+                  ? "bg-[#b62d34] text-[#fff9f4] shadow-lg"
+                  : "text-[#7a6660] hover:bg-[#f4e7de]"
               )}
               aria-label={item.label}
             >
@@ -116,7 +115,7 @@ export default function FloatingSidebar() {
 
         <a
           href={`mailto:${siteConfig.email}`}
-          className="flex size-11 shrink-0 items-center justify-center rounded-[1.15rem] border border-white/10 text-white/54 transition-colors hover:text-white"
+          className="flex size-11 shrink-0 items-center justify-center rounded-[1.15rem] border border-[#d8c6bb] text-[#7a6660] transition-colors hover:bg-[#f4e7de] hover:text-[#1f1715]"
           aria-label="Email"
         >
           <Mail className="size-4" />

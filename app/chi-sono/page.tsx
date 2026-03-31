@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
-  Activity,
   ArrowUpRight,
   BadgeCheck,
   Linkedin,
@@ -15,25 +14,10 @@ import { Button } from "@/components/ui/button";
 import { absoluteUrl, siteConfig } from "@/lib/site";
 
 const focusAreas = [
-  "Systems and platform thinking",
-  "Automation with operational discipline",
-  "Cloud, virtualization, and delivery workflows",
-  "Calm product engineering under real constraints",
-];
-
-const principles = [
-  {
-    title: "Write from delivery, not from theory",
-    body: "This blog is where I turn implementation work, migration pain, and production lessons into usable notes.",
-  },
-  {
-    title: "Prefer clear systems over clever demos",
-    body: "I care about resilient foundations, predictable operations, and interfaces that stay usable when the project gets complex.",
-  },
-  {
-    title: "Community validation matters",
-    body: "Being a vExpert 2026 matters because it reflects public contribution, not just private execution.",
-  },
+  "Automation and operational discipline",
+  "Cloud, virtualization, and platform workflows",
+  "Technical writing that comes from delivery work",
+  "Products that need clarity more than noise",
 ];
 
 export const metadata: Metadata = {
@@ -88,66 +72,63 @@ export default function AboutPage() {
       />
 
       <div className="pointer-events-none absolute inset-0 select-none">
-        <div className="absolute right-0 top-0 h-[420px] w-[420px] rounded-full bg-amber-300/10 blur-[150px]" />
-        <div className="absolute bottom-0 left-0 h-[420px] w-[420px] rounded-full bg-white/5 blur-[150px]" />
+        <div className="absolute right-0 top-0 h-[420px] w-[420px] rounded-full bg-[#b62d34]/12 blur-[150px]" />
+        <div className="absolute bottom-0 left-0 h-[420px] w-[420px] rounded-full bg-white/35 blur-[150px]" />
       </div>
 
       <main className="relative mx-auto flex w-full max-w-[1600px] flex-col gap-16 px-5 pb-24 pt-8 sm:px-8 lg:px-16 lg:pt-12">
         <section className="grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_360px]">
-          <div className="overflow-hidden rounded-[2.5rem] border border-white/10 bg-[#0d1424]/86 px-6 py-8 backdrop-blur-md sm:px-10 sm:py-12">
+          <div className="overflow-hidden rounded-[2.5rem] border border-[#d8c6bb] bg-[#fffaf6]/92 px-6 py-8 shadow-[0_32px_80px_-52px_rgba(31,23,21,0.34)] sm:px-10 sm:py-12">
             <div className="space-y-8">
               <div className="flex flex-wrap items-center gap-3 text-[10px] font-black uppercase tracking-[0.32em]">
-                <span className="rounded-full border border-amber-300/20 bg-amber-300/8 px-3 py-1.5 text-amber-200">
+                <span className="rounded-full border border-[#b62d34]/20 bg-[#b62d34]/8 px-3 py-1.5 text-[#9f2028]">
                   Chi sono
                 </span>
-                <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-white/72">
+                <span className="rounded-full border border-[#d8c6bb] bg-[#f6ece5] px-3 py-1.5 text-[#5d4a45]">
                   vExpert 2026
                 </span>
               </div>
 
               <div className="space-y-5">
-                <p className="text-sm font-semibold uppercase tracking-[0.28em] text-white/48">
-                  About the person behind the notes
+                <p className="text-sm font-semibold uppercase tracking-[0.28em] text-[#8f5552]">
+                  About the person behind the archive
                 </p>
-                <h1 className="font-display max-w-4xl text-4xl leading-[0.94] tracking-[-0.05em] text-white sm:text-6xl lg:text-7xl">
-                  I build, document, and refine the systems work behind reliable
-                  products.
+                <h1 className="font-display max-w-4xl text-4xl leading-[0.94] tracking-[-0.05em] text-[#1f1715] sm:text-6xl lg:text-7xl">
+                  I build and document the systems work behind reliable digital products.
                 </h1>
-                <p className="max-w-3xl text-base leading-relaxed text-white/64 sm:text-lg">
-                  I&apos;m {siteConfig.fullName}. This site sits between a technical
-                  blog and a personal portfolio: architecture notes, automation
-                  patterns, cloud operations, and the delivery decisions that are
-                  worth documenting.
+                <p className="max-w-3xl text-base leading-relaxed text-[#5f4c47] sm:text-lg">
+                  I&apos;m {siteConfig.fullName}. I write about automation,
+                  infrastructure, and delivery patterns that hold up outside demos.
                 </p>
               </div>
 
-              <div className="grid gap-4 border-t border-white/8 pt-6 sm:grid-cols-3">
+              <div className="grid gap-4 border-t border-[#ddd1c8] pt-6 sm:grid-cols-3">
                 <div>
-                  <p className="text-[10px] font-black uppercase tracking-[0.24em] text-muted-foreground/45">
+                  <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[#8f5552]">
                     Base
                   </p>
-                  <p className="mt-2 text-sm font-semibold">{siteConfig.location}</p>
+                  <p className="mt-2 text-sm font-semibold text-[#2b201d]">{siteConfig.location}</p>
                 </div>
                 <div>
-                  <p className="text-[10px] font-black uppercase tracking-[0.24em] text-muted-foreground/45">
+                  <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[#8f5552]">
                     Focus
                   </p>
-                  <p className="mt-2 text-sm font-semibold">
+                  <p className="mt-2 text-sm font-semibold text-[#2b201d]">
                     Systems, automation, product delivery
                   </p>
                 </div>
                 <div>
-                  <p className="text-[10px] font-black uppercase tracking-[0.24em] text-muted-foreground/45">
+                  <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[#8f5552]">
                     Recognition
                   </p>
-                  <p className="mt-2 text-sm font-semibold">vExpert 2026</p>
+                  <p className="mt-2 text-sm font-semibold text-[#2b201d]">vExpert 2026</p>
                 </div>
               </div>
 
               <div className="flex flex-col gap-3 sm:flex-row">
                 <Button
                   asChild
-                  className="h-14 rounded-full bg-amber-300 px-7 text-xs font-black uppercase tracking-[0.22em] text-slate-950 hover:bg-amber-200"
+                  className="h-14 rounded-full px-7 text-xs font-black uppercase tracking-[0.22em]"
                 >
                   <a href={siteConfig.links.linkedin} target="_blank" rel="noreferrer">
                     LinkedIn profile <ArrowUpRight className="ml-2 size-4" />
@@ -156,7 +137,7 @@ export default function AboutPage() {
                 <Button
                   asChild
                   variant="outline"
-                  className="h-14 rounded-full border-white/12 bg-transparent px-7 text-xs font-black uppercase tracking-[0.22em] text-white hover:border-amber-200/30 hover:bg-white/6"
+                  className="h-14 rounded-full px-7 text-xs font-black uppercase tracking-[0.22em]"
                 >
                   <Link href="/blog">Read the blog</Link>
                 </Button>
@@ -167,27 +148,26 @@ export default function AboutPage() {
           <aside className="grid gap-5">
             <AuthorPortrait note={siteConfig.location} />
 
-            <div className="rounded-[2rem] border border-white/10 bg-[#0d1424]/72 p-6 backdrop-blur-md">
+            <div className="rounded-[2rem] border border-[#d8c6bb] bg-[#fffaf6]/82 p-6">
               <div className="flex items-center gap-3">
-                <div className="flex size-11 items-center justify-center rounded-2xl border border-amber-300/20 bg-amber-300/10 text-amber-200">
+                <div className="flex size-11 items-center justify-center rounded-2xl border border-[#b62d34]/20 bg-[#b62d34]/8 text-[#9f2028]">
                   <BadgeCheck className="size-5" />
                 </div>
                 <div>
-                  <p className="text-[10px] font-black uppercase tracking-[0.24em] text-muted-foreground/45">
+                  <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[#8f5552]">
                     Credibility
                   </p>
-                  <p className="mt-1 text-base font-semibold">vExpert 2026</p>
+                  <p className="mt-1 text-base font-semibold text-[#1f1715]">vExpert 2026</p>
                 </div>
               </div>
-              <p className="mt-5 text-sm leading-relaxed text-muted-foreground/72">
-                The vExpert title reflects community contribution around the
-                VMware ecosystem and strengthens the technical context behind
-                what gets published here.
+              <p className="mt-5 text-sm leading-relaxed text-[#5f4c47]">
+                The recognition matters because it reflects public technical
+                contribution, not only private project work.
               </p>
             </div>
 
-            <div className="rounded-[2rem] border border-white/10 bg-[#0d1424]/72 p-6 backdrop-blur-md">
-              <p className="text-[10px] font-black uppercase tracking-[0.24em] text-muted-foreground/45">
+            <div className="rounded-[2rem] border border-[#d8c6bb] bg-[#fffaf6]/82 p-6">
+              <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[#8f5552]">
                 Reach me
               </p>
               <div className="mt-5 grid gap-3">
@@ -195,7 +175,7 @@ export default function AboutPage() {
                   href={siteConfig.links.linkedin}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm font-semibold transition-colors hover:border-amber-200/20 hover:text-amber-100"
+                  className="flex items-center justify-between rounded-2xl border border-[#d8c6bb] bg-[#fffaf6] px-4 py-3 text-sm font-semibold text-[#2b201d] transition-colors hover:border-[#b62d34]/20 hover:text-[#b62d34]"
                 >
                   <span className="flex items-center gap-3">
                     <Linkedin className="size-4" />
@@ -205,7 +185,7 @@ export default function AboutPage() {
                 </a>
                 <a
                   href={`mailto:${siteConfig.email}`}
-                  className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm font-semibold transition-colors hover:border-amber-200/20 hover:text-amber-100"
+                  className="flex items-center justify-between rounded-2xl border border-[#d8c6bb] bg-[#fffaf6] px-4 py-3 text-sm font-semibold text-[#2b201d] transition-colors hover:border-[#b62d34]/20 hover:text-[#b62d34]"
                 >
                   <span className="flex items-center gap-3">
                     <Mail className="size-4" />
@@ -215,21 +195,11 @@ export default function AboutPage() {
                 </a>
                 <Link
                   href="/blog"
-                  className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm font-semibold transition-colors hover:border-amber-200/20 hover:text-amber-100"
+                  className="flex items-center justify-between rounded-2xl border border-[#d8c6bb] bg-[#fffaf6] px-4 py-3 text-sm font-semibold text-[#2b201d] transition-colors hover:border-[#b62d34]/20 hover:text-[#b62d34]"
                 >
                   <span className="flex items-center gap-3">
                     <NotebookText className="size-4" />
                     Archive
-                  </span>
-                  <ArrowUpRight className="size-4" />
-                </Link>
-                <Link
-                  href="/now"
-                  className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm font-semibold transition-colors hover:border-amber-200/20 hover:text-amber-100"
-                >
-                  <span className="flex items-center gap-3">
-                    <Activity className="size-4" />
-                    Now
                   </span>
                   <ArrowUpRight className="size-4" />
                 </Link>
@@ -238,21 +208,21 @@ export default function AboutPage() {
           </aside>
         </section>
 
-        <section className="grid gap-6 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
-          <div className="rounded-[2.25rem] border border-white/10 bg-[#0d1424]/72 p-6 backdrop-blur-md sm:p-8">
-            <p className="text-[10px] font-black uppercase tracking-[0.28em] text-amber-200/80">
+        <section className="grid gap-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
+          <div className="rounded-[2.25rem] border border-[#d8c6bb] bg-[#fffaf6]/82 p-6 sm:p-8">
+            <p className="text-[10px] font-black uppercase tracking-[0.28em] text-[#8f5552]">
               Focus areas
             </p>
             <div className="mt-6 grid gap-3">
               {focusAreas.map((item, index) => (
                 <div
                   key={item}
-                  className="flex items-start gap-4 rounded-[1.5rem] border border-white/10 bg-white/[0.03] px-4 py-4"
+                  className="flex items-start gap-4 rounded-[1.5rem] border border-[#e0d3c9] bg-[#fffaf6] px-4 py-4"
                 >
-                  <span className="mt-0.5 inline-flex size-7 shrink-0 items-center justify-center rounded-full border border-amber-300/20 bg-amber-300/10 text-[10px] font-black uppercase tracking-[0.18em] text-amber-200">
+                  <span className="mt-0.5 inline-flex size-7 shrink-0 items-center justify-center rounded-full border border-[#b62d34]/20 bg-[#b62d34]/8 text-[10px] font-black uppercase tracking-[0.18em] text-[#9f2028]">
                     0{index + 1}
                   </span>
-                  <p className="text-sm leading-relaxed text-white/72 sm:text-base">
+                  <p className="text-sm leading-relaxed text-[#4f3d38] sm:text-base">
                     {item}
                   </p>
                 </div>
@@ -260,53 +230,30 @@ export default function AboutPage() {
             </div>
           </div>
 
-          <div className="rounded-[2.25rem] border border-white/10 bg-[#0d1424]/72 p-6 backdrop-blur-md sm:p-8">
-            <p className="text-[10px] font-black uppercase tracking-[0.28em] text-amber-200/80">
-              Why this blog exists
+          <div className="rounded-[2.25rem] border border-[#d8c6bb] bg-[#fffaf6]/82 p-6 sm:p-8">
+            <p className="text-[10px] font-black uppercase tracking-[0.28em] text-[#8f5552]">
+              Short version
             </p>
-            <div className="mt-6 grid gap-4">
-              {principles.map((item) => (
-                <article
-                  key={item.title}
-                  className="rounded-[1.5rem] border border-white/10 bg-white/[0.03] p-5"
-                >
-                  <h2 className="font-display text-2xl tracking-tight text-white">{item.title}</h2>
-                  <p className="mt-3 text-sm leading-relaxed text-white/60 sm:text-base">
-                    {item.body}
-                  </p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="rounded-[2.5rem] border border-white/10 bg-[#0d1424]/72 px-6 py-8 backdrop-blur-md sm:px-8">
-          <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-            <div className="space-y-2">
-              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-amber-200/80">
-                Next step
+            <div className="mt-6 space-y-5">
+              <p className="text-base leading-relaxed text-[#4f3d38] sm:text-lg">
+                I prefer writing from implementation work rather than theory.
+                This archive is where migrations, system patterns, and
+                production lessons become usable notes.
               </p>
-              <h2 className="font-display text-3xl tracking-tight text-white sm:text-5xl">
-                If the writing resonates, start with LinkedIn or the archive.
-              </h2>
-            </div>
-
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <Button
-                asChild
-                className="h-14 rounded-full bg-amber-300 px-7 text-xs font-black uppercase tracking-[0.22em] text-slate-950 hover:bg-amber-200"
-              >
-                <a href={siteConfig.links.linkedin} target="_blank" rel="noreferrer">
-                  Open LinkedIn <ArrowUpRight className="ml-2 size-4" />
-                </a>
-              </Button>
-              <Button
-                asChild
-                variant="outline"
-                className="h-14 rounded-full border-white/12 bg-white/[0.03] px-7 text-xs font-black uppercase tracking-[0.22em] text-white hover:border-amber-200/30 hover:bg-white/[0.06]"
-              >
-                <Link href="/blog">Open archive</Link>
-              </Button>
+              <p className="text-base leading-relaxed text-[#4f3d38] sm:text-lg">
+                The goal is simple: publish fewer things, but make each one
+                more durable and more useful.
+              </p>
+              <div className="flex flex-col gap-3 pt-2 sm:flex-row">
+                <Button asChild className="h-12 rounded-full px-6 text-[11px] font-black uppercase tracking-widest">
+                  <a href={siteConfig.links.linkedin} target="_blank" rel="noreferrer">
+                    Open LinkedIn <ArrowUpRight className="ml-2 size-4" />
+                  </a>
+                </Button>
+                <Button asChild variant="outline" className="h-12 rounded-full px-6 text-[11px] font-black uppercase tracking-widest">
+                  <Link href="/blog">Open archive</Link>
+                </Button>
+              </div>
             </div>
           </div>
         </section>

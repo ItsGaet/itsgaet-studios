@@ -4,18 +4,18 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const badgeVariants = cva(
-  "inline-flex items-center justify-center rounded-lg border px-2.5 py-1 text-[10px] font-black tracking-[0.15em] uppercase w-fit whitespace-nowrap shrink-0 transition-all duration-300 [&>svg]:size-3 gap-1.5 focus-visible:ring-1 focus-visible:ring-amber-300/50",
+  "inline-flex items-center justify-center rounded-lg border px-2.5 py-1 text-[10px] font-black tracking-[0.15em] uppercase w-fit whitespace-nowrap shrink-0 transition-all duration-300 [&>svg]:size-3 gap-1.5 focus-visible:ring-2 focus-visible:ring-[#b62d34]/25",
   {
     variants: {
       variant: {
         default:
-          "border-amber-300/30 bg-amber-300/10 text-amber-200 shadow-[0_0_10px_rgba(251,191,36,0.08)] hover:border-amber-300/50 hover:bg-amber-300/20",
+          "border-[#b62d34]/20 bg-[#b62d34]/8 text-[#9f2028] shadow-[0_0_10px_rgba(182,45,52,0.08)] hover:border-[#b62d34]/35 hover:bg-[#b62d34]/12",
         secondary:
-          "border-white/12 bg-white/[0.03] text-white/72 shadow-[0_0_10px_rgba(255,255,255,0.05)] hover:border-white/20 hover:bg-white/[0.06]",
+          "border-[#d8c6bb] bg-[#fffaf6]/90 text-[#5a4945] shadow-[0_0_10px_rgba(82,56,49,0.05)] hover:border-[#c7b4a7] hover:bg-[#fff5ef]",
         destructive:
           "border-red-500/30 bg-red-500/10 text-red-400",
         outline:
-          "border-white/12 bg-white/[0.03] text-white/58 hover:border-white/20 hover:text-white hover:bg-white/[0.06]",
+          "border-[#d8c6bb] bg-transparent text-[#6d5c57] hover:border-[#b62d34]/25 hover:text-[#1f1715] hover:bg-[#fff5ef]",
       },
     },
     defaultVariants: {
