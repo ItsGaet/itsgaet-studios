@@ -35,52 +35,57 @@ export default function FloatingSidebar() {
 
   return (
     <>
-      <nav className="fixed left-6 top-1/2 z-[100] hidden -translate-y-1/2 flex-col items-center gap-6 rounded-full border border-white/10 bg-black/20 p-3 shadow-[0_0_40px_rgba(0,0,0,0.3)] backdrop-blur-2xl md:flex">
-        <div className="size-1.5 rounded-full bg-amber-300" />
+      <header className="fixed inset-x-0 top-4 z-[100] hidden px-5 md:block">
+        <div className="mx-auto flex max-w-[1180px] items-center justify-between rounded-full border border-white/10 bg-[#0b1220]/82 px-4 py-3 backdrop-blur-xl">
+          <Link
+            href="/"
+            className="font-display text-xl tracking-[-0.04em] text-white"
+          >
+            itsgaet
+          </Link>
 
-        <div className="flex flex-col gap-3">
-          {[...primaryNavItems, ...desktopOnlyItems].map((item) => {
-            const Icon = item.icon;
-            const isActive = !item.external && pathname === item.href;
+          <nav className="flex items-center gap-1">
+            {primaryNavItems.map((item) => {
+              const isActive = pathname === item.href;
 
-            return (
+              return (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className={cn(
+                    "rounded-full px-4 py-2 text-[11px] font-black uppercase tracking-[0.18em] transition-colors",
+                    isActive
+                      ? "bg-white text-slate-950"
+                      : "text-white/56 hover:text-white"
+                  )}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
+          </nav>
+
+          <div className="flex items-center gap-2">
+            {desktopOnlyItems.map((item) => (
               <Link
                 key={item.label}
                 href={item.href}
-                target={item.external ? "_blank" : undefined}
-                rel={item.external ? "noreferrer" : undefined}
-                className={cn(
-                  "group relative flex size-12 items-center justify-center rounded-full transition-all duration-300",
-                  isActive
-                    ? "bg-amber-300 text-slate-950 shadow-[0_0_20px_rgba(251,191,36,0.3)]"
-                    : "text-white/58 hover:bg-white/5 hover:text-white"
-                )}
-                aria-label={item.label}
+                target="_blank"
+                rel="noreferrer"
+                className="rounded-full px-4 py-2 text-[11px] font-black uppercase tracking-[0.18em] text-white/56 transition-colors hover:text-white"
               >
-                <Icon className="size-5 shrink-0" />
-
-                <span className="absolute left-16 scale-90 rounded-xl border border-white/10 bg-black/80 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.2em] text-white opacity-0 transition-all backdrop-blur-md group-hover:scale-100 group-hover:opacity-100">
-                  {item.label}
-                </span>
-
-                {isActive && (
-                  <div className="absolute -left-1 h-4 w-0.5 rounded-full bg-amber-300 shadow-[0_0_10px_rgba(251,191,36,0.8)]" />
-                )}
+                {item.label}
               </Link>
-            );
-          })}
+            ))}
+            <a
+              href={`mailto:${siteConfig.email}`}
+              className="rounded-full border border-white/10 px-4 py-2 text-[11px] font-black uppercase tracking-[0.18em] text-white transition-colors hover:border-amber-200/20 hover:text-amber-100"
+            >
+              Email
+            </a>
+          </div>
         </div>
-
-        <div className="h-px w-6 bg-white/10" />
-
-        <a
-          href={`mailto:${siteConfig.email}`}
-          className="flex size-12 items-center justify-center rounded-full text-white/54 transition-colors hover:text-white"
-          aria-label="Email"
-        >
-          <Mail className="size-5" />
-        </a>
-      </nav>
+      </header>
 
       <nav className="fixed bottom-4 left-1/2 z-[100] flex w-[calc(100%-1rem)] max-w-md -translate-x-1/2 items-center justify-between gap-1 rounded-[1.75rem] border border-white/10 bg-black/55 p-2 shadow-2xl backdrop-blur-3xl md:hidden">
         {primaryNavItems.map((item) => {

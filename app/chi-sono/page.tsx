@@ -9,6 +9,7 @@ import {
   NotebookText,
 } from "lucide-react";
 
+import AuthorPortrait from "@/components/home/author-portrait";
 import SocialFooter from "@/components/home/social-footer";
 import { Button } from "@/components/ui/button";
 import { absoluteUrl, siteConfig } from "@/lib/site";
@@ -109,13 +110,14 @@ export default function AboutPage() {
                   About the person behind the notes
                 </p>
                 <h1 className="font-display max-w-4xl text-4xl leading-[0.94] tracking-[-0.05em] text-white sm:text-6xl lg:text-7xl">
-                  I&apos;m {siteConfig.fullName}, and this blog is my operating
-                  log for modern systems work.
+                  I build, document, and refine the systems work behind reliable
+                  products.
                 </h1>
                 <p className="max-w-3xl text-base leading-relaxed text-white/64 sm:text-lg">
-                  I write about architecture, automation, cloud infrastructure,
-                  and product engineering with a bias toward clarity, operational
-                  realism, and useful documentation.
+                  I&apos;m {siteConfig.fullName}. This site sits between a technical
+                  blog and a personal portfolio: architecture notes, automation
+                  patterns, cloud operations, and the delivery decisions that are
+                  worth documenting.
                 </p>
               </div>
 
@@ -163,6 +165,8 @@ export default function AboutPage() {
           </div>
 
           <aside className="grid gap-5">
+            <AuthorPortrait note={siteConfig.location} />
+
             <div className="rounded-[2rem] border border-white/10 bg-[#0d1424]/72 p-6 backdrop-blur-md">
               <div className="flex items-center gap-3">
                 <div className="flex size-11 items-center justify-center rounded-2xl border border-amber-300/20 bg-amber-300/10 text-amber-200">

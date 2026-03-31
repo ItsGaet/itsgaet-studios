@@ -59,7 +59,7 @@ export default function RootLayout({
 
         <div
           id="content"
-          className="relative pb-24 transition-all duration-500 md:pb-0"
+          className="relative pb-24 pt-20 transition-all duration-500 md:pb-0 md:pt-24"
         >
           {children}
         </div>
