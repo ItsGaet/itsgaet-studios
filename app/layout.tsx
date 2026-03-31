@@ -46,12 +46,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark scroll-smooth">
-      <body className="min-h-screen bg-background font-sans antialiased selection:bg-fuchsia-500/30 selection:text-fuchsia-200">
+      <body className="min-h-screen bg-background font-sans antialiased">
+        <a
+          href="#content"
+          className="sr-only fixed left-4 top-4 z-[10000] rounded-full bg-amber-300 px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-slate-950 shadow-lg focus:not-sr-only"
+        >
+          Skip to content
+        </a>
         <div className="noise-overlay pointer-events-none fixed inset-0 z-[9999]" />
 
         <FloatingSidebar />
 
-        <div className="relative pb-24 transition-all duration-500 md:pb-0">
+        <div
+          id="content"
+          className="relative pb-24 transition-all duration-500 md:pb-0"
+        >
           {children}
         </div>
       </body>

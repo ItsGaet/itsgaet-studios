@@ -48,7 +48,9 @@
 
 :root {
   --radius: 0.625rem;
-  --font-sans-base: Inter, "Aptos", "Segoe UI", sans-serif;
+  --font-sans-base: "Aptos", "Segoe UI", "Helvetica Neue", sans-serif;
+  --font-display-base: "Iowan Old Style", "Palatino Linotype", "Book Antiqua",
+    Georgia, serif;
   --font-mono-base: "JetBrains Mono", "SFMono-Regular", "Cascadia Code", monospace;
   --background: oklch(1 0 0);
   --foreground: oklch(0.141 0.005 285.823);
@@ -126,17 +128,31 @@
   }
   body {
     @apply bg-background text-foreground font-sans antialiased;
+    background-image:
+      radial-gradient(circle at top, rgba(245, 158, 11, 0.08), transparent 28%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 30%),
+      linear-gradient(180deg, #0a1020 0%, #0c1224 54%, #0a0f1c 100%);
+    background-attachment: fixed;
+  }
+
+  ::selection {
+    background: rgba(245, 158, 11, 0.24);
+    color: white;
   }
 }
 
 @layer utilities {
+  .font-display {
+    font-family: var(--font-display-base);
+  }
+
   .noise-overlay {
-    opacity: 0.028;
+    opacity: 0.018;
     background-image:
-      radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.14) 0, transparent 22%),
-      radial-gradient(circle at 80% 0%, rgba(255, 255, 255, 0.08) 0, transparent 18%),
-      radial-gradient(circle at 50% 100%, rgba(255, 255, 255, 0.08) 0, transparent 20%);
-    mix-blend-mode: soft-light;
+      radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.12) 0, transparent 22%),
+      radial-gradient(circle at 80% 0%, rgba(255, 255, 255, 0.06) 0, transparent 18%),
+      radial-gradient(circle at 50% 100%, rgba(255, 255, 255, 0.06) 0, transparent 20%);
+    mix-blend-mode: screen;
   }
 
   @keyframes hero-fade-up {

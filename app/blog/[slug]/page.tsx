@@ -97,17 +97,17 @@ export default async function BlogPostPage({
       />
 
       <div className="pointer-events-none absolute inset-0 select-none">
-        <div className="absolute top-0 right-0 h-[500px] w-[500px] rounded-full bg-fuchsia-500/[0.07] blur-[150px]" />
-        <div className="absolute bottom-0 left-0 h-[500px] w-[500px] rounded-full bg-cyan-500/[0.05] blur-[150px]" />
+        <div className="absolute top-0 right-0 h-[500px] w-[500px] rounded-full bg-amber-300/[0.08] blur-[150px]" />
+        <div className="absolute bottom-0 left-0 h-[500px] w-[500px] rounded-full bg-white/[0.04] blur-[150px]" />
       </div>
 
       <main className="relative mx-auto flex w-full max-w-[1600px] flex-col gap-8 px-6 pb-24 pt-8 sm:px-10 lg:px-16 lg:pt-12">
         <nav className="flex items-center">
           <Link
             href="/blog"
-            className="group flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground/50 transition-colors hover:text-fuchsia-500"
+            className="group flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] text-white/42 transition-colors hover:text-amber-200"
           >
-            <div className="flex size-8 items-center justify-center rounded-full border border-border/40 bg-card/40 transition-all group-hover:border-fuchsia-500/50 group-hover:bg-fuchsia-500/10">
+            <div className="flex size-8 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] transition-all group-hover:border-amber-200/40 group-hover:bg-white/[0.06]">
               <ChevronLeft className="size-4 transition-transform group-hover:-translate-x-0.5" />
             </div>
             Back to Archive
@@ -120,18 +120,18 @@ export default async function BlogPostPage({
           <div className="space-y-12">
             <BlogPostContent body={post.body} />
 
-            <div className="flex flex-col gap-4 border-t border-border/10 pt-12 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-col gap-4 border-t border-white/8 pt-12 sm:flex-row sm:items-center sm:justify-between">
               <div className="flex flex-col gap-1">
-                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground/30">
+                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/34">
                   Thank you for reading
                 </span>
-                <p className="text-sm font-medium text-muted-foreground/60">
+                <p className="text-sm font-medium text-white/56">
                   Share your thoughts on this topic.
                 </p>
               </div>
               <Button
                 variant="outline"
-                className="rounded-full border-fuchsia-500/20 hover:bg-fuchsia-500/5 hover:text-fuchsia-500"
+                className="rounded-full border-white/12 bg-white/[0.03] text-white hover:border-amber-200/30 hover:bg-white/[0.06] hover:text-amber-100"
                 asChild
               >
                 <a href={`mailto:${siteConfig.email}?subject=Re: ${post.title}`}>
@@ -141,15 +141,15 @@ export default async function BlogPostPage({
             </div>
 
             {relatedPosts.length > 0 && (
-              <section className="space-y-6 border-t border-border/10 pt-12">
+              <section className="space-y-6 border-t border-white/8 pt-12">
                 <div className="space-y-2">
-                  <p className="text-[10px] font-black uppercase tracking-[0.3em] text-fuchsia-500">
+                  <p className="text-[10px] font-black uppercase tracking-[0.3em] text-amber-200/80">
                     Related notes
                   </p>
-                  <h2 className="text-3xl font-black tracking-tight">
+                  <h2 className="font-display text-4xl tracking-[-0.04em] text-white">
                     Continue from the same line of thought.
                   </h2>
-                  <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground/72 sm:text-base">
+                  <p className="max-w-2xl text-sm leading-relaxed text-white/60 sm:text-base">
                     These posts share nearby topics or reinforce the same
                     production concerns.
                   </p>
@@ -160,20 +160,20 @@ export default async function BlogPostPage({
                     <Link
                       key={relatedPost.slug}
                       href={`/blog/${relatedPost.slug}`}
-                      className="rounded-[1.75rem] border border-border/35 bg-card/25 p-5 transition-colors hover:border-fuchsia-500/30"
+                      className="rounded-[1.75rem] border border-white/10 bg-white/[0.03] p-5 transition-colors hover:border-amber-200/20 hover:bg-white/[0.05]"
                     >
                       <div className="flex items-center justify-between gap-4">
-                        <span className="text-[10px] font-black uppercase tracking-[0.24em] text-cyan-400/80">
+                        <span className="text-[10px] font-black uppercase tracking-[0.24em] text-amber-200/80">
                           {relatedPost.tags[0]}
                         </span>
-                        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/45">
+                        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/38">
                           {relatedPost.readTime}
                         </span>
                       </div>
-                      <h3 className="mt-3 text-xl font-black tracking-tight">
+                      <h3 className="font-display mt-3 text-2xl tracking-tight text-white">
                         {relatedPost.title}
                       </h3>
-                      <p className="mt-2 text-sm leading-relaxed text-muted-foreground/72">
+                      <p className="mt-2 text-sm leading-relaxed text-white/60">
                         {relatedPost.summary}
                       </p>
                     </Link>
@@ -190,7 +190,7 @@ export default async function BlogPostPage({
           </aside>
         </div>
 
-        <section className="mt-20 border-t border-border/10 pt-10">
+        <section className="mt-20 border-t border-white/8 pt-10">
           <SocialFooter />
         </section>
       </main>

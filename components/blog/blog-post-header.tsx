@@ -11,24 +11,22 @@ type BlogPostHeaderProps = {
 
 export default function BlogPostHeader({ post }: BlogPostHeaderProps) {
   return (
-    <header className="relative overflow-hidden rounded-[2.5rem] border border-border/40 bg-card/40 backdrop-blur-xl px-8 py-16 sm:px-14">
+    <header className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-[#0d1424]/88 px-8 py-14 backdrop-blur-xl sm:px-14 sm:py-16">
       <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-fuchsia-500/40 to-transparent" />
-        <div className="absolute right-[-10%] top-[-20%] size-96 rounded-full bg-fuchsia-500/15 blur-[120px]" />
-        <div className="absolute left-[-5%] bottom-[-30%] size-80 rounded-full bg-cyan-500/10 blur-[100px]" />
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-amber-300/40 to-transparent" />
+        <div className="absolute right-[-10%] top-[-20%] size-96 rounded-full bg-amber-300/10 blur-[120px]" />
       </div>
 
       <div className="relative z-10 space-y-8">
         <div className="flex flex-wrap items-center gap-6">
-          <div className="flex items-center gap-2 rounded-full border border-fuchsia-500/20 bg-fuchsia-500/5 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-fuchsia-500">
+          <div className="flex items-center gap-2 rounded-full border border-amber-300/20 bg-amber-300/8 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-amber-200">
             <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-fuchsia-400 opacity-75" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-fuchsia-500" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-200" />
             </span>
             Community note
           </div>
 
-          <div className="flex items-center gap-4 text-[11px] font-bold uppercase tracking-widest text-muted-foreground/60">
+          <div className="flex items-center gap-4 text-[11px] font-bold uppercase tracking-widest text-white/44">
             <div className="flex items-center gap-1.5">
               <Calendar className="size-3.5" />
               {formatDisplayDate(post.date)}
@@ -41,16 +39,16 @@ export default function BlogPostHeader({ post }: BlogPostHeaderProps) {
           </div>
         </div>
 
-        <h1 className="max-w-4xl text-4xl font-black leading-[1.1] tracking-tighter sm:text-6xl lg:text-7xl">
+        <h1 className="font-display max-w-5xl text-4xl leading-[0.98] tracking-[-0.045em] text-white sm:text-6xl lg:text-7xl">
           {post.title.split(" ").map((word, i) => (
-            <span key={i} className={i % 4 === 0 ? "text-foreground" : "text-foreground/90"}>
+            <span key={i} className={i % 5 === 0 ? "text-amber-100" : "text-white"}>
               {word}{" "}
             </span>
           ))}
         </h1>
 
-        <div className="border-l-2 border-fuchsia-500/30 pl-6">
-          <p className="max-w-3xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
+        <div className="max-w-3xl border-l-2 border-amber-300/30 pl-6">
+          <p className="text-lg leading-relaxed text-white/66 sm:text-xl">
             {post.summary}
           </p>
         </div>
@@ -60,7 +58,7 @@ export default function BlogPostHeader({ post }: BlogPostHeaderProps) {
             <Badge key={tag} variant="secondary" asChild>
               <Link
                 href={`/topics/${tag}`}
-                className="rounded-lg bg-secondary/50 px-3 py-1 text-[11px] font-bold uppercase tracking-wider transition-colors hover:bg-fuchsia-500 hover:text-white"
+                className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-white/70 transition-colors hover:border-amber-200/25 hover:bg-amber-300 hover:text-slate-950"
               >
                 #{tag}
               </Link>

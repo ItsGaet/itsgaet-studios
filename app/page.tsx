@@ -52,7 +52,7 @@ export default function Home() {
   return (
     <div
       id="top"
-      className="relative min-h-screen overflow-hidden bg-background [background-image:radial-gradient(circle_at_center,rgba(217,70,239,0.03),transparent_70%)]"
+      className="relative min-h-screen overflow-hidden bg-background"
     >
       <script
         type="application/ld+json"
@@ -60,9 +60,8 @@ export default function Home() {
       />
 
       <div className="pointer-events-none absolute inset-0 select-none">
-        <div className="absolute -top-32 right-[-5%] h-[600px] w-[600px] rounded-full bg-fuchsia-500/10 blur-[180px] animate-pulse duration-[10s]" />
-        <div className="absolute top-[30%] left-[-10%] h-[500px] w-[500px] rounded-full bg-cyan-500/10 blur-[150px]" />
-        <div className="absolute bottom-[-20%] left-1/2 -translate-x-1/2 h-[600px] w-[800px] rounded-full bg-fuchsia-600/5 blur-[200px]" />
+        <div className="absolute -top-32 right-[-5%] h-[600px] w-[600px] rounded-full bg-amber-300/10 blur-[180px]" />
+        <div className="absolute bottom-[-20%] left-1/2 h-[600px] w-[800px] -translate-x-1/2 rounded-full bg-white/4 blur-[200px]" />
         <div className="absolute inset-0 opacity-[0.02] [background-image:linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] [background-size:100px_100px]" />
       </div>
 

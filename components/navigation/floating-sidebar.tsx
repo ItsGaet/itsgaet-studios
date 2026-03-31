@@ -36,7 +36,7 @@ export default function FloatingSidebar() {
   return (
     <>
       <nav className="fixed left-6 top-1/2 z-[100] hidden -translate-y-1/2 flex-col items-center gap-6 rounded-full border border-white/10 bg-black/20 p-3 shadow-[0_0_40px_rgba(0,0,0,0.3)] backdrop-blur-2xl md:flex">
-        <div className="size-1.5 animate-pulse rounded-full bg-fuchsia-500" />
+        <div className="size-1.5 rounded-full bg-amber-300" />
 
         <div className="flex flex-col gap-3">
           {[...primaryNavItems, ...desktopOnlyItems].map((item) => {
@@ -52,19 +52,19 @@ export default function FloatingSidebar() {
                 className={cn(
                   "group relative flex size-12 items-center justify-center rounded-full transition-all duration-300",
                   isActive
-                    ? "bg-fuchsia-500 text-white shadow-[0_0_20px_rgba(217,70,239,0.4)]"
-                    : "text-muted-foreground hover:bg-white/5 hover:text-fuchsia-400"
+                    ? "bg-amber-300 text-slate-950 shadow-[0_0_20px_rgba(251,191,36,0.3)]"
+                    : "text-white/58 hover:bg-white/5 hover:text-white"
                 )}
                 aria-label={item.label}
               >
                 <Icon className="size-5 shrink-0" />
 
-                <span className="absolute left-16 scale-90 rounded-xl border border-white/10 bg-black/80 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.2em] text-white opacity-0 transition-all group-hover:scale-100 group-hover:opacity-100 backdrop-blur-md">
+                <span className="absolute left-16 scale-90 rounded-xl border border-white/10 bg-black/80 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.2em] text-white opacity-0 transition-all backdrop-blur-md group-hover:scale-100 group-hover:opacity-100">
                   {item.label}
                 </span>
 
                 {isActive && (
-                  <div className="absolute -left-1 h-4 w-0.5 rounded-full bg-fuchsia-500 shadow-[0_0_10px_rgba(217,70,239,0.8)]" />
+                  <div className="absolute -left-1 h-4 w-0.5 rounded-full bg-amber-300 shadow-[0_0_10px_rgba(251,191,36,0.8)]" />
                 )}
               </Link>
             );
@@ -75,7 +75,7 @@ export default function FloatingSidebar() {
 
         <a
           href={`mailto:${siteConfig.email}`}
-          className="flex size-12 items-center justify-center rounded-full text-muted-foreground transition-colors hover:text-cyan-400"
+          className="flex size-12 items-center justify-center rounded-full text-white/54 transition-colors hover:text-white"
           aria-label="Email"
         >
           <Mail className="size-5" />
@@ -96,8 +96,8 @@ export default function FloatingSidebar() {
               className={cn(
                 "flex min-w-0 flex-1 items-center justify-center gap-2 rounded-[1.15rem] px-3 py-3 text-xs font-black uppercase tracking-[0.18em] transition-all duration-300",
                 isActive
-                  ? "bg-fuchsia-500 text-white shadow-lg"
-                  : "text-muted-foreground hover:bg-white/5"
+                  ? "bg-amber-300 text-slate-950 shadow-lg"
+                  : "text-white/54 hover:bg-white/5"
               )}
               aria-label={item.label}
             >
@@ -111,7 +111,7 @@ export default function FloatingSidebar() {
 
         <a
           href={`mailto:${siteConfig.email}`}
-          className="flex size-11 shrink-0 items-center justify-center rounded-[1.15rem] border border-white/10 text-muted-foreground transition-colors hover:text-cyan-300"
+          className="flex size-11 shrink-0 items-center justify-center rounded-[1.15rem] border border-white/10 text-white/54 transition-colors hover:text-white"
           aria-label="Email"
         >
           <Mail className="size-4" />

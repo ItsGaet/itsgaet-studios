@@ -16,58 +16,58 @@ export default function BlogHeader({
   latestPostDate,
 }: BlogHeaderProps) {
   return (
-    <header className="relative overflow-hidden rounded-[2.5rem] border border-border/40 bg-card/30 backdrop-blur-md px-8 py-12 sm:px-14">
+    <header className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-[#0c1425]/90 px-8 py-12 sm:px-14">
       <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-fuchsia-500/30 to-transparent" />
-        <div className="absolute right-[-10%] top-[-20%] size-96 rounded-full bg-fuchsia-500/10 blur-[120px]" />
-        <div className="absolute left-[-10%] bottom-[-30%] size-80 rounded-full bg-cyan-500/5 blur-[100px]" />
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-amber-300/30 to-transparent" />
+        <div className="absolute right-[-10%] top-[-20%] size-96 rounded-full bg-amber-300/8 blur-[120px]" />
       </div>
 
-      <div className="relative flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between">
-        <div className="space-y-6">
-          <div className="space-y-2">
-            <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] text-fuchsia-500">
-              <span className="h-px w-8 bg-fuchsia-500/40" />
+      <div className="relative flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
+        <div className="max-w-4xl space-y-7">
+          <div className="space-y-3">
+            <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] text-amber-200/80">
+              <span className="h-px w-8 bg-amber-200/40" />
               Resource Archive
             </div>
-            <h1 className="text-5xl font-black tracking-tighter sm:text-7xl">
-              Blog<span className="text-fuchsia-500">.</span>
+            <h1 className="font-display text-5xl tracking-[-0.05em] text-white sm:text-7xl">
+              Archive<span className="text-amber-200">.</span>
             </h1>
           </div>
-          
-          <p className="max-w-xl text-lg leading-relaxed text-muted-foreground/80">
-            Technical notes, field-tested patterns, and clear
-            runbooks for modern products.
+
+          <p className="max-w-2xl text-lg leading-relaxed text-white/64">
+            Technical notes, field-tested patterns, and clear runbooks for modern
+            products. Search, filter by topic, and move through the archive like a
+            library instead of a feed.
           </p>
 
-          <div className="flex flex-wrap gap-4">
-            <div className="flex items-center gap-3 rounded-2xl border border-border/40 bg-background/40 px-5 py-3 transition-colors hover:border-fuchsia-500/30">
-              <div className="flex size-10 items-center justify-center rounded-xl bg-fuchsia-500/10 text-fuchsia-500">
+          <div className="grid gap-3 sm:grid-cols-3">
+            <div className="flex items-center gap-3 rounded-[1.5rem] border border-white/10 bg-white/[0.03] px-5 py-4">
+              <div className="flex size-10 items-center justify-center rounded-xl bg-amber-300/10 text-amber-200">
                 <FileText className="size-5" />
               </div>
               <div>
-                <p className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground/50">Posts</p>
-                <p className="text-xl font-black leading-none">{postCount}</p>
+                <p className="text-[9px] font-bold uppercase tracking-widest text-white/40">Posts</p>
+                <p className="text-xl font-black leading-none text-white">{postCount}</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-3 rounded-2xl border border-border/40 bg-background/40 px-5 py-3 transition-colors hover:border-cyan-500/30">
-              <div className="flex size-10 items-center justify-center rounded-xl bg-cyan-500/10 text-cyan-500">
+            <div className="flex items-center gap-3 rounded-[1.5rem] border border-white/10 bg-white/[0.03] px-5 py-4">
+              <div className="flex size-10 items-center justify-center rounded-xl bg-amber-300/10 text-amber-200">
                 <LayoutGrid className="size-5" />
               </div>
               <div>
-                <p className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground/50">Topics</p>
-                <p className="text-xl font-black leading-none">{topicCount}</p>
+                <p className="text-[9px] font-bold uppercase tracking-widest text-white/40">Topics</p>
+                <p className="text-xl font-black leading-none text-white">{topicCount}</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-3 rounded-2xl border border-border/40 bg-background/40 px-5 py-3 transition-colors hover:border-white/20">
-              <div className="flex size-10 items-center justify-center rounded-xl bg-white/5 text-muted-foreground">
+            <div className="flex items-center gap-3 rounded-[1.5rem] border border-white/10 bg-white/[0.03] px-5 py-4">
+              <div className="flex size-10 items-center justify-center rounded-xl bg-white/5 text-white/70">
                 <Zap className="size-5" />
               </div>
               <div>
-                <p className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground/50">Last Update</p>
-                <p className="text-sm font-black leading-none">
+                <p className="text-[9px] font-bold uppercase tracking-widest text-white/40">Last update</p>
+                <p className="text-sm font-black leading-none text-white">
                   {latestPostDate ? formatDisplayDate(latestPostDate) : "—"}
                 </p>
               </div>
@@ -79,7 +79,7 @@ export default function BlogHeader({
           <Button
             variant="outline"
             asChild
-            className="group h-14 rounded-full border-border/40 bg-background/40 px-6 text-xs font-bold uppercase tracking-widest backdrop-blur-sm transition-all hover:border-cyan-300/40 hover:bg-cyan-300/5"
+            className="group h-14 rounded-full border-white/12 bg-transparent px-6 text-xs font-bold uppercase tracking-widest text-white backdrop-blur-sm transition-all hover:border-amber-200/40 hover:bg-white/6"
           >
             <a href="/feed.xml">
               RSS Feed
@@ -89,7 +89,7 @@ export default function BlogHeader({
           <Button
             variant="outline"
             asChild
-            className="group h-14 rounded-full border-border/40 bg-background/40 px-8 text-xs font-bold uppercase tracking-widest backdrop-blur-sm transition-all hover:border-fuchsia-500/50 hover:bg-fuchsia-500/5"
+            className="group h-14 rounded-full border-white/12 bg-transparent px-8 text-xs font-bold uppercase tracking-widest text-white backdrop-blur-sm transition-all hover:border-amber-200/40 hover:bg-white/6"
           >
             <Link href="/">
               Back to Home

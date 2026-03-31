@@ -4,27 +4,22 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-2xl text-[11px] font-black uppercase tracking-[0.15em] transition-all duration-300 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-3.5 shrink-0 outline-none focus-visible:ring-1 focus-visible:ring-fuchsia-500/50",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-2xl text-[11px] font-black uppercase tracking-[0.15em] transition-all duration-300 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-3.5 shrink-0 outline-none focus-visible:ring-1 focus-visible:ring-amber-300/50",
   {
     variants: {
       variant: {
-        // Il bottone principale: Pieno fucsia con glow
         default:
-          "bg-fuchsia-500 text-white shadow-[0_0_20px_rgba(217,70,239,0.3)] hover:bg-fuchsia-600 hover:shadow-[0_0_25px_rgba(217,70,239,0.5)] hover:scale-[1.02] active:scale-[0.98]",
-        // Variante tech: Rossa/Arancio per errori
+          "bg-amber-300 text-slate-950 shadow-[0_18px_40px_-20px_rgba(251,191,36,0.7)] hover:bg-amber-200 hover:shadow-[0_22px_45px_-22px_rgba(251,191,36,0.8)] hover:scale-[1.02] active:scale-[0.98]",
         destructive:
           "bg-red-500/10 border border-red-500/30 text-red-400 hover:bg-red-500 hover:text-white shadow-[0_0_15px_rgba(239,68,68,0.1)]",
-        // Variante Glass: Bordo traslucido e sfondo sfocato
         outline:
-          "border border-border/40 bg-background/40 backdrop-blur-sm text-foreground hover:border-fuchsia-500/40 hover:bg-fuchsia-500/5 hover:text-fuchsia-500",
-        // Variante Cyan per azioni secondarie
+          "border border-white/12 bg-white/[0.03] backdrop-blur-sm text-white hover:border-amber-200/30 hover:bg-white/[0.06] hover:text-white",
         secondary:
-          "bg-cyan-500 text-white shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:bg-cyan-600 hover:shadow-[0_0_25px_rgba(6,182,212,0.5)] hover:scale-[1.02]",
-        // Variante minima: Solo testo che si illumina
+          "bg-white text-slate-950 shadow-[0_18px_40px_-24px_rgba(255,255,255,0.8)] hover:bg-white/90 hover:scale-[1.02]",
         ghost:
-          "bg-transparent text-muted-foreground hover:text-fuchsia-500 hover:bg-fuchsia-500/5",
+          "bg-transparent text-white/58 hover:text-white hover:bg-white/5",
         link:
-          "text-fuchsia-500 underline-offset-4 hover:underline",
+          "text-amber-200 underline-offset-4 hover:underline",
       },
       size: {
         default: "h-11 px-6",
