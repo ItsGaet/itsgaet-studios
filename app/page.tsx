@@ -26,10 +26,11 @@ export default function Home() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Person",
-    name: siteConfig.name,
+    name: siteConfig.fullName,
     description: siteConfig.description,
     email: siteConfig.email,
     url: siteConfig.url,
+    jobTitle: siteConfig.role,
     sameAs: Object.values(siteConfig.links),
     address: {
       "@type": "PostalAddress",

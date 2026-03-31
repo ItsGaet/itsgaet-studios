@@ -2,7 +2,6 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { siteConfig } from "@/lib/site";
 
 const principles = [
   "Systems before ornament",
@@ -42,6 +41,9 @@ export default function HomeHero() {
               <span className="inline-flex items-center rounded-full border border-fuchsia-400/20 bg-fuchsia-400/10 px-3 py-1.5">
                 itsgaet studio
               </span>
+              <span className="inline-flex items-center rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1.5 text-cyan-200">
+                vExpert 2026
+              </span>
               <span className="text-white/35">systems journal 2026</span>
             </div>
 
@@ -78,7 +80,7 @@ export default function HomeHero() {
                 asChild
                 className="h-14 rounded-full border-white/12 bg-white/4 px-7 text-xs font-black uppercase tracking-[0.22em] text-white/84 backdrop-blur-sm hover:border-cyan-300/30 hover:bg-white/8"
               >
-                <a href={`mailto:${siteConfig.email}`}>Start a conversation</a>
+                <Link href="/chi-sono">Chi sono</Link>
               </Button>
             </div>
           </div>

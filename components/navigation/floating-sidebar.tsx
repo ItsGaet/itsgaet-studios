@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpen, Github, Home, Mail } from "lucide-react";
+import { BookOpen, Github, Home, Mail, UserRound } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { siteConfig } from "@/lib/site";
@@ -10,6 +10,7 @@ import { siteConfig } from "@/lib/site";
 const navItems = [
   { label: "Home", href: "/", icon: Home },
   { label: "Blog", href: "/blog", icon: BookOpen },
+  { label: "Chi sono", href: "/chi-sono", icon: UserRound },
   {
     label: "Github",
     href: siteConfig.links.github,

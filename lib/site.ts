@@ -1,5 +1,6 @@
 export const siteConfig = {
   name: "itsgaet",
+  fullName: "Gaetano Abbaticchio",
   title: "itsgaet | Systems, notes, and product engineering",
   description:
     "Technical notes, system design patterns, and practical runbooks for shipping modern digital products.",
@@ -12,6 +13,8 @@ export const siteConfig = {
   locale: "en_US",
   email: "gaetanoabbaticchio8@gmail.com",
   location: "Bisceglie, Italy",
+  role: "Systems-minded product engineer",
+  credentials: ["vExpert 2026"],
   keywords: [
     "software engineering",
     "system design",

@@ -68,12 +68,12 @@ export default async function BlogPostPage({
     keywords: post.tags.join(", "),
     author: {
       "@type": "Person",
-      name: siteConfig.name,
+      name: siteConfig.fullName,
       url: siteConfig.url,
     },
     publisher: {
       "@type": "Person",
-      name: siteConfig.name,
+      name: siteConfig.fullName,
     },
     mainEntityOfPage: absoluteUrl(`/blog/${post.slug}`),
   };

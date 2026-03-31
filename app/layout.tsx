@@ -28,8 +28,8 @@ export const metadata: Metadata = {
     title: siteConfig.title,
     description: siteConfig.description,
   },
-  authors: [{ name: siteConfig.name, url: siteConfig.links.github }],
-  creator: siteConfig.name,
+  authors: [{ name: siteConfig.fullName, url: siteConfig.links.linkedin }],
+  creator: siteConfig.fullName,
   publisher: siteConfig.name,
   category: "technology",
 };
