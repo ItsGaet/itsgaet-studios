@@ -8,7 +8,7 @@ import BlogPostHeader from "@/components/blog/blog-post-header";
 import BlogPostSidebar from "@/components/blog/blog-post-sidebar";
 import SocialFooter from "@/components/home/social-footer";
 import { Button } from "@/components/ui/button";
-import { getAllPosts, getPostBySlug } from "@/lib/posts";
+import { getAllPosts, getPostBySlug, getRelatedPosts } from "@/lib/posts";
 import { absoluteUrl, getPostOgImagePath, siteConfig } from "@/lib/site";
 
 export const dynamicParams = false;
@@ -27,8 +27,10 @@ export const generateMetadata = async ({
 
   return {
     title: post.title,
-    description: post.summary,
+    description: `${post.summary} Published by ${siteConfig.fullName} on ${siteConfig.name}.`,
     keywords: post.tags,
+    authors: [{ name: siteConfig.fullName, url: siteConfig.links.linkedin }],
+    category: post.tags[0],
     alternates: {
       canonical: absoluteUrl(`/blog/${post.slug}`),
       types: {
@@ -39,15 +41,17 @@ export const generateMetadata = async ({
       type: "article",
       url: absoluteUrl(`/blog/${post.slug}`),
       title: post.title,
-      description: post.summary,
+      description: `${post.summary} Published by ${siteConfig.fullName} on ${siteConfig.name}.`,
       publishedTime: `${post.date}T00:00:00.000Z`,
       tags: post.tags,
+      authors: [siteConfig.fullName],
+      siteName: siteConfig.name,
       images: [absoluteUrl(getPostOgImagePath(post.slug))],
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
-      description: post.summary,
+      description: `${post.summary} Published by ${siteConfig.fullName} on ${siteConfig.name}.`,
       images: [absoluteUrl(getPostOgImagePath(post.slug))],
     },
   };
@@ -62,6 +66,8 @@ export default async function BlogPostPage({
   const post = getPostBySlug(slug);
 
   if (!post) notFound();
+
+  const relatedPosts = getRelatedPosts(post.slug, 3);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -133,6 +139,48 @@ export default async function BlogPostPage({
                 </a>
               </Button>
             </div>
+
+            {relatedPosts.length > 0 && (
+              <section className="space-y-6 border-t border-border/10 pt-12">
+                <div className="space-y-2">
+                  <p className="text-[10px] font-black uppercase tracking-[0.3em] text-fuchsia-500">
+                    Related notes
+                  </p>
+                  <h2 className="text-3xl font-black tracking-tight">
+                    Continue from the same line of thought.
+                  </h2>
+                  <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground/72 sm:text-base">
+                    These posts share nearby topics or reinforce the same
+                    production concerns.
+                  </p>
+                </div>
+
+                <div className="grid gap-4 lg:grid-cols-2">
+                  {relatedPosts.map((relatedPost) => (
+                    <Link
+                      key={relatedPost.slug}
+                      href={`/blog/${relatedPost.slug}`}
+                      className="rounded-[1.75rem] border border-border/35 bg-card/25 p-5 transition-colors hover:border-fuchsia-500/30"
+                    >
+                      <div className="flex items-center justify-between gap-4">
+                        <span className="text-[10px] font-black uppercase tracking-[0.24em] text-cyan-400/80">
+                          {relatedPost.tags[0]}
+                        </span>
+                        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/45">
+                          {relatedPost.readTime}
+                        </span>
+                      </div>
+                      <h3 className="mt-3 text-xl font-black tracking-tight">
+                        {relatedPost.title}
+                      </h3>
+                      <p className="mt-2 text-sm leading-relaxed text-muted-foreground/72">
+                        {relatedPost.summary}
+                      </p>
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            )}
           </div>
 
           <aside className="relative">

@@ -3,9 +3,9 @@ export const siteConfig = {
   fullName: "Gaetano Abbaticchio",
   title: "itsgaet | Systems, notes, and product engineering",
   description:
-    "Technical notes, system design patterns, and practical runbooks for shipping modern digital products.",
+    "Gaetano Abbaticchio writes technical notes, system design patterns, and practical runbooks for teams shipping modern digital products.",
   shortDescription:
-    "Technical notes, field-tested patterns, and calm product engineering.",
+    "Systems notes, field-tested patterns, and calm product engineering by Gaetano Abbaticchio.",
   url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://itsgaet.github.io").replace(
     /\/$/,
     ""

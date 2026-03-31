@@ -2,15 +2,26 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpen, Github, Home, Mail, UserRound } from "lucide-react";
+import { Activity, BookOpen, Github, Home, Mail, UserRound } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { siteConfig } from "@/lib/site";
 
-const navItems = [
+type NavItem = {
+  label: string;
+  href: string;
+  icon: typeof Home;
+  external?: boolean;
+};
+
+const primaryNavItems: NavItem[] = [
   { label: "Home", href: "/", icon: Home },
   { label: "Blog", href: "/blog", icon: BookOpen },
+  { label: "Now", href: "/now", icon: Activity },
   { label: "Chi sono", href: "/chi-sono", icon: UserRound },
+];
+
+const desktopOnlyItems: NavItem[] = [
   {
     label: "Github",
     href: siteConfig.links.github,
@@ -28,7 +39,7 @@ export default function FloatingSidebar() {
         <div className="size-1.5 animate-pulse rounded-full bg-fuchsia-500" />
 
         <div className="flex flex-col gap-3">
-          {navItems.map((item) => {
+          {[...primaryNavItems, ...desktopOnlyItems].map((item) => {
             const Icon = item.icon;
             const isActive = !item.external && pathname === item.href;
 
@@ -71,8 +82,8 @@ export default function FloatingSidebar() {
         </a>
       </nav>
 
-      <nav className="fixed bottom-4 left-1/2 z-[100] flex w-[calc(100%-1rem)] max-w-sm -translate-x-1/2 items-center justify-between gap-1 rounded-[1.75rem] border border-white/10 bg-black/55 p-2 shadow-2xl backdrop-blur-3xl md:hidden">
-        {navItems.map((item) => {
+      <nav className="fixed bottom-4 left-1/2 z-[100] flex w-[calc(100%-1rem)] max-w-md -translate-x-1/2 items-center justify-between gap-1 rounded-[1.75rem] border border-white/10 bg-black/55 p-2 shadow-2xl backdrop-blur-3xl md:hidden">
+        {primaryNavItems.map((item) => {
           const Icon = item.icon;
           const isActive = !item.external && pathname === item.href;
 
@@ -86,7 +97,7 @@ export default function FloatingSidebar() {
                 "flex min-w-0 flex-1 items-center justify-center gap-2 rounded-[1.15rem] px-3 py-3 text-xs font-black uppercase tracking-[0.18em] transition-all duration-300",
                 isActive
                   ? "bg-fuchsia-500 text-white shadow-lg"
-                  : "text-muted-foreground"
+                  : "text-muted-foreground hover:bg-white/5"
               )}
               aria-label={item.label}
             >

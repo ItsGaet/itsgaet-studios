@@ -2,11 +2,15 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { getAllPosts } from "@/lib/posts";
+import { nowSnapshot } from "@/lib/now";
+import { getFeaturedPosts, getAllPosts } from "@/lib/posts";
 import { formatDisplayDate, siteConfig } from "@/lib/site";
+import { getAllTopics } from "@/lib/topics";
 
 export default function BlogCTA() {
   const [latestPost] = getAllPosts();
+  const [featuredPost] = getFeaturedPosts(1);
+  const topTopics = getAllTopics().slice(0, 4);
 
   return (
     <section className="relative overflow-hidden rounded-[2.5rem] border border-border/40 bg-card/25 px-5 py-8 backdrop-blur-md sm:px-8 sm:py-10">
@@ -20,14 +24,15 @@ export default function BlogCTA() {
         <div className="space-y-6">
           <div className="space-y-3">
             <p className="text-[10px] font-black uppercase tracking-[0.34em] text-fuchsia-500">
-              Resource archive
+              Archive and current signal
             </p>
             <h2 className="max-w-3xl text-3xl font-black leading-[0.95] tracking-[-0.04em] sm:text-5xl">
-              Writing that stays close to production reality.
+              Start from a post, a topic, or the live direction of the site.
             </h2>
             <p className="max-w-2xl text-base leading-relaxed text-muted-foreground/75 sm:text-lg">
-              Practical notes on delivery systems, technical decisions, and the
-              boring details that keep products reliable.
+              The archive is organized for fast discovery: featured notes,
+              topic-led navigation, and a lightweight Now page that explains what
+              I am focusing on at the moment.
             </p>
           </div>
 
@@ -43,48 +48,109 @@ export default function BlogCTA() {
             </Button>
             <Button
               size="lg"
-              variant="outline"
               asChild
+              variant="outline"
               className="h-14 rounded-full border-border/40 bg-background/35 px-7 text-xs font-black uppercase tracking-[0.22em] hover:border-cyan-300/30 hover:bg-background/60"
             >
-              <a href={`mailto:${siteConfig.email}?subject=Topic%20idea`}>
+              <Link href="/now">Open Now page</Link>
+            </Button>
+          </div>
+
+          <div className="space-y-4 border-t border-border/10 pt-6">
+            <div className="flex items-center justify-between gap-4">
+              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground/45">
+                Top topics
+              </p>
+              <a
+                href={`mailto:${siteConfig.email}?subject=Topic%20idea`}
+                className="text-[10px] font-black uppercase tracking-[0.22em] text-cyan-400/80 transition-colors hover:text-cyan-300"
+              >
                 Suggest a topic
               </a>
-            </Button>
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              {topTopics.map((topic) => (
+                <Link
+                  key={topic.slug}
+                  href={`/topics/${topic.slug}`}
+                  className="rounded-full border border-border/40 bg-background/35 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:border-fuchsia-500/30 hover:text-fuchsia-500"
+                >
+                  {topic.label}
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
 
-        <div className="rounded-[2rem] border border-border/40 bg-background/45 p-5 sm:p-6">
-          <div className="flex items-center justify-between gap-4">
-            <div>
-              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground/45">
-                Latest note
-              </p>
-              <p className="mt-2 text-xs font-semibold uppercase tracking-[0.22em] text-cyan-400/80">
-                {latestPost ? formatDisplayDate(latestPost.date) : "No posts yet"}
-              </p>
-            </div>
-            <div className="rounded-full border border-fuchsia-500/20 bg-fuchsia-500/8 px-3 py-1 text-[10px] font-black uppercase tracking-[0.24em] text-fuchsia-500">
-              {latestPost?.tags[0] ?? "general"}
-            </div>
-          </div>
+        <div className="grid gap-4">
+          {featuredPost && (
+            <article className="rounded-[2rem] border border-border/40 bg-background/45 p-5 sm:p-6">
+              <div className="flex items-center justify-between gap-4">
+                <div>
+                  <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground/45">
+                    Featured note
+                  </p>
+                  <p className="mt-2 text-xs font-semibold uppercase tracking-[0.22em] text-cyan-400/80">
+                    {formatDisplayDate(featuredPost.date)}
+                  </p>
+                </div>
+                <div className="rounded-full border border-fuchsia-500/20 bg-fuchsia-500/8 px-3 py-1 text-[10px] font-black uppercase tracking-[0.24em] text-fuchsia-500">
+                  {featuredPost.tags[0] ?? "general"}
+                </div>
+              </div>
 
-          {latestPost && (
+              <div className="mt-6 space-y-4">
+                <h3 className="text-2xl font-black leading-tight tracking-tight">
+                  {featuredPost.title}
+                </h3>
+                <p className="text-sm leading-relaxed text-muted-foreground/75">
+                  {featuredPost.summary}
+                </p>
+                <Link
+                  href={`/blog/${featuredPost.slug}`}
+                  className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.22em] text-foreground transition-colors hover:text-fuchsia-500"
+                >
+                  Open featured post <ArrowUpRight className="size-4" />
+                </Link>
+              </div>
+            </article>
+          )}
+
+          <article className="rounded-[2rem] border border-border/40 bg-background/45 p-5 sm:p-6">
+            <div className="flex items-center justify-between gap-4">
+              <div>
+                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground/45">
+                  Now
+                </p>
+                <p className="mt-2 text-xs font-semibold uppercase tracking-[0.22em] text-cyan-400/80">
+                  Updated {formatDisplayDate(nowSnapshot.updatedAt)}
+                </p>
+              </div>
+              <div className="rounded-full border border-cyan-400/20 bg-cyan-400/8 px-3 py-1 text-[10px] font-black uppercase tracking-[0.24em] text-cyan-300">
+                live context
+              </div>
+            </div>
+
             <div className="mt-6 space-y-4">
               <h3 className="text-2xl font-black leading-tight tracking-tight">
-                {latestPost.title}
+                What I am working through right now
               </h3>
               <p className="text-sm leading-relaxed text-muted-foreground/75">
-                {latestPost.summary}
+                {nowSnapshot.summary}
+              </p>
+              <p className="text-sm leading-relaxed text-muted-foreground/65">
+                Latest archive update:{" "}
+                {latestPost ? formatDisplayDate(latestPost.date) : "No posts yet"}.
               </p>
               <Link
-                href={`/blog/${latestPost.slug}`}
-                className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.22em] text-foreground transition-colors hover:text-fuchsia-500"
+                href="/now"
+                className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.22em] text-foreground transition-colors hover:text-cyan-400"
               >
-                Open latest post <ArrowUpRight className="size-4" />
+                Read the Now page <ArrowUpRight className="size-4" />
               </Link>
             </div>
-          )}
+          </article>
         </div>
       </div>
     </section>

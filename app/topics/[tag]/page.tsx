@@ -32,7 +32,7 @@ export const generateMetadata = async ({
   }
 
   const title = `Topic: ${topic.label}`;
-  const description = topic.description;
+  const description = `${topic.longDescription} Explore posts, nearby topics, and related notes from ${topic.label}.`;
 
   return {
     title,

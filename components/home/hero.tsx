@@ -2,24 +2,26 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { nowSnapshot } from "@/lib/now";
+import { formatDisplayDate } from "@/lib/site";
 
 const principles = [
-  "Systems before ornament",
-  "Calm interfaces under real constraints",
-  "Notes from infra, product, and delivery",
+  "Document what survived production",
+  "Prefer calm systems over clever demos",
+  "Turn delivery work into usable notes",
 ];
 
 const focusAreas = [
   {
     label: "What I publish",
-    value: "Architecture notes",
+    value: "Runbooks, field notes, architecture patterns",
   },
   {
-    label: "How I work",
-    value: "Product-minded engineering",
+    label: "Current mode",
+    value: "Automation, reliability, editorial depth",
   },
   {
-    label: "Where",
+    label: "Based in",
     value: "Bisceglie / Remote",
   },
 ];
@@ -44,23 +46,29 @@ export default function HomeHero() {
               <span className="inline-flex items-center rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1.5 text-cyan-200">
                 vExpert 2026
               </span>
-              <span className="text-white/35">systems journal 2026</span>
+              <span className="text-white/35">
+                updated {formatDisplayDate(nowSnapshot.updatedAt)}
+              </span>
             </div>
 
             <div className="max-w-4xl space-y-5">
               <p className="max-w-2xl text-sm font-medium uppercase tracking-[0.28em] text-cyan-200/70">
-                Engineering notes for people shipping under real load
+                Gaetano Abbaticchio on architecture, automation, and production
+                discipline
               </p>
 
               <h1 className="max-w-4xl text-5xl font-black leading-[0.9] tracking-[-0.06em] text-white sm:text-7xl lg:text-[7rem]">
-                Build systems
+                I document
                 <br />
-                with a calm edge.
+                the systems work
+                <br />
+                behind reliable products.
               </h1>
 
               <p className="max-w-2xl text-base leading-relaxed text-white/66 sm:text-lg">
-                Technical writing, production runbooks, and product engineering
-                patterns shaped by delivery work, not theory decks.
+                This is where I turn delivery work into technical notes, calmer
+                runbooks, and sharper product engineering patterns that stay useful
+                after launch.
               </p>
             </div>
 
@@ -80,7 +88,7 @@ export default function HomeHero() {
                 asChild
                 className="h-14 rounded-full border-white/12 bg-white/4 px-7 text-xs font-black uppercase tracking-[0.22em] text-white/84 backdrop-blur-sm hover:border-cyan-300/30 hover:bg-white/8"
               >
-                <Link href="/chi-sono">Chi sono</Link>
+                <Link href="/now">See what&apos;s current</Link>
               </Button>
             </div>
           </div>
@@ -121,7 +129,7 @@ export default function HomeHero() {
           </div>
 
           <div className="mt-8 rounded-[1.5rem] border border-fuchsia-400/10 bg-[linear-gradient(135deg,rgba(217,70,239,0.12),rgba(34,211,238,0.04))] p-4 font-mono text-[11px] leading-relaxed text-white/64">
-            <p>{`status = "writing / building / documenting"`}</p>
+            <p>{`status = "${nowSnapshot.statusLine}"`}</p>
             <p className="text-white/38">{`surface = "blog, systems, runbooks"`}</p>
             <p className="text-emerald-300/70">{`signal = "stable"`}</p>
           </div>

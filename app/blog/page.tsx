@@ -6,9 +6,9 @@ import { getAllPosts } from "@/lib/posts";
 import { absoluteUrl, siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Blog",
+  title: "Blog archive",
   description:
-    "Technical notes, production runbooks, and field-tested architecture patterns from itsgaet.",
+    "Technical notes and production runbooks by Gaetano Abbaticchio on Kafka, Postgres, Kubernetes, automation, and calm product engineering.",
   alternates: {
     canonical: absoluteUrl("/blog"),
     types: {
@@ -16,17 +16,17 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: `Blog | ${siteConfig.name}`,
+    title: `Blog archive | ${siteConfig.name}`,
     description:
-      "Technical notes, production runbooks, and field-tested architecture patterns from itsgaet.",
+      "Technical notes and production runbooks by Gaetano Abbaticchio on Kafka, Postgres, Kubernetes, automation, and calm product engineering.",
     url: absoluteUrl("/blog"),
     type: "website",
     images: [absoluteUrl(siteConfig.ogImage)],
   },
   twitter: {
-    title: `Blog | ${siteConfig.name}`,
+    title: `Blog archive | ${siteConfig.name}`,
     description:
-      "Technical notes, production runbooks, and field-tested architecture patterns from itsgaet.",
+      "Technical notes and production runbooks by Gaetano Abbaticchio on Kafka, Postgres, Kubernetes, automation, and calm product engineering.",
     images: [absoluteUrl(siteConfig.ogImage)],
   },
 };

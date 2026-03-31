@@ -92,6 +92,91 @@ export const getPostsByTag = (tag: string) => {
   return readPosts().filter((post) => post.tags.includes(normalizedTag));
 };
 
+export const getFeaturedPosts = (limit = 3) => {
+  const posts = readPosts();
+  const featured = posts.filter((post) => post.featured);
+  const remainder = posts.filter((post) => !post.featured);
+
+  return [...featured, ...remainder].slice(0, limit);
+};
+
+export const getRelatedPosts = (slug: string, limit = 3) => {
+  const currentPost = getPostBySlug(slug);
+
+  if (!currentPost) {
+    return [];
+  }
+
+  const posts = readPosts().filter((post) => post.slug !== slug);
+  const scoredPosts = posts.map((post) => ({
+    post,
+    sharedTagCount: countSharedTags(currentPost.tags, post.tags),
+  }));
+
+  const primaryMatches = scoredPosts
+    .filter((entry) => entry.sharedTagCount > 0)
+    .sort(
+      (a, b) =>
+        b.sharedTagCount - a.sharedTagCount ||
+        Number(Boolean(b.post.featured)) - Number(Boolean(a.post.featured)) ||
+        b.post.date.localeCompare(a.post.date)
+    )
+    .map((entry) => entry.post);
+
+  if (primaryMatches.length >= limit) {
+    return primaryMatches.slice(0, limit);
+  }
+
+  const fallback = scoredPosts
+    .filter((entry) => entry.sharedTagCount === 0)
+    .sort(
+      (a, b) =>
+        Number(Boolean(b.post.featured)) - Number(Boolean(a.post.featured)) ||
+        b.post.date.localeCompare(a.post.date)
+    )
+    .map((entry) => entry.post);
+
+  return [...primaryMatches, ...fallback].slice(0, limit);
+};
+
+export function renderPostBlocksToHtml(body: PostBlock[]) {
+  return body
+    .map((block) => {
+      if (block.type === "heading") {
+        const tag = block.level === 2 ? "h2" : "h3";
+        return `<${tag}>${renderInlineContentToHtml(block.content)}</${tag}>`;
+      }
+
+      if (block.type === "list") {
+        const tag = block.ordered ? "ol" : "ul";
+        const items = block.items
+          .map((item) => `<li>${renderInlineContentToHtml(item)}</li>`)
+          .join("");
+
+        return `<${tag}>${items}</${tag}>`;
+      }
+
+      if (block.type === "quote") {
+        return `<blockquote><p>${renderInlineContentToHtml(
+          block.content
+        )}</p></blockquote>`;
+      }
+
+      if (block.type === "code") {
+        const languageClass = block.language
+          ? ` class="language-${escapeHtmlAttribute(block.language)}"`
+          : "";
+
+        return `<pre><code${languageClass}>${escapeHtmlContent(
+          block.content
+        )}</code></pre>`;
+      }
+
+      return `<p>${renderInlineContentToHtml(block.content)}</p>`;
+    })
+    .join("\n");
+}
+
 function parsePostFile(fileContents: string, slug: string, filePath: string): Post {
   const match = fileContents.match(/^---\s*\n([\s\S]*?)\n---\s*\n?([\s\S]*)$/);
 
@@ -421,4 +506,43 @@ function validateReadTime(value: string, slug: string, filePath: string) {
   }
 
   return value;
+}
+
+function countSharedTags(a: string[], b: string[]) {
+  const reference = new Set(a);
+  return b.reduce((count, tag) => count + Number(reference.has(tag)), 0);
+}
+
+function renderInlineContentToHtml(content: string) {
+  return content
+    .split(/(`[^`]+`|\[[^\]]+\]\([^)]+\))/g)
+    .filter(Boolean)
+    .map((token) => {
+      if (token.startsWith("`") && token.endsWith("`")) {
+        return `<code>${escapeHtmlContent(token.slice(1, -1))}</code>`;
+      }
+
+      const linkMatch = token.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+
+      if (linkMatch) {
+        const [, label, href] = linkMatch;
+        return `<a href="${escapeHtmlAttribute(href)}">${escapeHtmlContent(
+          label
+        )}</a>`;
+      }
+
+      return escapeHtmlContent(token);
+    })
+    .join("");
+}
+
+function escapeHtmlContent(value: string) {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+function escapeHtmlAttribute(value: string) {
+  return escapeHtmlContent(value).replace(/"/g, "&quot;");
 }

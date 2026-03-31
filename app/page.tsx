@@ -6,8 +6,9 @@ import SocialFooter from "@/components/home/social-footer";
 import { absoluteUrl, siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Home",
-  description: siteConfig.description,
+  title: siteConfig.fullName,
+  description:
+    "Gaetano Abbaticchio shares technical notes, runbooks, and systems patterns from real delivery work across automation, cloud infrastructure, and product engineering.",
   alternates: {
     canonical: absoluteUrl("/"),
     types: {
@@ -15,14 +16,16 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: siteConfig.title,
-    description: siteConfig.description,
+    title: siteConfig.fullName,
+    description:
+      "Gaetano Abbaticchio shares technical notes, runbooks, and systems patterns from real delivery work across automation, cloud infrastructure, and product engineering.",
     url: absoluteUrl("/"),
     images: [absoluteUrl(siteConfig.ogImage)],
   },
   twitter: {
-    title: siteConfig.title,
-    description: siteConfig.description,
+    title: siteConfig.fullName,
+    description:
+      "Gaetano Abbaticchio shares technical notes, runbooks, and systems patterns from real delivery work across automation, cloud infrastructure, and product engineering.",
     images: [absoluteUrl(siteConfig.ogImage)],
   },
 };
@@ -37,6 +40,8 @@ export default function Home() {
     url: siteConfig.url,
     jobTitle: siteConfig.role,
     sameAs: Object.values(siteConfig.links),
+    award: siteConfig.credentials,
+    knowsAbout: siteConfig.keywords,
     address: {
       "@type": "PostalAddress",
       addressLocality: "Bisceglie",
@@ -69,7 +74,9 @@ export default function Home() {
         <section className="relative w-full">
           <div className="mb-10 flex items-center gap-4 opacity-20 sm:mb-12">
             <div className="h-px flex-1 bg-gradient-to-r from-transparent to-foreground" />
-            <span className="text-[10px] font-black uppercase tracking-[0.4em]">Selected Works</span>
+            <span className="text-[10px] font-black uppercase tracking-[0.4em]">
+              Archive and current signal
+            </span>
             <div className="h-px flex-1 bg-gradient-to-l from-transparent to-foreground" />
           </div>
           <BlogCTA />
