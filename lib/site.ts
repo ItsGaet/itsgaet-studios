@@ -12,7 +12,7 @@ export const siteConfig = {
   ),
   locale: "en_US",
   email: "gaetanoabbaticchio8@gmail.com",
-  location: "Bisceglie, Italy",
+  location: "Bari, Italy",
   role: "Systems-minded product engineer",
   credentials: ["vExpert 2026"],
   ogImage: "/og-default.svg",

@@ -10,41 +10,42 @@ type BlogPostSidebarProps = {
 
 export default function BlogPostSidebar({ post }: BlogPostSidebarProps) {
   return (
-    <aside className="grid gap-6">
-      <div className="group relative overflow-hidden rounded-[2rem] border border-[#d8c6bb] bg-[#fffaf6]/90 p-6 transition-all hover:border-[#b62d34]/20">
-        <div className="absolute -right-4 -top-4 size-24 rounded-full bg-[#b62d34]/8 blur-2xl transition-all group-hover:bg-[#b62d34]/12" />
-
-        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#8f5552]">
-          Article Metrics
+    <aside className="flex flex-col gap-0 border-x-2 border-b-2 border-[#1A1A1A] bg-[#FBF7F2] lg:sticky lg:top-8">
+      {/* Metrics Section */}
+      <div className="border-b-2 border-[#1A1A1A] p-6 lg:p-8">
+        <p className="mb-8 text-[11px] font-black uppercase tracking-[0.4em] text-[#D2042D]">
+          Metadata // 01
         </p>
 
-        <div className="mt-4 space-y-4">
-          <div className="flex items-center justify-between group/item">
-            <div className="flex items-center gap-2 text-[#6c5954]">
-              <Calendar className="size-4 opacity-50 transition-colors group-hover/item:text-[#b62d34]" />
-              <span className="text-xs font-medium">Published</span>
+        <div className="space-y-6">
+          <div className="group flex items-center justify-between">
+            <div className="flex items-center gap-3 text-[#1A1A1A]">
+              <Calendar className="size-4 text-[#D2042D]" />
+              <span className="text-[10px] font-bold uppercase tracking-widest">Published</span>
             </div>
-            <span className="text-xs font-bold text-[#1f1715]">
+            <span className="font-mono text-xs font-bold text-[#1A1A1A]">
               {formatDisplayDate(post.date)}
             </span>
           </div>
 
-          <div className="flex items-center justify-between group/item">
-            <div className="flex items-center gap-2 text-[#6c5954]">
-              <Clock className="size-4 opacity-50 transition-colors group-hover/item:text-[#b62d34]" />
-              <span className="text-xs font-medium">Read Time</span>
+          <div className="group flex items-center justify-between">
+            <div className="flex items-center gap-3 text-[#1A1A1A]">
+              <Clock className="size-4 text-[#D2042D]" />
+              <span className="text-[10px] font-bold uppercase tracking-widest">Reading Time</span>
             </div>
-            <span className="text-xs font-bold text-[#1f1715]">{post.readTime}</span>
+            <span className="font-mono text-xs font-bold text-[#1A1A1A]">
+              {post.readTime.toUpperCase()}
+            </span>
           </div>
 
-          <div className="flex items-center justify-between group/item">
-            <div className="flex items-center gap-2 text-[#6c5954]">
-              <Hash className="size-4 opacity-50 transition-colors group-hover/item:text-[#b62d34]" />
-              <span className="text-xs font-medium">Topic</span>
+          <div className="group flex items-center justify-between border-t border-[#D8C6BB] pt-6">
+            <div className="flex items-center gap-3 text-[#1A1A1A]">
+              <Hash className="size-4 text-[#D2042D]" />
+              <span className="text-[10px] font-bold uppercase tracking-widest">Primary Topic</span>
             </div>
             <Link
               href={`/topics/${post.tags[0] || "general"}`}
-              className="rounded-full border border-[#d8c6bb] bg-[#fffaf6] px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-[#6c5954] transition-colors hover:border-[#b62d34]/20 hover:bg-[#b62d34] hover:text-[#fff9f4]"
+              className="border border-[#1A1A1A] bg-transparent px-3 py-1 text-[10px] font-black uppercase tracking-tighter text-[#1A1A1A] transition-colors hover:bg-[#1A1A1A] hover:text-[#FBF7F2]"
             >
               {post.tags[0] || "General"}
             </Link>
@@ -52,30 +53,36 @@ export default function BlogPostSidebar({ post }: BlogPostSidebarProps) {
         </div>
       </div>
 
-      <div className="group relative overflow-hidden rounded-[2.5rem] border border-[#b62d34]/15 bg-[#b62d34] p-6 text-[#fff9f4] shadow-xl transition-transform hover:-rotate-1">
-        <div className="relative z-10">
-          <div className="flex size-10 items-center justify-center rounded-2xl bg-white/12 backdrop-blur-sm">
-            <Mail className="size-5 text-[#fff9f4]" />
+      {/* CTA / Feedback Section - Solid Cherry Red Block */}
+      <div className="bg-[#D2042D] p-6 text-[#FBF7F2] lg:p-8">
+        <div className="flex flex-col gap-6">
+          <div className="flex size-12 items-center justify-center border-2 border-[#FBF7F2] bg-transparent">
+            <Mail className="size-6 text-[#FBF7F2]" />
           </div>
-          <h3 className="font-display mt-4 text-2xl leading-tight tracking-tight">
-            Have some <br /> feedback?
-          </h3>
-          <p className="mt-2 text-xs font-medium leading-relaxed text-[#fff9f4]/78">
-            Send a quick note and I&apos;ll fold it into the next run.
-          </p>
+          
+          <div className="space-y-2">
+            <h3 className="font-serif text-3xl font-medium leading-none tracking-tighter">
+              Feedback?
+            </h3>
+            <p className="text-xs leading-relaxed opacity-90 uppercase font-bold tracking-tight">
+              Send a note and I&apos;ll fold it <br /> into the next revision.
+            </p>
+          </div>
+
           <a
-            href={`mailto:${siteConfig.email}?subject=Community%20topic`}
-            className="mt-6 flex items-center justify-center gap-2 rounded-full bg-[#fff9f4] py-3 text-xs font-bold text-[#b62d34] transition-all hover:bg-[#fcefeb]"
+            href={`mailto:${siteConfig.email}?subject=Feedback:%20${post.title}`}
+            className="group flex items-center justify-between border-2 border-[#FBF7F2] bg-[#FBF7F2] px-4 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-[#D2042D] transition-all hover:bg-[#1A1A1A] hover:border-[#1A1A1A] hover:text-[#FBF7F2]"
           >
-            GET IN TOUCH <ArrowUpRight className="size-4" />
+            Get in touch
+            <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
           </a>
         </div>
-        <div className="absolute -bottom-6 -right-6 size-24 rounded-full bg-white/18 blur-xl" />
       </div>
 
-      <div className="px-4">
-        <p className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#8f5552]">
-          Focus: automation • infra • product
+      {/* Footer / Tagline */}
+      <div className="p-6 text-center lg:p-8 opacity-40">
+        <p className="text-[9px] font-black uppercase tracking-[0.5em] text-[#1A1A1A]">
+          Focus: Automation // Infra // Product
         </p>
       </div>
     </aside>

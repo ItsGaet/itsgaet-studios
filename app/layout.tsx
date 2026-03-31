@@ -46,23 +46,32 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className="min-h-screen bg-background font-sans antialiased">
+      <body className="min-h-screen bg-background font-sans antialiased selection:bg-[#D2042D] selection:text-[#FBF7F2]">
+        {/* Skip to Content - Brutalist Style */}
         <a
           href="#content"
-          className="sr-only fixed left-4 top-4 z-[10000] rounded-full bg-[#b62d34] px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-[#fff9f4] shadow-lg focus:not-sr-only"
+          className="sr-only fixed left-0 top-0 z-[10000] border-2 border-[#1A1A1A] bg-[#D2042D] px-6 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-[#FBF7F2] focus:not-sr-only"
         >
-          Skip to content
+          Skip to content _
         </a>
-        <div className="noise-overlay pointer-events-none fixed inset-0 z-[9999]" />
+
+        {/* Grain Overlay - Per la texture della carta */}
+        <div className="grain-overlay" aria-hidden="true" />
 
         <FloatingSidebar />
 
-        <div
+        {/* Main Content Wrapper */}
+        <main
           id="content"
-          className="relative pb-24 pt-18 transition-all duration-500 md:pb-0 md:pt-24"
+          className="relative mx-auto max-w-[1600px] px-4 pb-24 pt-20 transition-all duration-500 md:px-6 md:pb-12 md:pt-32 lg:px-8"
         >
-          {children}
-        </div>
+          <div className="reveal">
+            {children}
+          </div>
+        </main>
+
+        {/* Decorative structural line at the very bottom */}
+        <div className="fixed bottom-0 left-0 h-1 w-full bg-[#1A1A1A] z-[90] md:hidden" />
       </body>
     </html>
   );

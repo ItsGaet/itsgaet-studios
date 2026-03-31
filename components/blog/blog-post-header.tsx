@@ -1,9 +1,7 @@
 import Link from "next/link";
-import { Calendar, Clock } from "lucide-react";
-
+import { Calendar, Clock, ArrowLeft } from "lucide-react";
 import type { Post } from "@/lib/posts";
 import { formatDisplayDate } from "@/lib/site";
-import { Badge } from "@/components/ui/badge";
 
 type BlogPostHeaderProps = {
   post: Post;
@@ -11,60 +9,60 @@ type BlogPostHeaderProps = {
 
 export default function BlogPostHeader({ post }: BlogPostHeaderProps) {
   return (
-    <header className="relative overflow-hidden rounded-[2.5rem] border border-[#d8c6bb] bg-[#fffaf6]/92 px-8 py-14 shadow-[0_30px_70px_-48px_rgba(31,23,21,0.34)] sm:px-14 sm:py-16">
-      <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#b62d34]/30 to-transparent" />
-        <div className="absolute right-[-10%] top-[-20%] size-96 rounded-full bg-[#b62d34]/8 blur-[120px]" />
+    <header className="relative border-x-2 border-t-2 border-[#1A1A1A] bg-[#FBF7F2] p-8 pt-12 md:p-16 lg:p-20">
+      {/* Top Navigation Bar */}
+      <div className="mb-16 flex items-center justify-between border-b-2 border-[#1A1A1A] pb-8">
+        <Link 
+          href="/blog" 
+          className="group flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] text-[#1A1A1A] hover:text-[#D2042D]"
+        >
+          <ArrowLeft className="size-4 transition-transform group-hover:-translate-x-1" />
+          Back to Archive
+        </Link>
+        <div className="hidden md:flex items-center gap-8 text-[10px] font-black uppercase tracking-[0.3em] text-[#D8C6BB]">
+          <span className="flex items-center gap-2 text-[#1A1A1A]">
+            <Calendar className="size-3 text-[#D2042D]" /> {formatDisplayDate(post.date)}
+          </span>
+          <span className="flex items-center gap-2 text-[#1A1A1A]">
+            <Clock className="size-3 text-[#D2042D]" /> {post.readTime}
+          </span>
+        </div>
       </div>
 
-      <div className="relative z-10 space-y-8">
-        <div className="flex flex-wrap items-center gap-6">
-          <div className="flex items-center gap-2 rounded-full border border-[#b62d34]/15 bg-[#b62d34]/8 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-[#9f2028]">
-            <span className="relative flex h-2 w-2">
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-[#b62d34]" />
-            </span>
-            Community note
-          </div>
-
-          <div className="flex items-center gap-4 text-[11px] font-bold uppercase tracking-widest text-[#8f5552]">
-            <div className="flex items-center gap-1.5">
-              <Calendar className="size-3.5" />
-              {formatDisplayDate(post.date)}
-            </div>
-            <span className="opacity-30">/</span>
-            <div className="flex items-center gap-1.5">
-              <Clock className="size-3.5" />
-              {post.readTime}
-            </div>
+      <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-start">
+        {/* Main Title Section */}
+        <div className="lg:col-span-8 space-y-8">
+          <h1 className="font-serif text-6xl font-medium leading-[0.85] tracking-tighter text-[#1A1A1A] sm:text-8xl lg:text-9xl">
+            {post.title}<span className="text-[#D2042D]">_</span>
+          </h1>
+          
+          <div className="flex flex-wrap gap-3">
+            {post.tags.map((tag) => (
+              <Link
+                key={tag}
+                href={`/topics/${tag}`}
+                className="border border-[#1A1A1A] px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[#1A1A1A] transition-colors hover:bg-[#D2042D] hover:border-[#D2042D] hover:text-[#FBF7F2]"
+              >
+                {`// ${tag}`}
+              </Link>
+            ))}
           </div>
         </div>
 
-        <h1 className="font-display max-w-5xl text-4xl leading-[0.98] tracking-[-0.045em] text-[#1f1715] sm:text-6xl lg:text-7xl">
-          {post.title.split(" ").map((word, i) => (
-            <span key={i} className={i % 5 === 0 ? "text-[#b62d34]" : "text-[#1f1715]"}>
-              {word}{" "}
-            </span>
-          ))}
-        </h1>
-
-        <div className="max-w-3xl border-l-2 border-[#b62d34]/25 pl-6">
-          <p className="text-lg leading-relaxed text-[#5f4c47] sm:text-xl">
+        {/* Summary / Lead Section */}
+        <div className="lg:col-span-4 lg:border-l-2 lg:border-[#1A1A1A] lg:pl-10">
+          <div className="mb-6 inline-block bg-[#D2042D] px-3 py-1 text-[10px] font-black uppercase tracking-widest text-[#FBF7F2]">
+            Executive Summary
+          </div>
+          <p className="text-xl font-medium leading-snug tracking-tight text-[#4A4A4A] sm:text-2xl">
             {post.summary}
           </p>
         </div>
+      </div>
 
-        <div className="flex flex-wrap gap-2 pt-4">
-          {post.tags.map((tag) => (
-            <Badge key={tag} variant="secondary" asChild>
-              <Link
-                href={`/topics/${tag}`}
-                className="rounded-full border border-[#d8c6bb] bg-[#fffaf6] px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-[#6c5954] transition-colors hover:border-[#b62d34]/20 hover:bg-[#b62d34] hover:text-[#fff9f4]"
-              >
-                #{tag}
-              </Link>
-            </Badge>
-          ))}
-        </div>
+      {/* Decorative Bottom Bar */}
+      <div className="mt-16 flex h-1 w-full bg-[#1A1A1A]">
+        <div className="h-full w-1/3 bg-[#D2042D]" />
       </div>
     </header>
   );

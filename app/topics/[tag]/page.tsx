@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowUpRight, Rss } from "lucide-react";
+import { ChevronLeft, ArrowUpRight, Rss, Hash } from "lucide-react";
 
 import BlogCard from "@/components/blog/blog-card";
 import SocialFooter from "@/components/home/social-footer";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { getAllTags, getAllPosts, getPostsByTag } from "@/lib/posts";
 import {
   absoluteUrl,
@@ -26,22 +27,17 @@ export const generateMetadata = async ({
 }): Promise<Metadata> => {
   const { tag } = await params;
   const topic = getTopicBySlug(tag);
-
-  if (!topic) {
-    return { title: "Topic not found" };
-  }
+  if (!topic) return { title: "Topic not found" };
 
   const title = `Topic: ${topic.label}`;
-  const description = `${topic.longDescription} Explore posts, nearby topics, and related notes from ${topic.label}.`;
+  const description = topic.longDescription;
 
   return {
     title,
     description,
     alternates: {
       canonical: absoluteUrl(`/topics/${topic.slug}`),
-      types: {
-        "application/rss+xml": absoluteUrl("/feed.xml"),
-      },
+      types: { "application/rss+xml": absoluteUrl("/feed.xml") },
     },
     openGraph: {
       title,
@@ -65,9 +61,7 @@ export default async function TopicPage({
   const { tag } = await params;
   const topic = getTopicBySlug(tag);
 
-  if (!topic) {
-    notFound();
-  }
+  if (!topic) notFound();
 
   const posts = getPostsByTag(topic.slug);
   const relatedTopics = getRelatedTopics(topic.slug, 3);
@@ -76,159 +70,137 @@ export default async function TopicPage({
     .slice(0, 3);
 
   return (
-    <div className="relative min-h-screen bg-background">
-      <div className="pointer-events-none absolute inset-0 select-none">
-        <div className="absolute -top-24 right-[-5%] h-[500px] w-[500px] rounded-full bg-[#b62d34]/10 blur-[150px]" />
-        <div className="absolute top-[20%] left-[-10%] h-[400px] w-[400px] rounded-full bg-white/30 blur-[130px]" />
+    <div className="relative min-h-screen bg-[#FBF7F2]">
+      {/* Background Grid */}
+      <div className="pointer-events-none absolute inset-0 z-0 opacity-[0.03]">
+        <div className="absolute inset-0 [background-image:linear-gradient(#1A1A1A_1px,transparent_1px),linear-gradient(90deg,#1A1A1A_1px,transparent_1px)] [background-size:100px_100px]" />
       </div>
 
-      <main className="relative mx-auto flex w-full max-w-[1600px] flex-col gap-14 px-6 pb-24 pt-8 sm:px-10 lg:px-16">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <main className="reveal relative z-10 mx-auto flex w-full max-w-[1600px] flex-col gap-12 px-4 pb-24 pt-12 md:px-8 lg:pt-20">
+        
+        {/* Navigation Bar */}
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <Link
             href="/blog"
-            className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] text-[#8f5552] transition-colors hover:text-[#b62d34]"
+            className="group flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.4em] text-[#1A1A1A] transition-colors hover:text-[#D2042D]"
           >
-            <ArrowLeft className="size-4" />
-            Back to archive
+            <div className="flex size-10 items-center justify-center border-2 border-[#1A1A1A] bg-transparent transition-all group-hover:bg-[#1A1A1A] group-hover:text-[#FBF7F2]">
+              <ChevronLeft className="size-4" />
+            </div>
+            <span>Return_to_Archive //</span>
           </Link>
 
           <a
             href="/feed.xml"
-            className="inline-flex items-center gap-2 rounded-full border border-[#d8c6bb] bg-[#fffaf6] px-4 py-2 text-[10px] font-black uppercase tracking-[0.24em] text-[#6c5954] transition-colors hover:border-[#b62d34]/20 hover:text-[#b62d34]"
+            className="flex items-center gap-3 border-2 border-[#1A1A1A] bg-white px-5 py-2 text-[10px] font-black uppercase tracking-[0.3em] text-[#1A1A1A] transition-colors hover:bg-[#D2042D] hover:text-[#FBF7F2] hover:border-[#D2042D]"
           >
             <Rss className="size-3.5" />
-            RSS feed
+            RSS_Feed
           </a>
         </div>
 
-        <section className="rounded-[2.5rem] border border-[#d8c6bb] bg-[#fffaf6]/92 px-8 py-12 shadow-[0_30px_70px_-48px_rgba(31,23,21,0.34)] sm:px-12">
-          <div className="space-y-7">
-            <p className="text-[10px] font-black uppercase tracking-[0.34em] text-[#8f5552]">
-              Topic archive
-            </p>
+        {/* Topic Header: Hero Block */}
+        <section className="border-2 border-[#1A1A1A] bg-white p-8 md:p-12">
+          <div className="space-y-10">
+            <div className="flex items-center gap-3">
+              <Hash className="size-4 text-[#D2042D]" />
+              <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[#D2042D]">
+                Topic_Index_Entry
+              </span>
+            </div>
 
-            <div className="flex flex-col gap-8 xl:flex-row xl:items-end xl:justify-between">
-              <div className="max-w-4xl space-y-4">
-                <h1 className="font-display text-5xl tracking-[-0.05em] text-[#1f1715] sm:text-7xl">
-                  {topic.label}
+            <div className="flex flex-col gap-12 lg:flex-row lg:items-end lg:justify-between">
+              <div className="max-w-4xl space-y-6">
+                <h1 className="font-serif text-6xl font-medium leading-[0.85] tracking-tighter text-[#1A1A1A] sm:text-8xl">
+                  {topic.label}<span className="text-[#D2042D]">.</span>
                 </h1>
-                <p className="max-w-2xl text-base leading-relaxed text-[#5f4c47] sm:text-lg">
+                <p className="max-w-2xl font-serif text-2xl leading-tight tracking-tight text-[#4A4A4A]">
                   {topic.longDescription}
                 </p>
               </div>
 
-              <Button
-                asChild
-                variant="outline"
-                className="rounded-full px-6 text-xs font-black uppercase tracking-[0.22em]"
-              >
+              <Button asChild variant="default" className="h-14 px-10">
                 <Link href="/blog">
-                  Explore all topics <ArrowUpRight className="ml-2 size-4" />
+                  All Topics <ArrowUpRight className="ml-2 size-4" />
                 </Link>
               </Button>
             </div>
 
-            <div className="grid gap-4 border-t border-[#ddd1c8] pt-6 sm:grid-cols-3">
-              <div>
-                <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[#8f5552]">
-                  Posts
-                </p>
-                <p className="mt-2 text-2xl font-black text-[#1f1715]">{topic.postCount}</p>
+            {/* Technical Metadata Row */}
+            <div className="grid gap-0 border-t-2 border-[#1A1A1A] sm:grid-cols-3">
+              <div className="p-6 border-b-2 sm:border-b-0 sm:border-r-2 border-[#1A1A1A]">
+                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#D8C6BB]">Posts_Count</p>
+                <p className="mt-2 text-4xl font-black text-[#1A1A1A]">{topic.postCount}</p>
               </div>
-              <div>
-                <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[#8f5552]">
-                  Latest
-                </p>
-                <p className="mt-2 text-base font-semibold text-[#1f1715]">
-                  {topic.latestPostDate
-                    ? formatDisplayDate(topic.latestPostDate)
-                    : "—"}
+              <div className="p-6 border-b-2 sm:border-b-0 sm:border-r-2 border-[#1A1A1A]">
+                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#D8C6BB]">Last_Update</p>
+                <p className="mt-2 text-sm font-black uppercase tracking-widest text-[#1A1A1A]">
+                  {topic.latestPostDate ? formatDisplayDate(topic.latestPostDate) : "—"}
                 </p>
               </div>
-              <div>
-                <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[#8f5552]">
-                  Feed
-                </p>
-                <p className="mt-2 text-base font-semibold text-[#1f1715]">Included in RSS</p>
+              <div className="p-6">
+                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#D8C6BB]">Indexing</p>
+                <p className="mt-2 text-sm font-black uppercase tracking-widest text-[#D2042D]">Live_Archive</p>
               </div>
-            </div>
-
-            <div className="flex flex-wrap gap-2 border-t border-[#ddd1c8] pt-6">
-              {relatedTopics.map((relatedTopic) => (
-                <Link
-                  key={relatedTopic.slug}
-                  href={`/topics/${relatedTopic.slug}`}
-                  className="rounded-full border border-[#d8c6bb] bg-[#fffaf6] px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.2em] text-[#6c5954] transition-colors hover:border-[#b62d34]/20 hover:text-[#b62d34]"
-                >
-                  Nearby topic: {relatedTopic.label}
-                </Link>
-              ))}
             </div>
           </div>
         </section>
 
-        <section className="grid gap-8 lg:grid-cols-2">
+        {/* Main Feed: 2 Column Grid */}
+        <section className="grid gap-8 md:grid-cols-2">
           {posts.map((post, index) => (
             <BlogCard key={post.slug} post={post} animationDelay={index * 50} />
           ))}
         </section>
 
-        <section className="grid gap-6 xl:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
-          <div className="rounded-[2rem] border border-[#d8c6bb] bg-[#fffaf6]/86 p-6">
-            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#8f5552]">
-              Topic summary
-            </p>
-            <div className="mt-5 space-y-3">
-              <p className="text-base leading-relaxed text-[#5f4c47]">
+        <Separator variant="thick" />
+
+        {/* Footer Insights: Related Topics & Notes */}
+        <section className="grid gap-12 lg:grid-cols-2">
+          <div className="border-2 border-[#1A1A1A] p-8 space-y-6 bg-white">
+            <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#1A1A1A]">Topic_Context //</h2>
+            <div className="space-y-4">
+              <p className="font-serif text-xl leading-snug text-[#4A4A4A]">
                 {topic.description}
               </p>
-              <p className="text-sm leading-relaxed text-[#7c6762]">
-                Use this page when you want a narrower archive than the full blog,
-                without losing the editorial context around adjacent systems work.
-              </p>
-            </div>
-          </div>
-
-          <div className="rounded-[2rem] border border-[#d8c6bb] bg-[#fffaf6]/86 p-6">
-            <div className="flex items-center justify-between gap-4">
-              <div>
-                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#8f5552]">
-                  Latest related notes
-                </p>
-                <p className="mt-2 text-sm text-[#7c6762]">
-                  Nearby reading from the rest of the archive.
-                </p>
+              <div className="flex flex-wrap gap-2 pt-4">
+                {relatedTopics.map((related) => (
+                  <Link
+                    key={related.slug}
+                    href={`/topics/${related.slug}`}
+                    className="border border-[#1A1A1A] px-3 py-1 text-[9px] font-black uppercase tracking-widest hover:bg-[#D2042D] hover:text-white transition-colors"
+                  >
+                    Nearby: {related.label}
+                  </Link>
+                ))}
               </div>
             </div>
+          </div>
 
-            <div className="mt-5 grid gap-3">
-              {relatedPosts.map((post) => (
-                <Link
-                  key={post.slug}
-                  href={`/blog/${post.slug}`}
-                  className="rounded-[1.5rem] border border-[#d8c6bb] bg-[#fffaf6] p-4 transition-colors hover:border-[#b62d34]/20 hover:bg-[#fff5ef]"
-                >
-                  <div className="flex items-center justify-between gap-4">
-                    <span className="text-[10px] font-black uppercase tracking-[0.24em] text-[#9f2028]">
-                      {post.tags[0]}
-                    </span>
-                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#8f5552]">
+          <div className="border-2 border-[#1A1A1A] bg-[#1A1A1A] p-8 text-[#FBF7F2]">
+             <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#D2042D] mb-8">Related_Logs //</h2>
+             <div className="space-y-6">
+                {relatedPosts.map((post) => (
+                  <Link 
+                    key={post.slug} 
+                    href={`/blog/${post.slug}`}
+                    className="group block border-l-2 border-[#D2042D] pl-6 hover:border-[#FBF7F2] transition-colors"
+                  >
+                    <span className="text-[9px] font-black uppercase tracking-[0.3em] text-[#D8C6BB]">
                       {formatDisplayDate(post.date)}
                     </span>
-                  </div>
-                  <h2 className="font-display mt-3 text-2xl tracking-tight text-[#1f1715]">{post.title}</h2>
-                  <p className="mt-2 text-sm leading-relaxed text-[#5f4c47]">
-                    {post.summary}
-                  </p>
-                </Link>
-              ))}
-            </div>
+                    <h3 className="font-serif text-2xl group-hover:text-[#D2042D] transition-colors">
+                      {post.title}
+                    </h3>
+                  </Link>
+                ))}
+             </div>
           </div>
         </section>
 
-        <section className="pt-12">
+        <footer>
           <SocialFooter />
-        </section>
+        </footer>
       </main>
     </div>
   );

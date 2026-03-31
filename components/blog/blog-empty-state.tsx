@@ -10,43 +10,45 @@ export default function BlogEmptyState({
   query,
 }: BlogEmptyStateProps) {
   return (
-    <div className="group relative col-span-full overflow-hidden rounded-[2.5rem] border border-[#d8c6bb] bg-[#fffaf6]/90 px-8 py-20 text-center shadow-[0_26px_60px_-36px_rgba(31,23,21,0.22)]">
-      <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#b62d34]/20 to-transparent" />
-        <div className="absolute left-1/2 top-1/2 size-80 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#b62d34]/5 blur-[120px]" />
-      </div>
-
-      <div className="relative z-10 flex flex-col items-center gap-6">
-        <div className="relative flex size-20 items-center justify-center rounded-3xl border border-[#b62d34]/15 bg-[#b62d34]/5 shadow-[0_0_30px_rgba(182,45,52,0.08)]">
-          <SearchX className="size-8 text-[#9f2028]/70" />
-          <div className="absolute -right-1 -top-1 size-3 rounded-full bg-[#b62d34]" />
+    <div className="col-span-full border-2 border-dashed border-[#D8C6BB] bg-[#FBF7F2] p-12 lg:p-24 text-center transition-colors hover:border-[#D2042D]/30">
+      <div className="mx-auto flex max-w-2xl flex-col items-center">
+        
+        {/* Icon with raw aesthetic */}
+        <div className="mb-10 flex size-24 items-center justify-center border border-[#D2042D] bg-[#D2042D] text-[#FBF7F2]">
+          <SearchX className="size-10 stroke-[1.5px]" />
         </div>
 
-        <div className="space-y-2">
-          <h3 className="font-display text-4xl tracking-[-0.04em] text-[#1f1715]">
-            No signal <span className="text-[#b62d34]">found.</span>
+        {/* Typography Focus */}
+        <div className="mb-12 space-y-6">
+          <h3 className="font-serif text-5xl md:text-7xl font-medium leading-[0.8] tracking-tighter text-[#1A1A1A]">
+            Zero <span className="text-[#D2042D]">Results</span> Found.
           </h3>
-          <p className="mx-auto max-w-[360px] text-sm font-medium leading-relaxed text-[#5f4c47]">
+          <p className="mx-auto max-w-md text-base leading-relaxed text-[#4A4A4A]">
             {query
-              ? `No posts match "${query}" with the current filters. Try broadening the search or reset the current view.`
-              : "There are no posts for the current filter combination. Try another topic or reset the search."}
+              ? `Your search for "${query}" didn't return any matches. The signal is lost in the cotton.`
+              : "We've reached the end of the archive. No posts match your current filter selection."}
           </p>
         </div>
 
+        {/* CTA Button - No rounded, just sharp edges */}
         <button
           type="button"
           onClick={onReset}
-          className="group/btn flex items-center gap-2 rounded-full border border-[#d8c6bb] bg-[#fffaf6] px-6 py-3 text-[10px] font-black uppercase tracking-widest text-[#5f4c47] transition-all hover:border-[#b62d34]/20 hover:text-[#b62d34]"
+          className="group flex items-center gap-3 border-2 border-[#1A1A1A] bg-[#1A1A1A] px-8 py-4 text-xs font-black uppercase tracking-[0.2em] text-[#FBF7F2] transition-all hover:bg-[#D2042D] hover:border-[#D2042D]"
         >
-          <RefreshCcw className="size-3 transition-transform duration-500 group-hover/btn:rotate-180" />
-          Reset search
+          <RefreshCcw className="size-4 transition-transform duration-700 group-hover:rotate-180" />
+          Reset Archive
         </button>
-      </div>
 
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2">
-        <p className="text-[9px] font-bold uppercase tracking-[0.4em] text-[#8f5552]/70">
-          Error Code: 404_POSTS_NOT_FOUND
-        </p>
+        {/* Minimal Footer Info */}
+        <div className="mt-16 border-t border-[#D8C6BB] pt-4 w-full flex justify-between items-center opacity-40">
+          <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#1A1A1A]">
+            Status: Null
+          </span>
+          <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#1A1A1A]">
+            Ref: 404_POSTS
+          </span>
+        </div>
       </div>
     </div>
   );

@@ -9,10 +9,10 @@ function Separator({
   className,
   orientation = "horizontal",
   decorative = true,
-  variant = "fade",
+  variant = "solid",
   ...props
 }: React.ComponentProps<typeof SeparatorPrimitive.Root> & {
-  variant?: "solid" | "fade" | "glow" | "neon"
+  variant?: "solid" | "thick" | "cherry" | "dashed"
 }) {
   return (
     <SeparatorPrimitive.Root
@@ -20,28 +20,28 @@ function Separator({
       decorative={decorative}
       orientation={orientation}
       className={cn(
-        "shrink-0 transition-all duration-700",
+        "shrink-0 transition-colors duration-300",
         
         // --- ORIZZONTALE ---
         orientation === "horizontal" && [
-          "h-[1px] w-full",
-          // Fade: Scompare ai lati, ideale per il corpo del blog
-          variant === "fade" && "bg-gradient-to-r from-transparent via-border/60 to-transparent",
-          // Solid: Definizione netta ma sottile
-          variant === "solid" && "bg-border/40",
-          // Glow: Effetto luce soffusa fucsia
-          variant === "glow" && "bg-gradient-to-r from-transparent via-fuchsia-500/20 to-transparent",
-          // Neon: Una linea laser vera e propria
-          variant === "neon" && "bg-gradient-to-r from-transparent via-fuchsia-500 to-transparent shadow-[0_0_10px_rgba(217,70,239,0.4)]"
+          "w-full",
+          // Solid: Linea sottile e rigorosa in Ink
+          variant === "solid" && "h-[1px] bg-[#1A1A1A]/10",
+          // Thick: Doppia linea o linea marcata per separare grandi sezioni
+          variant === "thick" && "h-[2px] bg-[#1A1A1A]",
+          // Cherry: Una linea sottile ma vibrante nel colore del brand
+          variant === "cherry" && "h-[1px] bg-[#D2042D]/40",
+          // Dashed: Effetto "ritaglio" tipico dei documenti tecnici
+          variant === "dashed" && "h-[1px] border-t border-dashed border-[#1A1A1A]/30 bg-transparent"
         ],
 
         // --- VERTICALE ---
         orientation === "vertical" && [
-          "w-[1px] h-full",
-          variant === "fade" && "bg-gradient-to-b from-transparent via-border/60 to-transparent",
-          variant === "solid" && "bg-border/40",
-          variant === "glow" && "bg-gradient-to-b from-transparent via-fuchsia-500/20 to-transparent",
-          variant === "neon" && "bg-gradient-to-b from-transparent via-fuchsia-500 to-transparent shadow-[0_0_10px_rgba(217,70,239,0.4)]"
+          "h-full",
+          variant === "solid" && "w-[1px] bg-[#1A1A1A]/10",
+          variant === "thick" && "w-[2px] bg-[#1A1A1A]",
+          variant === "cherry" && "w-[1px] bg-[#D2042D]/40",
+          variant === "dashed" && "w-[1px] border-l border-dashed border-[#1A1A1A]/30 bg-transparent"
         ],
 
         className

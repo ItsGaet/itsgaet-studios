@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import { getFeaturedPosts, getAllPosts } from "@/lib/posts";
 import { formatDisplayDate } from "@/lib/site";
 import { getAllTopics } from "@/lib/topics";
@@ -12,42 +11,41 @@ export default function BlogCTA() {
   const topTopics = getAllTopics().slice(0, 4);
 
   return (
-    <section className="border-t border-[#ddd1c8] pt-14">
-      <div className="grid gap-12 lg:grid-cols-[minmax(280px,0.55fr)_minmax(0,1fr)]">
-        <div className="space-y-6">
-          <p className="text-[10px] font-black uppercase tracking-[0.34em] text-[#8f5552]">
-            Archive
-          </p>
-          <h2 className="font-display max-w-lg text-4xl leading-[0.96] tracking-[-0.04em] text-[#1f1715] sm:text-5xl">
-            Writing that sits between a technical blog and a compact portfolio.
-          </h2>
-          <p className="max-w-md text-base leading-relaxed text-[#5f4c47]">
-            Selected notes, clear topics, and enough context to understand how I
-            work without turning the site into a brochure.
-          </p>
+    <section className="border-t-2 border-[#1A1A1A] bg-[#FBF7F2] py-20">
+      <div className="grid gap-16 lg:grid-cols-12 lg:items-start">
+        
+        {/* Left Column: Brand & Topics */}
+        <div className="space-y-12 lg:col-span-5">
+          <div className="space-y-6">
+            <span className="inline-block bg-[#D2042D] px-3 py-1 text-[10px] font-black uppercase tracking-[0.3em] text-[#FBF7F2]">
+              Archive Index
+            </span>
+            <h2 className="font-serif text-5xl leading-[0.85] tracking-tighter text-[#1A1A1A] sm:text-6xl">
+              Technical Writing <br /> Meets <span className="italic">Product Design.</span>
+            </h2>
+            <p className="max-w-md text-xl leading-snug tracking-tight text-[#4A4A4A]">
+              Selected notes and field-tested patterns. No fluff, just context on how I build.
+            </p>
 
-          <div>
-            <Button
-              size="lg"
-              asChild
-              className="h-14 rounded-full px-7 text-xs font-black uppercase tracking-[0.22em]"
+            <Link
+              href="/blog"
+              className="group inline-flex items-center gap-4 border-2 border-[#1A1A1A] bg-[#1A1A1A] px-8 py-4 text-xs font-black uppercase tracking-[0.2em] text-[#FBF7F2] transition-colors hover:bg-[#D2042D] hover:border-[#D2042D]"
             >
-              <Link href="/blog">
-                Browse all posts <ArrowUpRight className="ml-2 size-4" />
-              </Link>
-            </Button>
+              Browse all entries
+              <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+            </Link>
           </div>
 
-          <div className="space-y-3 border-t border-[#ddd1c8] pt-6">
-            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#8f5552]">
-              Key topics
+          <div className="space-y-4 border-t-2 border-[#1A1A1A] pt-8">
+            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#D8C6BB]">
+              Core Subjects //
             </p>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-x-6 gap-y-3">
               {topTopics.map((topic) => (
                 <Link
                   key={topic.slug}
                   href={`/topics/${topic.slug}`}
-                  className="rounded-full border border-[#d8c6bb] bg-[#fffaf6]/80 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.2em] text-[#5f4c47] transition-colors hover:border-[#b62d34]/30 hover:text-[#b62d34]"
+                  className="text-xs font-black uppercase tracking-widest text-[#1A1A1A] transition-colors hover:text-[#D2042D] hover:underline underline-offset-8 decoration-2"
                 >
                   {topic.label}
                 </Link>
@@ -56,56 +54,63 @@ export default function BlogCTA() {
           </div>
         </div>
 
-        <div className="divide-y divide-[#ddd1c8] border-y border-[#ddd1c8]">
-          {featuredPost && (
-            <article className="grid gap-4 py-6 sm:grid-cols-[140px_minmax(0,1fr)] sm:gap-8">
-              <div className="space-y-2 text-[10px] font-black uppercase tracking-[0.26em] text-[#8f5552]">
-                <p>Featured</p>
-                <p className="text-[#b62d34]">{formatDisplayDate(featuredPost.date)}</p>
-              </div>
-              <div className="space-y-3">
-                <h3 className="font-display text-3xl tracking-tight text-[#1f1715]">
+        {/* Right Column: Featured & Latest (The List) */}
+        <div className="lg:col-span-7">
+          <div className="border-2 border-[#1A1A1A]">
+            
+            {/* Featured Post Block */}
+            {featuredPost && (
+              <article className="group relative border-b-2 border-[#1A1A1A] p-8 transition-colors hover:bg-[#D2042D]">
+                <div className="mb-6 flex items-center justify-between">
+                  <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#D2042D] group-hover:text-[#FBF7F2]">
+                    [ Featured Entry ]
+                  </span>
+                  <span className="font-mono text-[10px] text-[#1A1A1A] group-hover:text-[#FBF7F2]">
+                    {formatDisplayDate(featuredPost.date)}
+                  </span>
+                </div>
+                <h3 className="mb-4 font-serif text-4xl tracking-tighter text-[#1A1A1A] group-hover:text-[#FBF7F2]">
                   {featuredPost.title}
                 </h3>
-                <p className="max-w-2xl text-sm leading-relaxed text-[#5f4c47]">
+                <p className="mb-8 max-w-xl text-base leading-relaxed text-[#4A4A4A] group-hover:text-[#FBF7F2]/80">
                   {featuredPost.summary}
                 </p>
                 <Link
                   href={`/blog/${featuredPost.slug}`}
-                  className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.22em] text-[#1f1715] transition-colors hover:text-[#b62d34]"
+                  className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-[#1A1A1A] group-hover:text-[#FBF7F2] group-hover:underline underline-offset-4"
                 >
-                  Open featured post <ArrowUpRight className="size-4" />
+                  Read full analysis <ArrowUpRight className="size-3" />
                 </Link>
-              </div>
-            </article>
-          )}
+              </article>
+            )}
 
-          <article className="grid gap-4 py-6 sm:grid-cols-[140px_minmax(0,1fr)] sm:gap-8">
-            <div className="space-y-2 text-[10px] font-black uppercase tracking-[0.26em] text-[#8f5552]">
-              <p>Latest</p>
-              <p className="text-[#b62d34]">
-                {latestPost ? formatDisplayDate(latestPost.date) : "No posts yet"}
-              </p>
-            </div>
-            <div className="space-y-3">
-              <h3 className="font-display text-3xl tracking-tight text-[#1f1715]">
-                {latestPost ? latestPost.title : "Archive in progress"}
+            {/* Latest Post Block */}
+            <article className="group p-8 transition-colors hover:bg-[#1A1A1A]">
+              <div className="mb-6 flex items-center justify-between">
+                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#1A1A1A] group-hover:text-[#D8C6BB]">
+                  [ Latest Release ]
+                </span>
+                <span className="font-mono text-[10px] text-[#1A1A1A] group-hover:text-[#D8C6BB]">
+                  {latestPost ? formatDisplayDate(latestPost.date) : "00.00.00"}
+                </span>
+              </div>
+              <h3 className="mb-4 font-serif text-4xl tracking-tighter text-[#1A1A1A] group-hover:text-[#FBF7F2]">
+                {latestPost ? latestPost.title : "Archive Refreshing..."}
               </h3>
-              <p className="max-w-2xl text-sm leading-relaxed text-[#5f4c47]">
-                {latestPost
-                  ? latestPost.summary
-                  : "New notes will land here as the archive grows."}
+              <p className="mb-8 max-w-xl text-base leading-relaxed text-[#4A4A4A] group-hover:text-[#FBF7F2]/80">
+                {latestPost?.summary || "Updates are being indexed. Check back shortly for new technical notes."}
               </p>
-              {latestPost ? (
+              {latestPost && (
                 <Link
                   href={`/blog/${latestPost.slug}`}
-                  className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.22em] text-[#1f1715] transition-colors hover:text-[#b62d34]"
+                  className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-[#1A1A1A] group-hover:text-[#FBF7F2] group-hover:underline underline-offset-4"
                 >
-                  Open latest post <ArrowUpRight className="size-4" />
+                  View latest entry <ArrowUpRight className="size-3" />
                 </Link>
-              ) : null}
-            </div>
-          </article>
+              )}
+            </article>
+
+          </div>
         </div>
       </div>
     </section>

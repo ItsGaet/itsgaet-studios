@@ -4,6 +4,7 @@ import BlogCTA from "@/components/home/blog-cta";
 import HomeHero from "@/components/home/hero";
 import SocialFooter from "@/components/home/social-footer";
 import { absoluteUrl, siteConfig } from "@/lib/site";
+import { Separator } from "@/components/ui/separator";
 
 export const metadata: Metadata = {
   title: siteConfig.fullName,
@@ -44,48 +45,57 @@ export default function Home() {
     knowsAbout: siteConfig.keywords,
     address: {
       "@type": "PostalAddress",
-      addressLocality: "Bisceglie",
+      addressLocality: "Bari",
       addressCountry: "IT",
     },
   };
 
   return (
-    <div
-      id="top"
-      className="relative min-h-screen overflow-hidden bg-background"
-    >
+    <div id="top" className="relative min-h-screen bg-[#FBF7F2]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <div className="pointer-events-none absolute inset-0 select-none">
-        <div className="absolute -top-32 right-[-5%] h-[600px] w-[600px] rounded-full bg-[#b62d34]/12 blur-[180px]" />
-        <div className="absolute bottom-[-20%] left-1/2 h-[600px] w-[800px] -translate-x-1/2 rounded-full bg-white/30 blur-[200px]" />
-        <div className="absolute inset-0 opacity-[0.03] [background-image:linear-gradient(rgba(63,45,40,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(63,45,40,0.08)_1px,transparent_1px)] [background-size:100px_100px]" />
+      {/* Background Layer: Solo griglia tecnica, niente blur */}
+      <div className="pointer-events-none absolute inset-0 z-0 opacity-[0.03]">
+        <div className="absolute inset-0 [background-image:linear-gradient(#1A1A1A_1px,transparent_1px),linear-gradient(90deg,#1A1A1A_1px,transparent_1px)] [background-size:100px_100px]" />
       </div>
 
-      <main className="relative mx-auto flex w-full max-w-[1600px] flex-col gap-20 px-5 py-6 sm:px-8 md:gap-28 md:py-12 lg:px-16 lg:py-16">
-        <section className="w-full">
+      <main className="relative z-10 mx-auto flex w-full max-w-[1600px] flex-col gap-24 py-12 md:gap-32 md:py-20">
+        
+        {/* Hero Section: Il Manifesto */}
+        <section className="reveal w-full px-4 md:px-8">
           <HomeHero />
         </section>
 
-        <section className="relative w-full">
-          <div className="mb-10 flex items-center gap-4 opacity-60 sm:mb-12">
-            <div className="h-px flex-1 bg-gradient-to-r from-transparent to-[#cdbbb1]" />
-            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[#8f5552]">
-              Archive
+        {/* Archive Section: Separata da una linea netta */}
+        <section className="reveal hero-delay-1 w-full px-4 md:px-8">
+          <div className="mb-16 flex items-center justify-between border-b-2 border-[#1A1A1A] pb-6">
+            <h3 className="font-serif text-3xl font-medium tracking-tighter text-[#1A1A1A]">
+              The Archive<span className="text-[#D2042D]">.</span>
+            </h3>
+            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[#D8C6BB]">
+              Technical Logs // 001-050
             </span>
-            <div className="h-px flex-1 bg-gradient-to-l from-transparent to-[#cdbbb1]" />
           </div>
           <BlogCTA />
         </section>
 
-        <section className="w-full pb-8">
+        {/* Footer Section: Chiusura del frame */}
+        <section className="reveal hero-delay-2 w-full px-4 md:px-8 pb-12">
+          <div className="mb-16">
+             <Separator variant="thick" />
+          </div>
           <SocialFooter />
         </section>
+
       </main>
 
+      {/* Decorative side coordinates (Optional technical detail) */}
+      <div className="fixed right-6 top-1/2 hidden -translate-y-1/2 rotate-90 text-[8px] font-black uppercase tracking-[0.8em] text-[#1A1A1A]/20 lg:block">
+        41.2428° N, 16.5022° E // Bari_IT
+      </div>
     </div>
   );
 }

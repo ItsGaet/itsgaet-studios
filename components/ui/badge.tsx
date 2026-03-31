@@ -4,18 +4,25 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const badgeVariants = cva(
-  "inline-flex items-center justify-center rounded-lg border px-2.5 py-1 text-[10px] font-black tracking-[0.15em] uppercase w-fit whitespace-nowrap shrink-0 transition-all duration-300 [&>svg]:size-3 gap-1.5 focus-visible:ring-2 focus-visible:ring-[#b62d34]/25",
+  "inline-flex items-center justify-center border-2 px-3 py-1 text-[10px] font-black tracking-[0.25em] uppercase w-fit whitespace-nowrap shrink-0 transition-all duration-200 [&>svg]:size-3 gap-2 focus-visible:ring-2 focus-visible:ring-[#D2042D]/50 outline-none",
   {
     variants: {
       variant: {
+        // Stile Cherry: Fondo rosso solido, testo Cotton
         default:
-          "border-[#b62d34]/20 bg-[#b62d34]/8 text-[#9f2028] shadow-[0_0_10px_rgba(182,45,52,0.08)] hover:border-[#b62d34]/35 hover:bg-[#b62d34]/12",
+          "border-[#D2042D] bg-[#D2042D] text-[#FBF7F2] hover:bg-[#1A1A1A] hover:border-[#1A1A1A]",
+        
+        // Stile Ink: Fondo nero solido, testo Cotton
         secondary:
-          "border-[#d8c6bb] bg-[#fffaf6]/90 text-[#5a4945] shadow-[0_0_10px_rgba(82,56,49,0.05)] hover:border-[#c7b4a7] hover:bg-[#fff5ef]",
+          "border-[#1A1A1A] bg-[#1A1A1A] text-[#FBF7F2] hover:bg-[#D2042D] hover:border-[#D2042D]",
+        
+        // Stile Alert: Per stati critici, mantenendo il rigore
         destructive:
-          "border-red-500/30 bg-red-500/10 text-red-400",
+          "border-[#D2042D] bg-transparent text-[#D2042D] hover:bg-[#D2042D] hover:text-[#FBF7F2]",
+        
+        // Stile Outline: Solo bordo, perfetto per i tag dei post
         outline:
-          "border-[#d8c6bb] bg-transparent text-[#6d5c57] hover:border-[#b62d34]/25 hover:text-[#1f1715] hover:bg-[#fff5ef]",
+          "border-[#1A1A1A] bg-transparent text-[#1A1A1A] hover:bg-[#1A1A1A] hover:text-[#FBF7F2]",
       },
     },
     defaultVariants: {

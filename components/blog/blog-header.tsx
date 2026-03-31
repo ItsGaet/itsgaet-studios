@@ -1,7 +1,5 @@
 import Link from "next/link";
-import { ArrowUpRight, FileText, LayoutGrid, Rss, Zap } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
+import { ArrowUpRight, Rss } from "lucide-react";
 import { formatDisplayDate } from "@/lib/site";
 
 type BlogHeaderProps = {
@@ -16,87 +14,71 @@ export default function BlogHeader({
   latestPostDate,
 }: BlogHeaderProps) {
   return (
-    <header className="relative overflow-hidden rounded-[2.5rem] border border-[#d8c6bb] bg-[#fffaf6]/90 px-8 py-12 shadow-[0_30px_70px_-48px_rgba(31,23,21,0.34)] sm:px-14">
-      <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#b62d34]/30 to-transparent" />
-        <div className="absolute right-[-10%] top-[-20%] size-96 rounded-full bg-[#b62d34]/8 blur-[120px]" />
-      </div>
+    <header className="relative border-2 border-[#1A1A1A] bg-[#FBF7F2] p-8 md:p-16 lg:p-20">
+      {/* Top Stripe Decoration */}
+      <div className="absolute inset-x-0 top-0 h-2 bg-[#D2042D]" />
 
-      <div className="relative flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
-        <div className="max-w-4xl space-y-7">
-          <div className="space-y-3">
-            <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] text-[#8f5552]">
-              <span className="h-px w-8 bg-[#b62d34]/35" />
-              Resource Archive
+      <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:justify-between">
+        <div className="max-w-4xl space-y-8">
+          <div className="space-y-4">
+            <div className="flex items-center gap-4 text-[11px] font-black uppercase tracking-[0.4em] text-[#D2042D]">
+              <span>Collection // Archive</span>
+              <div className="h-px flex-1 bg-[#D8C6BB]" />
             </div>
-            <h1 className="font-display text-5xl tracking-[-0.05em] text-[#1f1715] sm:text-7xl">
-              Archive<span className="text-[#b62d34]">.</span>
+            
+            <h1 className="font-serif text-6xl font-medium leading-[0.85] tracking-tighter text-[#1A1A1A] sm:text-9xl">
+              The <span className="italic">Signal</span> Archive<span className="text-[#D2042D]">_</span>
             </h1>
           </div>
 
-          <p className="max-w-2xl text-lg leading-relaxed text-[#5f4c47]">
-            Technical notes, field-tested patterns, and clear runbooks for modern
-            products. Search, filter by topic, and move through the archive like a
-            library instead of a feed.
+          <p className="max-w-xl text-xl leading-snug tracking-tight text-[#4A4A4A]">
+            Technical notes and field-tested patterns for modern products. 
+            Navigated like a library, curated like a gallery.
           </p>
 
-          <div className="grid gap-3 sm:grid-cols-3">
-            <div className="flex items-center gap-3 rounded-[1.5rem] border border-[#e0d3c9] bg-[#fffaf6] px-5 py-4">
-              <div className="flex size-10 items-center justify-center rounded-xl bg-[#b62d34]/8 text-[#9f2028]">
-                <FileText className="size-5" />
-              </div>
-              <div>
-                <p className="text-[9px] font-bold uppercase tracking-widest text-[#8f5552]">Posts</p>
-                <p className="text-xl font-black leading-none text-[#1f1715]">{postCount}</p>
-              </div>
+          {/* Stats Grid: Clean & Minimal */}
+          <div className="flex flex-wrap gap-x-12 gap-y-6 pt-4">
+            <div>
+              <p className="mb-1 text-[10px] font-black uppercase tracking-widest text-[#D8C6BB]">Index</p>
+              <p className="font-serif text-4xl text-[#1A1A1A]">{postCount} <span className="text-sm font-sans uppercase">Posts</span></p>
             </div>
-
-            <div className="flex items-center gap-3 rounded-[1.5rem] border border-[#e0d3c9] bg-[#fffaf6] px-5 py-4">
-              <div className="flex size-10 items-center justify-center rounded-xl bg-[#b62d34]/8 text-[#9f2028]">
-                <LayoutGrid className="size-5" />
-              </div>
-              <div>
-                <p className="text-[9px] font-bold uppercase tracking-widest text-[#8f5552]">Topics</p>
-                <p className="text-xl font-black leading-none text-[#1f1715]">{topicCount}</p>
-              </div>
+            <div>
+              <p className="mb-1 text-[10px] font-black uppercase tracking-widest text-[#D8C6BB]">Subjects</p>
+              <p className="font-serif text-4xl text-[#1A1A1A]">{topicCount} <span className="text-sm font-sans uppercase">Topics</span></p>
             </div>
-
-            <div className="flex items-center gap-3 rounded-[1.5rem] border border-[#e0d3c9] bg-[#fffaf6] px-5 py-4">
-              <div className="flex size-10 items-center justify-center rounded-xl bg-[#f4e7de] text-[#6a4f49]">
-                <Zap className="size-5" />
-              </div>
-              <div>
-                <p className="text-[9px] font-bold uppercase tracking-widest text-[#8f5552]">Last update</p>
-                <p className="text-sm font-black leading-none text-[#1f1715]">
-                  {latestPostDate ? formatDisplayDate(latestPostDate) : "—"}
-                </p>
-              </div>
+            <div>
+              <p className="mb-1 text-[10px] font-black uppercase tracking-widest text-[#D8C6BB]">Revision</p>
+              <p className="text-xl font-bold uppercase tracking-tighter text-[#1A1A1A] mt-2">
+                {latestPostDate ? formatDisplayDate(latestPostDate) : "N/A"}
+              </p>
             </div>
           </div>
         </div>
 
-        <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
-          <Button
-            variant="outline"
-            asChild
-            className="group h-14 rounded-full px-6 text-xs font-bold uppercase tracking-widest"
+        {/* Action Buttons: Solid & Brutalist */}
+        <div className="flex shrink-0 flex-col gap-0 border border-[#1A1A1A] sm:w-64">
+          <a 
+            href="/feed.xml"
+            className="group flex items-center justify-between border-b border-[#1A1A1A] bg-[#FBF7F2] p-5 text-xs font-black uppercase tracking-widest text-[#1A1A1A] transition-colors hover:bg-[#D2042D] hover:text-[#FBF7F2]"
           >
-            <a href="/feed.xml">
-              RSS Feed
-              <Rss className="ml-2 size-4 transition-transform group-hover:scale-110" />
-            </a>
-          </Button>
-          <Button
-            variant="outline"
-            asChild
-            className="group h-14 rounded-full px-8 text-xs font-bold uppercase tracking-widest"
+            RSS Feed
+            <Rss className="size-4" />
+          </a>
+          <Link 
+            href="/"
+            className="group flex items-center justify-between bg-[#1A1A1A] p-5 text-xs font-black uppercase tracking-widest text-[#FBF7F2] transition-colors hover:bg-[#D2042D]"
           >
-            <Link href="/">
-              Back to Home
-              <ArrowUpRight className="ml-2 size-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-            </Link>
-          </Button>
+            Back to Home
+            <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+          </Link>
         </div>
+      </div>
+
+      {/* Decorative Corner Element */}
+      <div className="absolute bottom-4 right-4 hidden lg:block">
+        <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#D8C6BB] [writing-mode:vertical-lr]">
+          EST. 2024
+        </p>
       </div>
     </header>
   );

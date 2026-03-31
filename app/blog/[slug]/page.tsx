@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, ArrowUpRight } from "lucide-react";
 
 import BlogPostContent from "@/components/blog/blog-post-content";
 import BlogPostHeader from "@/components/blog/blog-post-header";
@@ -10,6 +10,7 @@ import SocialFooter from "@/components/home/social-footer";
 import { Button } from "@/components/ui/button";
 import { getAllPosts, getPostBySlug, getRelatedPosts } from "@/lib/posts";
 import { absoluteUrl, getPostOgImagePath, siteConfig } from "@/lib/site";
+import { Separator } from "@/components/ui/separator";
 
 export const dynamicParams = false;
 
@@ -90,92 +91,94 @@ export default async function BlogPostPage({
   };
 
   return (
-    <div className="relative min-h-screen bg-background">
+    <div className="relative min-h-screen bg-[#FBF7F2]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <div className="pointer-events-none absolute inset-0 select-none">
-        <div className="absolute top-0 right-0 h-[500px] w-[500px] rounded-full bg-[#b62d34]/10 blur-[150px]" />
-        <div className="absolute bottom-0 left-0 h-[500px] w-[500px] rounded-full bg-white/30 blur-[150px]" />
+      {/* Technical Grid Overlay */}
+      <div className="pointer-events-none absolute inset-0 z-0 opacity-[0.03]">
+        <div className="absolute inset-0 [background-image:linear-gradient(#1A1A1A_1px,transparent_1px),linear-gradient(90deg,#1A1A1A_1px,transparent_1px)] [background-size:100px_100px]" />
       </div>
 
-      <main className="relative mx-auto flex w-full max-w-[1600px] flex-col gap-8 px-6 pb-24 pt-8 sm:px-10 lg:px-16 lg:pt-12">
+      <main className="reveal relative z-10 mx-auto flex w-full max-w-[1600px] flex-col gap-12 px-4 pb-24 pt-12 md:px-8 lg:pt-20">
+        
+        {/* Navigation: Sharp & Technical */}
         <nav className="flex items-center">
           <Link
             href="/blog"
-            className="group flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] text-[#8f5552] transition-colors hover:text-[#b62d34]"
+            className="group flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.4em] text-[#1A1A1A] transition-colors hover:text-[#D2042D]"
           >
-            <div className="flex size-8 items-center justify-center rounded-full border border-[#d8c6bb] bg-[#fffaf6] transition-all group-hover:border-[#b62d34]/30 group-hover:bg-[#fff2eb]">
-              <ChevronLeft className="size-4 transition-transform group-hover:-translate-x-0.5" />
+            <div className="flex size-10 items-center justify-center border-2 border-[#1A1A1A] bg-transparent transition-all group-hover:bg-[#1A1A1A] group-hover:text-[#FBF7F2]">
+              <ChevronLeft className="size-4" />
             </div>
-            Back to Archive
+            <span>Return_to_Archive //</span>
           </Link>
         </nav>
 
         <BlogPostHeader post={post} />
 
-        <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_300px] xl:gap-20">
-          <div className="space-y-12">
+        {/* Main Layout Grid */}
+        <div className="grid gap-16 lg:grid-cols-12 lg:items-start lg:gap-24">
+          
+          {/* Article Content Area */}
+          <div className="lg:col-span-8 space-y-16">
             <BlogPostContent body={post.body} />
 
-            <div className="flex flex-col gap-4 border-t border-[#ddd1c8] pt-12 sm:flex-row sm:items-center sm:justify-between">
-              <div className="flex flex-col gap-1">
-                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#8f5552]">
-                  Thank you for reading
+            {/* Post Footer / Reply Action */}
+            <div className="flex flex-col gap-8 border-t-2 border-[#1A1A1A] pt-12 sm:flex-row sm:items-center sm:justify-between">
+              <div className="space-y-2">
+                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[#D2042D]">
+                  [ End of Transmission ]
                 </span>
-                <p className="text-sm font-medium text-[#5f4c47]">
-                  Share your thoughts on this topic.
+                <p className="font-serif text-2xl italic tracking-tight text-[#4A4A4A]">
+                  Thoughts on this architecture? Reach out directly.
                 </p>
               </div>
               <Button
-                variant="outline"
-                className="rounded-full"
+                variant="default"
+                size="lg"
                 asChild
               >
                 <a href={`mailto:${siteConfig.email}?subject=Re: ${post.title}`}>
-                  Reply to Post
+                  Reply to Post <ArrowUpRight className="ml-2 size-4" />
                 </a>
               </Button>
             </div>
 
+            {/* Related Entries Section */}
             {relatedPosts.length > 0 && (
-              <section className="space-y-6 border-t border-[#ddd1c8] pt-12">
-                <div className="space-y-2">
-                  <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#8f5552]">
-                    Related notes
+              <section className="space-y-10 border-t-2 border-[#1A1A1A] pt-16">
+                <div className="space-y-4">
+                  <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#D8C6BB]">
+                    Related Logs
                   </p>
-                  <h2 className="font-display text-4xl tracking-[-0.04em] text-[#1f1715]">
-                    Continue from the same line of thought.
+                  <h2 className="font-serif text-5xl leading-none tracking-tighter text-[#1A1A1A]">
+                    Continue the <span className="italic">thread.</span>
                   </h2>
-                  <p className="max-w-2xl text-sm leading-relaxed text-[#5f4c47] sm:text-base">
-                    These posts share nearby topics or reinforce the same
-                    production concerns.
-                  </p>
                 </div>
 
-                <div className="grid gap-4 lg:grid-cols-2">
-                  {relatedPosts.map((relatedPost) => (
+                <div className="grid gap-0 border-2 border-[#1A1A1A] md:grid-cols-2">
+                  {relatedPosts.map((relatedPost, index) => (
                     <Link
                       key={relatedPost.slug}
                       href={`/blog/${relatedPost.slug}`}
-                      className="rounded-[1.75rem] border border-[#d8c6bb] bg-[#fffaf6] p-5 transition-colors hover:border-[#b62d34]/20 hover:bg-[#fff5ef]"
+                      className={`group block p-8 transition-colors hover:bg-[#1A1A1A] hover:text-[#FBF7F2] ${
+                        index === 0 ? "border-b-2 md:border-b-0 md:border-r-2" : ""
+                      } border-[#1A1A1A]`}
                     >
                       <div className="flex items-center justify-between gap-4">
-                        <span className="text-[10px] font-black uppercase tracking-[0.24em] text-[#9f2028]">
+                        <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#D2042D]">
                           {relatedPost.tags[0]}
                         </span>
-                        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#8f5552]">
+                        <span className="font-mono text-[9px] uppercase text-[#D8C6BB]">
                           {relatedPost.readTime}
                         </span>
                       </div>
-                      <h3 className="font-display mt-3 text-2xl tracking-tight text-[#1f1715]">
+                      <h3 className="font-serif mt-4 text-3xl font-medium leading-none tracking-tight">
                         {relatedPost.title}
                       </h3>
-                      <p className="mt-2 text-sm leading-relaxed text-[#5f4c47]">
-                        {relatedPost.summary}
-                      </p>
                     </Link>
                   ))}
                 </div>
@@ -183,14 +186,15 @@ export default async function BlogPostPage({
             )}
           </div>
 
-          <aside className="relative">
-            <div className="sticky top-12">
-              <BlogPostSidebar post={post} />
-            </div>
+          {/* Sticky Metadata Sidebar */}
+          <aside className="lg:col-span-4 lg:sticky lg:top-32">
+            <BlogPostSidebar post={post} />
           </aside>
         </div>
 
-        <section className="mt-20 border-t border-[#ddd1c8] pt-10">
+        {/* Global Footer Divider */}
+        <section className="mt-20">
+          <Separator variant="thick" className="mb-12" />
           <SocialFooter />
         </section>
       </main>
