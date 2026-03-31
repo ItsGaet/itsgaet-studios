@@ -66,6 +66,12 @@ export const getAllPosts = () => readPosts();
 export const getPostBySlug = (slug: string) =>
   readPosts().find((post) => post.slug === slug);
 
+export const getAllTags = () =>
+  Array.from(new Set(readPosts().flatMap((post) => post.tags))).sort();
+
+export const getPostsByTag = (tag: string) =>
+  readPosts().filter((post) => post.tags.includes(tag));
+
 function parsePostFile(fileContents: string, slug: string): Post {
   const match = fileContents.match(/^---\s*\n([\s\S]*?)\n---\s*\n?([\s\S]*)$/);
 

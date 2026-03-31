@@ -14,6 +14,9 @@ export const metadata: Metadata = {
   applicationName: siteConfig.name,
   alternates: {
     canonical: absoluteUrl("/"),
+    types: {
+      "application/rss+xml": absoluteUrl("/feed.xml"),
+    },
   },
   openGraph: {
     type: "website",
@@ -22,11 +25,13 @@ export const metadata: Metadata = {
     title: siteConfig.title,
     description: siteConfig.description,
     siteName: siteConfig.name,
+    images: [absoluteUrl(siteConfig.ogImage)],
   },
   twitter: {
     card: "summary_large_image",
     title: siteConfig.title,
     description: siteConfig.description,
+    images: [absoluteUrl(siteConfig.ogImage)],
   },
   authors: [{ name: siteConfig.fullName, url: siteConfig.links.linkedin }],
   creator: siteConfig.fullName,

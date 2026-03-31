@@ -10,15 +10,20 @@ export const metadata: Metadata = {
   description: siteConfig.description,
   alternates: {
     canonical: absoluteUrl("/"),
+    types: {
+      "application/rss+xml": absoluteUrl("/feed.xml"),
+    },
   },
   openGraph: {
     title: siteConfig.title,
     description: siteConfig.description,
     url: absoluteUrl("/"),
+    images: [absoluteUrl(siteConfig.ogImage)],
   },
   twitter: {
     title: siteConfig.title,
     description: siteConfig.description,
+    images: [absoluteUrl(siteConfig.ogImage)],
   },
 };
 

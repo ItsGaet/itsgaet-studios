@@ -31,6 +31,9 @@ export const generateMetadata = async ({
     keywords: post.tags,
     alternates: {
       canonical: absoluteUrl(`/blog/${post.slug}`),
+      types: {
+        "application/rss+xml": absoluteUrl("/feed.xml"),
+      },
     },
     openGraph: {
       type: "article",
@@ -39,11 +42,13 @@ export const generateMetadata = async ({
       description: post.summary,
       publishedTime: `${post.date}T00:00:00.000Z`,
       tags: post.tags,
+      images: [absoluteUrl(siteConfig.ogImage)],
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
       description: post.summary,
+      images: [absoluteUrl(siteConfig.ogImage)],
     },
   };
 };

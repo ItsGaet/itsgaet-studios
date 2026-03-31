@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpRight, FileText, LayoutGrid, Zap } from "lucide-react";
+import { ArrowUpRight, FileText, LayoutGrid, Rss, Zap } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { formatDisplayDate } from "@/lib/site";
@@ -75,14 +75,24 @@ export default function BlogHeader({
           </div>
         </div>
 
-        <div className="shrink-0">
+        <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
+          <Button
+            variant="outline"
+            asChild
+            className="group h-14 rounded-full border-border/40 bg-background/40 px-6 text-xs font-bold uppercase tracking-widest backdrop-blur-sm transition-all hover:border-cyan-300/40 hover:bg-cyan-300/5"
+          >
+            <a href="/feed.xml">
+              RSS Feed
+              <Rss className="ml-2 size-4 transition-transform group-hover:scale-110" />
+            </a>
+          </Button>
           <Button
             variant="outline"
             asChild
             className="group h-14 rounded-full border-border/40 bg-background/40 px-8 text-xs font-bold uppercase tracking-widest backdrop-blur-sm transition-all hover:border-fuchsia-500/50 hover:bg-fuchsia-500/5"
           >
             <Link href="/">
-              Back to Home 
+              Back to Home
               <ArrowUpRight className="ml-2 size-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
             </Link>
           </Button>

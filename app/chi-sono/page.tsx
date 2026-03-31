@@ -34,17 +34,22 @@ export const metadata: Metadata = {
     "About Gaetano Abbaticchio, the person behind itsgaet: systems-minded product engineer, technical writer, and vExpert 2026.",
   alternates: {
     canonical: absoluteUrl("/chi-sono"),
+    types: {
+      "application/rss+xml": absoluteUrl("/feed.xml"),
+    },
   },
   openGraph: {
     title: `Chi sono | ${siteConfig.name}`,
     description:
       "About Gaetano Abbaticchio, the person behind itsgaet: systems-minded product engineer, technical writer, and vExpert 2026.",
     url: absoluteUrl("/chi-sono"),
+    images: [absoluteUrl(siteConfig.ogImage)],
   },
   twitter: {
     title: `Chi sono | ${siteConfig.name}`,
     description:
       "About Gaetano Abbaticchio, the person behind itsgaet: systems-minded product engineer, technical writer, and vExpert 2026.",
+    images: [absoluteUrl(siteConfig.ogImage)],
   },
 };
 

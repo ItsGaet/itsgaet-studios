@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ArrowUpRight, Calendar, Clock, Hash, Mail } from "lucide-react";
 
 import type { Post } from "@/lib/posts";
@@ -41,9 +42,12 @@ export default function BlogPostSidebar({ post }: BlogPostSidebarProps) {
               <Hash className="size-4 opacity-50 transition-colors group-hover/item:text-fuchsia-500" />
               <span className="text-xs font-medium">Topic</span>
             </div>
-            <span className="rounded-full bg-fuchsia-500/10 px-2 py-0.5 text-[10px] font-bold text-fuchsia-400">
+            <Link
+              href={`/topics/${post.tags[0] || "general"}`}
+              className="rounded-full bg-fuchsia-500/10 px-2 py-0.5 text-[10px] font-bold text-fuchsia-400 transition-colors hover:bg-fuchsia-500 hover:text-white"
+            >
               {post.tags[0] || "General"}
-            </span>
+            </Link>
           </div>
         </div>
       </div>

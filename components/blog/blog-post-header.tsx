@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Calendar, Clock } from "lucide-react";
 
 import type { Post } from "@/lib/posts";
@@ -56,12 +57,13 @@ export default function BlogPostHeader({ post }: BlogPostHeaderProps) {
 
         <div className="flex flex-wrap gap-2 pt-4">
           {post.tags.map((tag) => (
-            <Badge
-              key={tag}
-              variant="secondary"
-              className="rounded-lg bg-secondary/50 px-3 py-1 text-[11px] font-bold uppercase tracking-wider hover:bg-fuchsia-500 hover:text-white transition-colors"
-            >
-              #{tag}
+            <Badge key={tag} variant="secondary" asChild>
+              <Link
+                href={`/topics/${tag}`}
+                className="rounded-lg bg-secondary/50 px-3 py-1 text-[11px] font-bold uppercase tracking-wider transition-colors hover:bg-fuchsia-500 hover:text-white"
+              >
+                #{tag}
+              </Link>
             </Badge>
           ))}
         </div>

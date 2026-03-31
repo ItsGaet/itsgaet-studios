@@ -15,6 +15,7 @@ export const siteConfig = {
   location: "Bisceglie, Italy",
   role: "Systems-minded product engineer",
   credentials: ["vExpert 2026"],
+  ogImage: "/og-default.svg",
   keywords: [
     "software engineering",
     "system design",

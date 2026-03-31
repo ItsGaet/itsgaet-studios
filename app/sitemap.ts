@@ -1,12 +1,13 @@
 import type { MetadataRoute } from "next";
 
-import { getAllPosts } from "@/lib/posts";
+import { getAllPosts, getAllTags } from "@/lib/posts";
 import { absoluteUrl } from "@/lib/site";
 
 export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const posts = getAllPosts();
+  const tags = getAllTags();
 
   return [
     {
@@ -27,6 +28,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.7,
     },
+    ...tags.map((tag) => ({
+      url: absoluteUrl(`/topics/${tag}`),
+      lastModified: new Date(
+        posts.find((post) => post.tags.includes(tag))?.date ?? Date.now()
+      ),
+      changeFrequency: "monthly" as const,
+      priority: 0.55,
+    })),
     ...posts.map((post) => ({
       url: absoluteUrl(`/blog/${post.slug}`),
       lastModified: new Date(post.date),

@@ -11,6 +11,9 @@ export const metadata: Metadata = {
     "Technical notes, production runbooks, and field-tested architecture patterns from itsgaet.",
   alternates: {
     canonical: absoluteUrl("/blog"),
+    types: {
+      "application/rss+xml": absoluteUrl("/feed.xml"),
+    },
   },
   openGraph: {
     title: `Blog | ${siteConfig.name}`,
@@ -18,11 +21,13 @@ export const metadata: Metadata = {
       "Technical notes, production runbooks, and field-tested architecture patterns from itsgaet.",
     url: absoluteUrl("/blog"),
     type: "website",
+    images: [absoluteUrl(siteConfig.ogImage)],
   },
   twitter: {
     title: `Blog | ${siteConfig.name}`,
     description:
       "Technical notes, production runbooks, and field-tested architecture patterns from itsgaet.",
+    images: [absoluteUrl(siteConfig.ogImage)],
   },
 };
 
