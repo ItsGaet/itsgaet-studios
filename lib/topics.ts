@@ -11,6 +11,13 @@ const TOPIC_CONFIG: Record<
     longDescription:
       "Notes for keeping Aria Automation stable in production: upgrades, integrations, validation, and the ugly edges that show up only after real usage.",
   },
+  argocd: {
+    label: "ArgoCD",
+    description:
+      "GitOps workflows, progressive delivery patterns, and operational controls for safer Kubernetes releases.",
+    longDescription:
+      "Posts about running ArgoCD in production with ordered sync, health validation, and rollback discipline across real delivery pipelines.",
+  },
   kafka: {
     label: "Kafka",
     description:

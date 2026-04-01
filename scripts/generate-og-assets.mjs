@@ -224,6 +224,8 @@ function topicDescription(slug) {
   const descriptions = {
     "aria-automation":
       "Upgrade paths, hardening, and platform runbooks around VMware Aria Automation.",
+    argocd:
+      "GitOps workflows, progressive delivery patterns, and operational controls for Kubernetes releases.",
     kafka:
       "Reliable event pipelines, outbox patterns, and resilient stream processing.",
     kubernetes:

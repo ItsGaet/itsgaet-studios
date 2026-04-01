@@ -5,10 +5,10 @@
   <circle cx="170" cy="540" r="230" fill="#22D3EE" fill-opacity="0.14"/>
   <rect x="54" y="54" width="1092" height="522" rx="36" fill="url(#panel)" stroke="#FFFFFF" stroke-opacity="0.12"/>
   <text x="106" y="152" fill="#D946EF" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="5">TOPIC ARCHIVE</text>
-  <text x="106" y="252" fill="#FFFFFF" font-family="Inter, Arial, sans-serif" font-size="86" font-weight="800">Kubernetes</text>
-  <text x="106" y="404" fill="#A6B0C0" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="500">Operational tuning, resource sizing, and predictable</text>
-  <text x="106" y="442" fill="#A6B0C0" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="500">cluster behavior.</text>
-  <text x="106" y="530" fill="#22D3EE" font-family="JetBrains Mono, monospace" font-size="22" font-weight="700">3 posts</text>
+  <text x="106" y="252" fill="#FFFFFF" font-family="Inter, Arial, sans-serif" font-size="86" font-weight="800">Argocd</text>
+  <text x="106" y="404" fill="#A6B0C0" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="500">GitOps workflows, progressive delivery patterns, and</text>
+  <text x="106" y="442" fill="#A6B0C0" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="500">operational controls for Kubernetes releases.</text>
+  <text x="106" y="530" fill="#22D3EE" font-family="JetBrains Mono, monospace" font-size="22" font-weight="700">1 post</text>
   <text x="954" y="530" fill="#F5F7FB" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="800">itsgaet</text>
   <defs>
     <linearGradient id="panel" x1="87" y1="77" x2="1134" y2="559" gradientUnits="userSpaceOnUse">
