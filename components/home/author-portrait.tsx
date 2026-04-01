@@ -13,7 +13,7 @@ export default function AuthorPortrait({
   note = "Bari / Remote",
 }: AuthorPortraitProps) {
   return (
-    <figure className={cn("group relative", className)}>
+    <figure className={cn("group relative max-w-full", className)}>
       {/* Outer Border with offset effect */}
       <div className="relative border-2 border-[#1A1A1A] bg-[#FBF7F2] p-2 transition-transform duration-500 group-hover:-translate-y-1 group-hover:translate-x-1">
         
@@ -43,12 +43,12 @@ export default function AuthorPortrait({
       {/* Background "Ghost" Frame for depth without shadows */}
       <div className="absolute inset-0 -z-10 translate-x-2 translate-y-2 border-2 border-[#D8C6BB]" />
 
-      <figcaption className="mt-6">
+      <figcaption className="mt-6 border-t-2 border-[#1A1A1A] bg-[#FBF7F2] px-2 pt-4">
         <h4 className="font-serif text-3xl font-medium leading-none tracking-tighter text-[#1A1A1A]">
           Gaetano <br />
           Abbaticchio<span className="text-[#D2042D]">.</span>
         </h4>
-        <p className="mt-2 text-[10px] font-bold uppercase tracking-widest text-[#D8C6BB]">
+        <p className="mt-2 text-[10px] font-bold uppercase tracking-widest text-[#6D5A52]">
           Product Engineer // Founder
         </p>
       </figcaption>

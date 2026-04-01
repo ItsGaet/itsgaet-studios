@@ -88,7 +88,7 @@ export default function AboutPage() {
 
           {/* Sidebar: Visuals & Contact */}
           <aside className="lg:col-span-4 space-y-8">
-            <div className="border-2 border-[#1A1A1A] p-1 bg-[#1A1A1A]">
+            <div className="border-2 border-[#1A1A1A] bg-[#FBF7F2] p-1">
               <AuthorPortrait note={siteConfig.location} />
             </div>
 

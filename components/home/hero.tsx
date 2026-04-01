@@ -98,7 +98,7 @@ export default function HomeHero() {
       </div>
 
       {/* Background Decorative Element */}
-      <div className="absolute bottom-4 right-8 hidden lg:block opacity-10">
+      <div className="pointer-events-none absolute bottom-4 right-8 hidden -z-10 lg:block opacity-10">
          <span className="font-mono text-[12rem] font-black leading-none text-[#1A1A1A] select-none">
            01
          </span>

@@ -46,7 +46,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className="min-h-screen bg-background font-sans antialiased selection:bg-[#D2042D] selection:text-[#FBF7F2]">
+      <body className="min-h-screen overflow-x-hidden bg-background font-sans antialiased selection:bg-[#D2042D] selection:text-[#FBF7F2]">
         {/* Skip to Content - Brutalist Style */}
         <a
           href="#content"
@@ -63,7 +63,7 @@ export default function RootLayout({
         {/* Main Content Wrapper */}
         <main
           id="content"
-          className="relative mx-auto max-w-[1600px] px-4 pb-24 pt-20 transition-all duration-500 md:px-6 md:pb-12 md:pt-32 lg:px-8"
+          className="relative mx-auto max-w-[1600px] px-4 pb-[calc(7.5rem+env(safe-area-inset-bottom))] pt-24 transition-all duration-500 md:px-6 md:pb-16 md:pt-36 lg:px-8"
         >
           <div className="reveal">
             {children}
